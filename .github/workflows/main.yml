@@ -37,9 +37,20 @@ jobs:
       #########################################################################
       # NOTE: This step is platform-specific
       # These are gradle-specific steps for installing the application
-      - name: Install Software
+      - name: Poetry Steps
         working-directory: umm_v_auto
         run: |
           poetry install
           poetry run pylint podaac
           poetry run flake8 podaac
+
+      #########################################################################
+      # UMM V Auto Sync
+      #########################################################################
+      - name: UMM V Auto Sync
+        working-directory: umm_v_auto
+        env:
+          UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
+          OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+        run: |
+          poetry run python podaac/umm_v_auto_sync.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP

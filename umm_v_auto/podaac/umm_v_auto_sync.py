@@ -105,12 +105,12 @@ def parse_args():
 
     parser.add_argument('-ut', '--uat_token',
                         help='launchpad token file for uat',
-                        required=False,
+                        required=True,
                         metavar='')
 
     parser.add_argument('-ot', '--ops_token',
                         help='launchpad token file for ops',
-                        required=False,
+                        required=True,
                         metavar='')
 
     args = parser.parse_args()
