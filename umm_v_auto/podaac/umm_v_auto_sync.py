@@ -251,4 +251,5 @@ if __name__ == '__main__':
         if uat_umm_v == 0:
             ops_concept_id = ops_collection_name_id[collection].get(
                 'concept_id')
-            sync_ops_umm_v_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
+            print(collection)
+            #sync_ops_umm_v_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
