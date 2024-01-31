@@ -4,7 +4,11 @@ name: Umm V Auto Sync
 on:
   schedule:
     - cron: '0 0 * * *'  # Set the cron schedule for nightly build (UTC time)
+      branches:
+        - main
   workflow_dispatch:
+    branches:
+      - feature/first_implementation
 
 jobs:
   # First job in the workflow installs and verifies the software
