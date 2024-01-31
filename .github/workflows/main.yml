@@ -3,7 +3,7 @@ name: Umm V Auto Sync
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '0 0 * * *'  # Set the cron schedule for nightly build (UTC time)
+    - cron: '0 8 * * *'  # Set the cron schedule for midnight PST
       branches:
         - main
   workflow_dispatch:
@@ -13,7 +13,7 @@ on:
 jobs:
   # First job in the workflow installs and verifies the software
   build:
-    name: Build, Test, Verify, Publish
+    name: Build, Test
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
@@ -37,9 +37,21 @@ jobs:
       #########################################################################
       # NOTE: This step is platform-specific
       # These are gradle-specific steps for installing the application
+      - name: Poetry Steps
       - name: Install Software
         working-directory: umm_v_auto
         run: |
           poetry install
           poetry run pylint podaac
           poetry run flake8 podaac
+
+      #########################################################################
+      # UMM V Auto Sync
+      #########################################################################
+      - name: UMM V Auto Sync
+        working-directory: umm_v_auto
+        env:
+          UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
+          OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+        run: |
+          poetry run python podaac/umm_v_auto_sync.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
