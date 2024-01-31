@@ -38,6 +38,7 @@ jobs:
       # NOTE: This step is platform-specific
       # These are gradle-specific steps for installing the application
       - name: Poetry Steps
+      - name: Install Software
         working-directory: umm_v_auto
         run: |
           poetry install
