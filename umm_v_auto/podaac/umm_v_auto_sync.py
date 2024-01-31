@@ -24,21 +24,12 @@ def search_source(search_api: str, concept_id: str, **kwargs) -> dict:
     try:
         source_coll_meta = search(
             f"{search_api}/collections.umm_json", params=source_coll_params).get("items")[0]
-<<<<<<< HEAD
     except (KeyError, IndexError) as e:  # noqa: F841 pylint: disable = unused-variable
         raise Exception(
             f"ERROR! Source collection was not found in CMR ({source_cmr}) for the input concept-id ({source_coll})")  # noqa: F821
     except json.JSONDecodeError as e:  # noqa: F841
         raise Exception(
             f"ERROR! Source collection metadata could not be accessed from CMR ({source_cmr}) due to http request failure")  # noqa: F821
-=======
-    except (KeyError, IndexError) as e:  # pylint: disable = unused-variable
-        raise Exception(
-            f"ERROR! Source collection was not found in CMR ({source_cmr}) for the input concept-id ({source_coll})")
-    except JSONDecodeError as e:
-        raise Exception(
-            f"ERROR! Source collection metadata could not be accessed from CMR ({source_cmr}) due to http request failure")
->>>>>>> d420d50 (initial implementation of umm v auto sync)
 
     if 'associations' in source_coll_meta.get("meta"):
         if 'variables' in source_coll_meta.get("meta").get("associations"):
@@ -81,11 +72,7 @@ def ingest_target(ingest_api: str, variables: dict, token: str, verbose: bool = 
                 'Accept': "application/json",
             }).json()
             ummvar_concept_id = response.get("concept-id")
-<<<<<<< HEAD
         except json.JSONDecodeError as e:  # # noqa: F841 pylint: disable = unused-variable
-=======
-        except json.JSONDecodeError as e:  # pylint: disable = unused-variable
->>>>>>> d420d50 (initial implementation of umm v auto sync)
             print(
                 f"ERROR! {ummvar_native_id} -- TODO: Handle failed requests w/ logic to retry errors that appear transient.")
         except Exception as e:  # Skip exceptions so the previous api repsonses are retained.
@@ -118,20 +105,12 @@ def parse_args():
 
     parser.add_argument('-ut', '--uat_token',
                         help='launchpad token file for uat',
-<<<<<<< HEAD
                         required=True,
-=======
-                        required=False,
->>>>>>> d420d50 (initial implementation of umm v auto sync)
                         metavar='')
 
     parser.add_argument('-ot', '--ops_token',
                         help='launchpad token file for ops',
-<<<<<<< HEAD
                         required=True,
-=======
-                        required=False,
->>>>>>> d420d50 (initial implementation of umm v auto sync)
                         metavar='')
 
     args = parser.parse_args()
@@ -151,11 +130,7 @@ def get_ops_collection_concept_id(env, collection_name, headers):
     collections_query = requests.get(url, headers=headers, params={
                                      'page_size': 2000}).json()['feed']['entry']
 
-<<<<<<< HEAD
     if collection_name not in ops_collection_name_id and len(collections_query) > 0:
-=======
-    if collection_name not in ops_collection_name_id:
->>>>>>> d420d50 (initial implementation of umm v auto sync)
 
         variables = collections_query[0].get(
             "associations").get("variables", [])
@@ -278,4 +253,3 @@ if __name__ == '__main__':
                 'concept_id')
             print(f"Sync collection {collection}")
             sync_ops_umm_v_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
-
