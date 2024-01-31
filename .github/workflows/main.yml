@@ -8,7 +8,7 @@ on:
         - main
   workflow_dispatch:
     branches:
-      - feature/first_implementation
+      - main
 
 jobs:
   # First job in the workflow installs and verifies the software
