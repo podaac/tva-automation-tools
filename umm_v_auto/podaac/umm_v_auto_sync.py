@@ -252,4 +252,7 @@ if __name__ == '__main__':
             ops_concept_id = ops_collection_name_id[collection].get(
                 'concept_id')
             print(f"Sync collection {collection}")
-            sync_ops_umm_v_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
+            try:
+                sync_ops_umm_v_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
+            except Exception as e:  # pylint: disable = broad-exception-caught
+                print(e)

@@ -3,8 +3,7 @@ name: Umm V Auto Sync
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '30 20 * * *'  # 12:30 PM PST is 8:30 PM UTC
-    # - cron: '0 8 * * *'  # Set the cron schedule for midnight PST
+    - cron: '0 8 * * *'  # Set the cron schedule for midnight PST
   workflow_dispatch:
 
 jobs:
