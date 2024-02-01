@@ -4,11 +4,7 @@ name: Umm V Auto Sync
 on:
   schedule:
     - cron: '0 8 * * *'  # Set the cron schedule for midnight PST
-      branches:
-        - main
   workflow_dispatch:
-    branches:
-      - main
 
 jobs:
   # First job in the workflow installs and verifies the software
