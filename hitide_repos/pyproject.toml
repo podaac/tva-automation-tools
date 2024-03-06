@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["James Wood <James.F.Wood@jpl.nasa.gov>"]
 readme = "README.md"
-packages = [{include = "hitide_repos_dashboard"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
