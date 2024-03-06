@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "hitide-repos-dashboard"
+version = "0.1.0"
+description = ""
+authors = ["James Wood <James.F.Wood@jpl.nasa.gov>"]
+readme = "README.md"
+packages = [{include = "hitide_repos_dashboard"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31.0"
+gspread = "^6.0.2"
+pytz = "^2024.1"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.1.0"
+flake8 = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
