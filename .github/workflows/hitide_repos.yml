@@ -9,7 +9,7 @@ on:
 jobs:
   # First job in the workflow installs and verifies the software
   build:
-    name: Refresh Repo Sheet
+    name: Refresh HiTIDE Repos
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +36,7 @@ jobs:
       #########################################################################
       # HiTIDE Setup Token
       #########################################################################
-      - name: Setup Google Token
+      - name: Setup Token
         env:
           GOOGLE_TOKEN: ${{ secrets.GOOGLE_TOKEN }}
         run: |
@@ -46,7 +46,7 @@ jobs:
       #########################################################################
       # HiTIDE Repos Dashboard
       #########################################################################
-      - name: HiTIDE Repos Dashboard
+      - name: Generate Repos
         working-directory: hitide_repos
         env:
           UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
