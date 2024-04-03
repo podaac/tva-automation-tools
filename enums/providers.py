@@ -1,15 +1,19 @@
+"""Enum for CMR Providers"""
 from enum import Enum
 
 
 class Providers(Enum):
+    """Providers Enum"""
+
     POCUMULUS = 1
     POCLOUD = 2
 
     @staticmethod
-    def from_str(label):
+    def FromStr(label):
+        """Method to turn string into the Enum"""
+
         if label.lower() == "pocloud":
             return Providers.POCLOUD
-        elif label.lower() == "pocumulus":
+        if label.lower() == "pocumulus":
             return Providers.POCUMULUS
-        else:
-            NotImplemented
+        raise NotImplementedError(f'Provider for "{label}" is not implemented!')

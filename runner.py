@@ -1,9 +1,10 @@
-from dataupdater.organizer import Organizer
-
+"""Starter of the Repo Status Updater"""
 import argparse
 
+from data_updater.organizer import Organizer
 
-def parse_args():
+
+def ParseArguments():
     """
     Parses the program arguments
     Returns
@@ -30,6 +31,6 @@ def parse_args():
     return args
 
 if __name__ == "__main__":
-    args = parse_args()
-    Organizer.Main()
+    args = ParseArguments()
+    Organizer.Main(args)
     

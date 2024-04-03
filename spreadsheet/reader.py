@@ -1,31 +1,37 @@
-from spreadsheet.gsheetbase import GSheetBase
-
+"""Reader Module for Google Spreadsheet."""
 from gspread.cell import Cell
+
+from spreadsheet.gsheet_base import GSheetBase
 
 
 class Reader(GSheetBase):
-    
+    """Class for methods to read Google Spreadsheets"""
+
     def GetAllCellDataFromSheet(self, sheetName:str):
+        """Function for reading aall cell data from the worksheet, except empty ones"""
+
         worksheet = self.workbook.worksheet(sheetName)
-        cellDataList:list[Cell] = worksheet.get_all_cells()
-        
+        cell_data_list:list[Cell] = worksheet.get_all_cells()
+
         result = {}
-        for cellData in cellDataList:
-            columnIndex = cellData.col
-            rowIndex = cellData.row
-            value = cellData.value
+        for cell_data in cell_data_list:
+            column_index = cell_data.col
+            row_index = cell_data.row
+            value = cell_data.value
             if value != "":
-                if columnIndex not in result.keys():
-                    result[columnIndex] = {}
-                if rowIndex not in result[columnIndex].keys():
-                    result[columnIndex][rowIndex] = ''
-                result[columnIndex][rowIndex] = value
+                if column_index not in result:
+                    result[column_index] = {}
+                if row_index not in result[column_index]:
+                    result[column_index][row_index] = ''
+                result[column_index][row_index] = value
         return result
-    
-        
+
+
     def GetColumnDataFromSheet(self, sheetName:str, columnIndex:int) -> list[str]:
-        columnData = []
+        """Function for reading a single column data from the worksheet"""
+
+        result = []
         worksheet = self.workbook.worksheet(sheetName)
-        
-        columnData = worksheet.col_values(columnIndex)
-        return columnData
+
+        result = worksheet.col_values(columnIndex)
+        return result
