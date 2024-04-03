@@ -1,4 +1,4 @@
-from hitide_repos.hitide_repos import main
+from dataupdater.organizer import Organizer
 
 import argparse
 
@@ -31,5 +31,5 @@ def parse_args():
 
 if __name__ == "__main__":
     args = parse_args()
-    main()
+    Organizer.Main()
     

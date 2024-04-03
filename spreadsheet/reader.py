@@ -1,27 +1,31 @@
 from spreadsheet.gsheetbase import GSheetBase
 
+from gspread.cell import Cell
+
 
 class Reader(GSheetBase):
     
-    def GetDataFromSheet(self, sheetName:str):
+    def GetAllCellDataFromSheet(self, sheetName:str):
         worksheet = self.workbook.worksheet(sheetName)
-        data = worksheet.get_all_records()
-        print(f'all record type: {type(data)}')
-        print(f'all record data: {data}')
+        cellDataList:list[Cell] = worksheet.get_all_cells()
         
-        data2 = worksheet.get_all_cells()
-        print(f'all cells type: {type(data2)}')
-        print(f'all cells data: {data2}')
-        
-        data3 = worksheet.col_values(1)
-        print(f'col_values type: {type(data3)}')
-        print(f'col_values data: {data3}')
-        return data
+        result = {}
+        for cellData in cellDataList:
+            columnIndex = cellData.col
+            rowIndex = cellData.row
+            value = cellData.value
+            if value != "":
+                if columnIndex not in result.keys():
+                    result[columnIndex] = {}
+                if rowIndex not in result[columnIndex].keys():
+                    result[columnIndex][rowIndex] = ''
+                result[columnIndex][rowIndex] = value
+        return result
     
         
-    def GetColumnDataFromSheet(self, sheetName:str, columnName:str) -> list[str]:
+    def GetColumnDataFromSheet(self, sheetName:str, columnIndex:int) -> list[str]:
         columnData = []
         worksheet = self.workbook.worksheet(sheetName)
         
-        worksheet.get_values()
+        columnData = worksheet.col_values(columnIndex)
         return columnData
