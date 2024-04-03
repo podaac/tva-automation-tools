@@ -1,5 +1,5 @@
-# Copy umm v from ops to uat
-name: HiTIDE Repo Sync
+
+name: Repo Status Updater
 # Controls when the workflow will run
 on:
   schedule:
@@ -7,9 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  # First job in the workflow installs and verifies the software
   build:
-    name: Refresh HiTIDE Repos
+    name: Refresh Repos Statuses
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
@@ -19,21 +18,26 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
+      - name: Install Dependencies
+        run: |
+          pip3 install -r dependencies_pip
       - name: Install Poetry
         uses: abatilo/actions-poetry@v3
         with:
           poetry-version: 1.5.1
 
       #########################################################################
-      # Install & Pylint & Flake
+      # Install & Run Pylint & Flake
       #########################################################################
-      - name: Poetry Setup
+      - name: Poetry Steps
         run: |
           poetry install
+          poetry run pylint .
+          poetry run flake8 .
 
       #########################################################################
-      # HiTIDE Setup Token
+      # Setup Token for GSpread
       #########################################################################
       - name: Setup Token
         env:
@@ -43,7 +47,7 @@ jobs:
           echo "$GOOGLE_TOKEN" > ~/.config/gspread/service_account.json
 
       #########################################################################
-      # HiTIDE Repos Dashboard
+      # Start the Repo Status Updater
       #########################################################################
       - name: Generate Repos
         env:
