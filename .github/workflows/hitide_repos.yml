@@ -29,7 +29,6 @@ jobs:
       # Install & Pylint & Flake
       #########################################################################
       - name: Poetry Setup
-        working-directory: hitide_repos
         run: |
           poetry install
 
@@ -47,9 +46,8 @@ jobs:
       # HiTIDE Repos Dashboard
       #########################################################################
       - name: Generate Repos
-        working-directory: hitide_repos
         env:
           UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
           OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
         run: |
-          poetry run python hitide_repos.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
+          poetry run python runner.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
