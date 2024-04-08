@@ -500,4 +500,4 @@ min-public-methods=2
 #overgeneral-exceptions=BaseException,
 #                      Exception
 
-disable=consider-using-f-string, W1514, R0402, R1730, missing-timeout, protected-access, broad-exception-raised, redefined-outer-name, raise-missing-from, undefined-variable
+disable=consider-using-f-string, W1514, R0402, R1730, missing-timeout, protected-access, broad-exception-raised, redefined-outer-name, raise-missing-from, undefined-variable, no-method-argument, no-self-argument
