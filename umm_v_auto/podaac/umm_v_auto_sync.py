@@ -3,7 +3,7 @@
 from datetime import datetime
 from tqdm import tqdm
 
-from enums import Providers
+from enums import Provider
 
 import argparse
 import json
@@ -124,7 +124,7 @@ def parse_args():
 def get_ops_collection_concept_id(env, collection_name, headers):
     """Function to get ops concept it and umm v count from collection name"""
 
-    target_provider:Providers = Providers.POCLOUD
+    target_provider:Provider = Provider.POCLOUD
     
     if env == "ops":
         mode = cmr.queries.CMR_OPS
@@ -149,7 +149,7 @@ def get_ops_collection_concept_id(env, collection_name, headers):
 def get_l2ss_associations(env, umm_name, headers):
     """Function to get associated collection for l2ss-py for a env"""
 
-    target_provider:Providers = Providers.POCLOUD
+    target_provider:Provider = Provider.POCLOUD
     
     if env == "ops":
         mode = cmr.queries.CMR_OPS
@@ -204,7 +204,7 @@ def sync_ops_umm_v_to_uat(ops_concept_id, ops_token, uat_token):
     """Function that will copy umm-v from ops into uat"""
 
     # ops concept_id
-    target_provider:Providers = Providers.POCLOUD
+    target_provider:Provider = Provider.POCLOUD
 
     # Format hostname strings for the source and target CMR venues ->
     source_venue = "ops"

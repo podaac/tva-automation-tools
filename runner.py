@@ -2,6 +2,7 @@
 import argparse
 
 from data_updater.organizer import Organizer
+import config.config
 
 
 def ParseArguments():
@@ -32,5 +33,7 @@ def ParseArguments():
 
 if __name__ == "__main__":
     args = ParseArguments()
-    Organizer.Main(args)
+    config.config.Config.LaunchpadToken_OPS = args.ops_token
+    config.config.Config.LaunchpadToken_UAT = args.uat_token
+    Organizer.Start()
     

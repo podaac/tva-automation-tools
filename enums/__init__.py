@@ -1,2 +1,3 @@
 '''init file'''
-from enums.providers import Providers
+from enums.provider import Provider
+from enums.environment import Environment

@@ -1,9 +1,9 @@
-"""Enum for CMR Providers"""
+"""Enum for CMR Provider"""
 from enum import Enum
 
 
-class Providers(Enum):
-    """Providers Enum"""
+class Provider(Enum):
+    """Provider Enum"""
 
     POCUMULUS = 1
     POCLOUD = 2
@@ -13,7 +13,7 @@ class Providers(Enum):
         """Method to turn string into the Enum"""
 
         if label.lower() == "pocloud":
-            return Providers.POCLOUD
+            return Provider.POCLOUD
         if label.lower() == "pocumulus":
-            return Providers.POCUMULUS
+            return Provider.POCUMULUS
         raise NotImplementedError(f'Provider for "{label}" is not implemented!')
