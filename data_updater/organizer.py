@@ -7,6 +7,7 @@ from datetime import datetime
 from copy import deepcopy
 from time import sleep
 
+import re
 import pytz
 
 from data_updater.distributor import Distributor
@@ -164,16 +165,24 @@ def GetOrGenerateSheetName(spreadsheet:Interactor, rowIndex:int, data:dict, temp
 
     repo_name = data[REPOS_COLUMN_INDEX_REPOS][rowIndex]
     if rowIndex in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
-        sheet_name = data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex]
+        hyperlink = data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex]
+        print(f'\r\nCell content: {hyperlink}')
+        print(f'Is hyperlink: {hyperlink.startswith("=")}')
+        if hyperlink.startswith('='):
+            pattern = r"=HYPERLINK\(\"#gid=(.*)\",\"(.*)\"\)"
+            mo = re.findall(pattern, hyperlink)
+            for i in range(0, len(mo), 1):
+                print(f'mo[{i}[]: {mo[i]}')
+            sheet_name = mo[3]
+        else:
+            sheet_name = hyperlink
     else:
         sheet_name = repo_name
 
+    print(f'Sheet name: {sheet_name}')
     for i in range(0, rowIndex + 1, 1):
         if i in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
             prev_sheet_name = data[REPOS_COLUMN_INDEX_SHEET_LINK][i]
-            print(f'rowIndex: {rowIndex}')
-            print(f'i: {i}')
-            print(f'prev_sheet_name: {prev_sheet_name}')
             if prev_sheet_name == sheet_name and i != rowIndex:
                 sheet_name = f'{sheet_name}_({i})'
                 print(f'Renamed sheet to "{sheet_name}"')
@@ -189,7 +198,7 @@ def GetOrGenerateSheetName(spreadsheet:Interactor, rowIndex:int, data:dict, temp
             rowCount = 50,
             columnCount = 10)
         spreadsheet.updater.UpdateSheet(sheet_name, updated_template)
-        gid = spreadsheet.reader.GetSheetId(sheet_name)
-        data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex] = f'=HYPERLINK("#gid={gid}","{sheet_name}")'
+    gid = spreadsheet.reader.GetSheetId(sheet_name)
+    data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex] = f'=HYPERLINK("#gid={gid}","{sheet_name}")'
 
     return sheet_name

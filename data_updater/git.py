@@ -154,11 +154,13 @@ def GetPackageDetails(isJpl:bool, owner:str, repoLink:str) -> tuple:
     package_name = "Package Not Found!"
     package_type = ""
     for package in json_data_list:
-        if package['html_url'] == repoLink:
+        if 'repository' not in package:
+            continue
+        if package['repository']['html_url'] == repoLink:
             package_name = package['name']
             package_type = package['package_type']
-            print(f'package_name: {package_name}')
-            print(f'package_type: {package_type}')
+            print(f'\r\npackage_name: {package_name}')
+            print(f'package_type: {package_type}\r\n')
             break
     return (package_name, package_type)
 

@@ -1,5 +1,6 @@
 """Writer/Updater Module for Google Spreadsheet."""
 from gspread.cell import Cell
+from gspread.utils import ValueInputOption
 
 from spreadsheet.gsheet_base import GSheetBase
 
@@ -29,7 +30,7 @@ class Updater(GSheetBase):
                     row = row_index,
                     col = column_index,
                     value = value))
-        worksheet.update_cells(cell_list)
+        worksheet.update_cells(cell_list, value_input_option = ValueInputOption.user_entered)
 
 
     def SetCellHorizontalAlignment(self, sheetName:str, cellCoordinate:str, alignment:str="CENTER"):
