@@ -53,5 +53,7 @@ jobs:
         env:
           UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
           OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+          GIT_TOKEN_TEMP: ""
+          GIT_JPL_TOKEN_TEMP: ""
         run: |
-          poetry run python runner.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
+          poetry run python runner.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -gt $GIT_TOKEN_TEMP -jt $GIT_JPL_TOKEN_TEMP
