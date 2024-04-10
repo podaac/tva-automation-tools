@@ -6,7 +6,7 @@ class Config():
     """Config data"""
 
     # Misc
-    TimeFormat:str = "%Y-%m-%d_-_%H-%M-%S"
+    TimeFormat:str = "%Y-%m-%d_-_%H:%M:%S"
 
     # Launchpad Tokens
     LaunchpadToken_OPS = ""
