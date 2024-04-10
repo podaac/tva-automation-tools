@@ -7,4 +7,5 @@ class Docker():
 
     def GetDockerPackageLink(environment:str) -> str:
         """Function to get the package link of the git repository published to Docker"""
-        raise NotImplementedError()
+
+        return "Under development"

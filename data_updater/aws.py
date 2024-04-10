@@ -6,14 +6,17 @@ class AWS():
 
     def GetAwsDeployedVersion(environment:str) -> str:
         """Function to get the version of the repository deployed on AWS"""
-        raise NotImplementedError()
+
+        return "Under development"
 
 
     def GetAwsLambdaImage() -> str:
         """Function to get the lambda image of the repository deployed on AWS"""
-        raise NotImplementedError()
+
+        return "Under development"
 
 
     def GetAwsLambdaName() -> str:
         """Function to get the lambda name of the repository deployed on AWS"""
-        raise NotImplementedError()
+
+        return "Under development"

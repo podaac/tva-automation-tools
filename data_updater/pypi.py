@@ -7,4 +7,5 @@ class PyPi():
 
     def GetPyPiReleaseLink(environment:str) -> str:
         """Function to get the release link of the git repository published to PyPi"""
-        raise NotImplementedError()
+
+        return "Under development"

@@ -8,7 +8,7 @@ from enums import Environment
 class Harmony():
     """Class for Harmony related methods"""
 
-    def GetVersionFromHarmony(serviceName:str, environment:str) -> str:
+    def GetVersionFromHarmony(environment:str, serviceName:str) -> str:
         """Function to get the version of the git repository active on Harmony"""
 
         return Version.GetVersionFor(

@@ -20,7 +20,9 @@ class Updater(GSheetBase):
         print(f'Updating sheet "{sheetName}" with new data...')
         worksheet = self.workbook.worksheet(sheetName)
         cell_list = []
+        last_column_index = 0
         for column_index in data:
+            last_column_index = max(last_column_index, column_index)
             for row_index in data[column_index]:
                 value = data[column_index][row_index]
                 cell_list.append(Cell(
@@ -28,3 +30,11 @@ class Updater(GSheetBase):
                     col = column_index,
                     value = value))
         worksheet.update_cells(cell_list)
+
+
+    def SetCellHorizontalAlignment(self, sheetName:str, cellCoordinate:str, alignment:str="CENTER"):
+        """Function for setting cell horizontal alignment"""
+
+        print(f'Updating sheet "{sheetName}" cell "{cellCoordinate}" horizontal alignment to "{alignment}"...')
+        worksheet = self.workbook.worksheet(sheetName)
+        worksheet.format(cellCoordinate, {"horizontalAlignment": alignment})

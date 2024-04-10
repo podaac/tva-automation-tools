@@ -7,4 +7,5 @@ class Cumulus():
 
     def GetCumulusReleaseLink(environment:str) -> str:
         """Function to get the release link of the git repository published to Cumulus"""
-        raise NotImplementedError()
+
+        return "Under development"

@@ -1,18 +1,20 @@
 """API interface Module for CMR Search calls"""
 from dateutil.tz.tz import tzlocal
-
-from enums import Provider
-
 import datetime
 import requests
 import json
 
+from enums import Provider
+
+import config
+
 
 # File wide variables
 endpoint = "/search"
+conf = config.config.Config
 
 class Search():
-    """Class for CMR API Search functions"""
+    """Class for CMR Search API functions"""
 
     def GetGranules(
         provider:Provider = Provider.POCUMULUS,
@@ -25,6 +27,7 @@ class Search():
         daterange:str = "",
         token:str = None,
         logging:bool = True) -> requests.Response:
+        """Function to call the granules endpoint"""
 
         if logging:
             print(f"\r\nGetting Granules from CMR...")
@@ -72,6 +75,7 @@ class Search():
         isNative:bool = False,
         logging:bool = True,
         useOPSbase:bool = False) -> requests.Response:
+        """Function to call the concepts endpoint"""
     
         if logging:
             print(f"\r\nGetting Concept from CMR...")
@@ -106,6 +110,7 @@ class Search():
         logging:bool = True,
         useOPSbase:bool = False,
         timeout:int = 30) -> requests.Response:
+        """Function to call the collections endpoint"""
 
         if logging:
             print(f"\r\nGetting Collections from CMR...")
@@ -146,6 +151,7 @@ class Search():
         logging:bool = True,
         useOPSbase:bool = False,
         timeout:int = 30) -> str:
+        """Function to get the concept id for the collection through the colelctions endpoint"""
         
         if logging:
             print(f"\r\nGetting Concept ID from CMR request...")

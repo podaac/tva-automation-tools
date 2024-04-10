@@ -1,3 +1,4 @@
+"""API interface Module for Harmony Versions calls"""
 import requests
 import json
 
@@ -10,8 +11,11 @@ conf = config.Config
 endpoint = "/versions"
 
 class Version():
+    """Class for Harmony Versions API functions"""
 
     def GetVersion(environment:Environment, logging:bool=True) -> requests.Response:
+        """Function to call the versions endpoint"""
+        
         if logging:
             print(f'Getting data from Harmony "/versions" endpoint...')
             
@@ -33,6 +37,8 @@ class Version():
     
     
     def GetVersionFor(jsonVariableName:str, environment:Environment, logging:bool=True) -> str:
+        """Function to extract the version data for the service"""
+        
         if logging:
             print(f'Getting version of "{jsonVariableName}" on "{environment.name}"...')
             
