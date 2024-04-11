@@ -28,12 +28,12 @@ def ParseArguments():
                         required=True,
                         metavar='')
 
-    parser.add_argument('-gt', '--git_token',
+    parser.add_argument('-gt', '--github_token',
                         help='github token',
                         required=True,
                         metavar='')
 
-    parser.add_argument('-jt', '--git_jpl_token',
+    parser.add_argument('-jt', '--github_jpl_token',
                         help='jpl github token',
                         required=True,
                         metavar='')
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     args = ParseArguments()
     config.config.Config.LaunchpadToken_OPS = args.ops_token
     config.config.Config.LaunchpadToken_UAT = args.uat_token
-    config.config.Config.Github_Token = args.git_token
-    config.config.Config.Github_Token_JPL = args.git_jpl_token
+    config.config.Config.Github_Token = args.github_token
+    config.config.Config.Github_Token_JPL = args.github_jpl_token
     Organizer.Start()
     

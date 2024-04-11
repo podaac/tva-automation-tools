@@ -21,7 +21,7 @@ REPOS_SHEETNAME = 'Repos'
 REPOS_COLUMN_INDEX_REPOS = 1
 REPOS_COLUMN_INDEX_SHEET_LINK = 2
 REPOS_COLUMN_INDEX_LAST_UPDATE_TIME = 3
-REPOS_COLUMN_INDEX_GIT_ADDRESS = 4
+REPOS_COLUMN_INDEX_GITHUB_ADDRESS = 4
 IGNORE_REPO_LIST = ['Repo', 'Repository']
 REPO_TEMPLATE_SHEETNAME = 'Repo Template'
 TEMPLATE_COLUMN_INDEX_VALUE = 3
@@ -51,8 +51,8 @@ class Organizer():
                 continue
 
             repo_link = ""
-            if row_index_repo in repo_data[REPOS_COLUMN_INDEX_GIT_ADDRESS]:
-                repo_link = repo_data[REPOS_COLUMN_INDEX_GIT_ADDRESS][row_index_repo]
+            if row_index_repo in repo_data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS]:
+                repo_link = repo_data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][row_index_repo]
 
             # sheet_name = repo_name
             sheet_name = GetOrGenerateSheetName(
@@ -192,7 +192,7 @@ def GetOrGenerateSheetName(spreadsheet:Interactor, rowIndex:int, data:dict, temp
         # Create the sheet and the corresponding hyperlink
         updated_template = deepcopy(template)
         updated_template[2][2] = repo_name
-        updated_template[2][3] = data[REPOS_COLUMN_INDEX_GIT_ADDRESS][rowIndex]
+        updated_template[2][3] = data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][rowIndex]
         spreadsheet.updater.CreateSheet(
             sheetName = sheet_name,
             rowCount = 50,
