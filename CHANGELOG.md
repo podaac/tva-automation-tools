@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Created information snatcher class for CMR
     - Created information snatcher class for Cumulus
     - Created information snatcher class for Docker
-    - Created information snatcher class for Git
+    - Created information snatcher class for Github
     - Created information snatcher class for Harmony
     - Created information snatcher class for PyPi
 ### Deprecated
