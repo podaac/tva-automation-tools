@@ -1,7 +1,7 @@
 """API interface Module for Git Pull Requests calls"""
 import requests
 
-from API.Git.git_base_calls import GitBaseCalls
+from API.Github.github_base_calls import GithubBaseCalls
 
 
 # File wide variables
@@ -16,7 +16,7 @@ class PullRequests():
         if logging:
             print(f'Getting data from Git "/{ENDPOINT}" endpoint...')
         
-        return GitBaseCalls.Get(
+        return GithubBaseCalls.Get(
             endpoint = f'/repos/{owner}/{repoName}/{ENDPOINT}',
             isJpl = isJpl,
             logging = logging)

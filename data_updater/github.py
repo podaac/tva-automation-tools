@@ -5,11 +5,11 @@
 from datetime import datetime, timedelta
 import json
 
-from API.Git import Actions, Issues, Packages, PullRequests
+from API.Github import Actions, Issues, Packages, PullRequests
 from enums import Environment
 
 
-class Git():
+class Github():
     """Class for Github related methods"""
 
     def GetGitOpenPRCount(repoLink:str) -> int:

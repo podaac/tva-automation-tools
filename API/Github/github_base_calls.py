@@ -7,7 +7,7 @@ import config
 # File wide variables
 conf = config.Config
 
-class GitBaseCalls():
+class GithubBaseCalls():
     """Class for Git basic API functions"""
 
     def GetForRepo(endpoint:str, isJpl:False, owner:str, repoName:str, logging:bool=True) -> requests.Response:
@@ -17,7 +17,7 @@ class GitBaseCalls():
             print(f'Getting data from Git "/{endpoint}" endpoint...')
 
         url_end = f'/repos/{owner}/{repoName}/{endpoint}'
-        return GitBaseCalls.Get(
+        return GithubBaseCalls.Get(
             endpoint = url_end,
             isJpl = isJpl,
             logging = logging)
@@ -31,10 +31,10 @@ class GitBaseCalls():
         custom_headers["Accept"] = "application/json"
         if isJpl:
             url = conf.Github_JPL_base
-            custom_headers['Authorization'] = f'Bearer {conf.GitToken_JPL}'
+            custom_headers['Authorization'] = f'Bearer {conf.Github_Token_JPL}'
         else:
             url = conf.Github_base
-            custom_headers['Authorization'] = f'Bearer {conf.GitToken}'
+            custom_headers['Authorization'] = f'Bearer {conf.Github_Token}'
 
         url = url + endpoint
         response = requests.get(

@@ -1,7 +1,7 @@
 """API interface Module for Git Packages calls"""
 import requests
 
-from API.Git.git_base_calls import GitBaseCalls
+from API.Github.github_base_calls import GithubBaseCalls
 
 
 # File wide variables
@@ -16,7 +16,7 @@ class Packages():
         if logging:
             print(f'Getting data from Git "/{ENDPOINT}" endpoint...')
 
-        return GitBaseCalls.Get(
+        return GithubBaseCalls.Get(
             endpoint = f'/orgs/{owner}/{ENDPOINT}?package_type=container',
             isJpl = isJpl,
             logging = logging)
@@ -28,7 +28,7 @@ class Packages():
         if logging:
             print(f'Getting data from Git "/{ENDPOINT}" endpoint...')
 
-        return GitBaseCalls.Get(
+        return GithubBaseCalls.Get(
             endpoint = f'/orgs/{owner}/{ENDPOINT}/{packageType}/{packageName}/versions',
             isJpl = isJpl,
             logging = logging)

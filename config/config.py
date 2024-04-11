@@ -27,8 +27,8 @@ class Config():
     Docker_base = ""
 
     # Github
-    GitToken = ""
-    GitToken_JPL = ""
+    Github_Token = ""
+    Github_Token_JPL = ""
     Github_base = "https://api.github.com"
     Github_JPL_base = "https://api.github.jpl.nasa.gov"
 

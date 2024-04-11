@@ -1,6 +1,6 @@
 """Task Distributor module"""
 
-from data_updater import AWS, Cumulus, Docker, Git, Harmony, PyPi
+from data_updater import AWS, Cumulus, Docker, Github, Harmony, PyPi
 
 
 class Distributor():
@@ -23,31 +23,31 @@ class Distributor():
 
     def GetGitPackageVersionTag(repoLink:str, environment:str) -> str:
         """Function to call GetGitPackageVersionTag"""
-        return Git.GetGitPackageVersionTag(
+        return Github.GetGitPackageVersionTag(
             repoLink = repoLink,
             environment = environment)
 
 
     def GetGitOpenPRCount(repoLink:str) -> int:
         """Function to call GetGitOpenPRCount"""
-        return Git.GetGitOpenPRCount(repoLink = repoLink)
+        return Github.GetGitOpenPRCount(repoLink = repoLink)
 
 
     def GetGitOpenIssueCount(repoLink:str) -> int:
         """Function to call GetGitOpenIssueCount"""
-        return Git.GetGitOpenIssueCount(repoLink = repoLink)
+        return Github.GetGitOpenIssueCount(repoLink = repoLink)
 
 
     def GetGitLastActionStatus(repoLink:str, branches:list[str]) -> bool:
         """Function to call GetGitLastActionStatus"""
-        return Git.GetGitLastActionStatus(
+        return Github.GetGitLastActionStatus(
             repoLink = repoLink,
             branches = branches)
 
 
     def GetGitFailedActionCount(repoLink:str, daysToCheck:str, branches:list[str]) -> int:
         """Function to call GetGitFailedActionCount"""
-        return Git.GetGitFailedActionCount(
+        return Github.GetGitFailedActionCount(
             repoLink = repoLink,
             daysToCheck = daysToCheck,
             branches = branches)
@@ -55,7 +55,7 @@ class Distributor():
 
     def GetGitPackageLinkWithTag(repoLink:str, environment:str) -> str:
         """Function to call GetGitPackageLinkWithTag"""
-        return Git.GetGitPackageLinkWithTag(
+        return Github.GetGitPackageLinkWithTag(
             repoLink = repoLink,
             environment = environment)
 
