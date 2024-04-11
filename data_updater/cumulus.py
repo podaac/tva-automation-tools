@@ -6,6 +6,6 @@ class Cumulus():
     """Class for Cumulus related methods"""
 
     def GetCumulusReleaseLink(environment:str) -> str:
-        """Function to get the release link of the git repository published to Cumulus"""
+        """Function to get the release link of the Github repository published to Cumulus"""
 
         return "Under development"

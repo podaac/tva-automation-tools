@@ -9,7 +9,7 @@ class Harmony():
     """Class for Harmony related methods"""
 
     def GetVersionFromHarmony(environment:str, serviceName:str) -> str:
-        """Function to get the version of the git repository active on Harmony"""
+        """Function to get the version of the Github repository active on Harmony"""
 
         return Version.GetVersionFor(
             jsonVariableName = serviceName,

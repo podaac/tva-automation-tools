@@ -21,41 +21,41 @@ class Distributor():
         return AWS.GetAwsLambdaName()
 
 
-    def GetGitPackageVersionTag(repoLink:str, environment:str) -> str:
-        """Function to call GetGitPackageVersionTag"""
-        return Github.GetGitPackageVersionTag(
+    def GetGithubPackageVersionTag(repoLink:str, environment:str) -> str:
+        """Function to call GetGithubPackageVersionTag"""
+        return Github.GetGithubPackageVersionTag(
             repoLink = repoLink,
             environment = environment)
 
 
-    def GetGitOpenPRCount(repoLink:str) -> int:
-        """Function to call GetGitOpenPRCount"""
-        return Github.GetGitOpenPRCount(repoLink = repoLink)
+    def GetGithubOpenPRCount(repoLink:str) -> int:
+        """Function to call GetGithubOpenPRCount"""
+        return Github.GetGithubOpenPRCount(repoLink = repoLink)
 
 
-    def GetGitOpenIssueCount(repoLink:str) -> int:
-        """Function to call GetGitOpenIssueCount"""
-        return Github.GetGitOpenIssueCount(repoLink = repoLink)
+    def GetGithubOpenIssueCount(repoLink:str) -> int:
+        """Function to call GetGithubOpenIssueCount"""
+        return Github.GetGithubOpenIssueCount(repoLink = repoLink)
 
 
-    def GetGitLastActionStatus(repoLink:str, branches:list[str]) -> bool:
-        """Function to call GetGitLastActionStatus"""
-        return Github.GetGitLastActionStatus(
+    def GetGithubLastActionStatus(repoLink:str, branches:list[str]) -> bool:
+        """Function to call GetGithubLastActionStatus"""
+        return Github.GetGithubLastActionStatus(
             repoLink = repoLink,
             branches = branches)
 
 
-    def GetGitFailedActionCount(repoLink:str, daysToCheck:str, branches:list[str]) -> int:
-        """Function to call GetGitFailedActionCount"""
-        return Github.GetGitFailedActionCount(
+    def GetGithubFailedActionCount(repoLink:str, daysToCheck:str, branches:list[str]) -> int:
+        """Function to call GetGithubFailedActionCount"""
+        return Github.GetGithubFailedActionCount(
             repoLink = repoLink,
             daysToCheck = daysToCheck,
             branches = branches)
 
 
-    def GetGitPackageLinkWithTag(repoLink:str, environment:str) -> str:
-        """Function to call GetGitPackageLinkWithTag"""
-        return Github.GetGitPackageLinkWithTag(
+    def GetGithubPackageLinkWithTag(repoLink:str, environment:str) -> str:
+        """Function to call GetGithubPackageLinkWithTag"""
+        return Github.GetGithubPackageLinkWithTag(
             repoLink = repoLink,
             environment = environment)
 

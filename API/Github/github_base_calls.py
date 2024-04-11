@@ -1,4 +1,4 @@
-"""API interface Module for Git basic calls"""
+"""API interface Module for Github basic calls"""
 import requests
 
 import config
@@ -8,13 +8,13 @@ import config
 conf = config.Config
 
 class GithubBaseCalls():
-    """Class for Git basic API functions"""
+    """Class for Github basic API functions"""
 
     def GetForRepo(endpoint:str, isJpl:False, owner:str, repoName:str, logging:bool=True) -> requests.Response:
-        """Function for basic get call to a GIT API endpoint related to repository"""
+        """Function for basic get call to a Github API endpoint related to repository"""
  
         if logging:
-            print(f'Getting data from Git "/{endpoint}" endpoint...')
+            print(f'Getting data from Github "/{endpoint}" endpoint...')
 
         url_end = f'/repos/{owner}/{repoName}/{endpoint}'
         return GithubBaseCalls.Get(
@@ -24,7 +24,7 @@ class GithubBaseCalls():
 
 
     def Get(endpoint:str, isJpl:False, logging:bool=True) -> requests.Response:
-        """Function for basic get call to a GIT API endpoint"""
+        """Function for basic get call to a Github API endpoint"""
  
         url = ''
         custom_headers = {}

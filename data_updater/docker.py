@@ -6,6 +6,6 @@ class Docker():
     """Class for Docker related methods"""
 
     def GetDockerPackageLink(environment:str) -> str:
-        """Function to get the package link of the git repository published to Docker"""
+        """Function to get the package link of the Github repository published to Docker"""
 
         return "Under development"

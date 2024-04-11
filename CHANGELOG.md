@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Created API interface for CMR/Search
     - Created API interface for Cumulus
     - Created API interface for AWS
-    - Created API interface for GIT
+    - Created API interface for Github
     - Created Google Sheet Reader and Updater classes
     - Created information snatcher class for AWS
     - Created information snatcher class for CMR

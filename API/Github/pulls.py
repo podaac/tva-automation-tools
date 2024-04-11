@@ -1,4 +1,4 @@
-"""API interface Module for Git Pull Requests calls"""
+"""API interface Module for Github Pull Requests calls"""
 import requests
 
 from API.Github.github_base_calls import GithubBaseCalls
@@ -8,13 +8,13 @@ from API.Github.github_base_calls import GithubBaseCalls
 ENDPOINT = "pulls"
 
 class PullRequests():
-    """Class for Git Pull Requests API functions"""
+    """Class for Github Pull Requests API functions"""
 
     def GetPullRequests(isJpl:False, owner:str, repoName:str, logging:bool=True) -> requests.Response:
         """Function to call the pull requests endpoint"""
 
         if logging:
-            print(f'Getting data from Git "/{ENDPOINT}" endpoint...')
+            print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
         
         return GithubBaseCalls.Get(
             endpoint = f'/repos/{owner}/{repoName}/{ENDPOINT}',

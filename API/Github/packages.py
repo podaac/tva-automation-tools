@@ -1,4 +1,4 @@
-"""API interface Module for Git Packages calls"""
+"""API interface Module for Github Packages calls"""
 import requests
 
 from API.Github.github_base_calls import GithubBaseCalls
@@ -8,13 +8,13 @@ from API.Github.github_base_calls import GithubBaseCalls
 ENDPOINT = "packages"
 
 class Packages():
-    """Class for Git Packages API functions"""
+    """Class for Github Packages API functions"""
 
     def GetPackages(isJpl:False, owner:str, logging:bool=True) -> requests.Response:
         """Function to call the packages endpoint"""
 
         if logging:
-            print(f'Getting data from Git "/{ENDPOINT}" endpoint...')
+            print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
             endpoint = f'/orgs/{owner}/{ENDPOINT}?package_type=container',
@@ -26,7 +26,7 @@ class Packages():
         """Function to call the packages endpoint"""
 
         if logging:
-            print(f'Getting data from Git "/{ENDPOINT}" endpoint...')
+            print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
             endpoint = f'/orgs/{owner}/{ENDPOINT}/{packageType}/{packageName}/versions',

@@ -1,4 +1,4 @@
-"""API interface Module for Git Actions calls"""
+"""API interface Module for Github Actions calls"""
 import requests
 
 from API.Github.github_base_calls import GithubBaseCalls
@@ -8,13 +8,13 @@ from API.Github.github_base_calls import GithubBaseCalls
 ENDPOINT = "actions"
 
 class Actions():
-    """Class for Git Actions API functions"""
+    """Class for Github Actions API functions"""
 
     def GetWorkflowRuns(isJpl:False, owner:str, repoName:str, logging:bool=True) -> requests.Response:
         """Function to get the workflow runs"""
 
         if logging:
-            print(f'Getting data from Git "/{ENDPOINT}" endpoint...')
+            print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
             endpoint = f'/repos/{owner}/{repoName}/{ENDPOINT}/runs',

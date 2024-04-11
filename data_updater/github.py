@@ -12,8 +12,8 @@ from enums import Environment
 class Github():
     """Class for Github related methods"""
 
-    def GetGitOpenPRCount(repoLink:str) -> int:
-        """Function to get the open pull requests count of the git repository"""
+    def GetGithubOpenPRCount(repoLink:str) -> int:
+        """Function to get the open pull requests count of the github repository"""
 
         (is_jpl, owner, repo_name) = ExtractRepoData(repoLink)
         if is_jpl:
@@ -30,8 +30,8 @@ class Github():
         return count
 
 
-    def GetGitOpenIssueCount(repoLink:str) -> int:
-        """Function to get the open issues count of the git repository"""
+    def GetGithubOpenIssueCount(repoLink:str) -> int:
+        """Function to get the open issues count of the github repository"""
 
         (is_jpl, owner, repo_name) = ExtractRepoData(repoLink)
         if is_jpl:
@@ -48,8 +48,8 @@ class Github():
         return count
 
 
-    def GetGitLastActionStatus(repoLink:str, branches:list[str]) -> str:
-        """Function to get the status of the last action ran on any of the provided branches of the git repository"""
+    def GetGithubLastActionStatus(repoLink:str, branches:list[str]) -> str:
+        """Function to get the status of the last action ran on any of the provided branches of the github repository"""
 
         (is_jpl, owner, repo_name) = ExtractRepoData(repoLink)
         if is_jpl:
@@ -72,9 +72,9 @@ class Github():
         return result
 
 
-    def GetGitFailedActionCount(repoLink:str, daysToCheck:str, branches:list[str]) -> int:
+    def GetGithubFailedActionCount(repoLink:str, daysToCheck:str, branches:list[str]) -> int:
         """Function to get the count of the failed action ran
-            on any of the provided branches of the git repository
+            on any of the provided branches of the github repository
             in the past x days"""
 
         days_to_check = int(daysToCheck)
@@ -95,8 +95,8 @@ class Github():
         return count
 
 
-    def GetGitPackageVersionTag(repoLink:str, environment:str) -> str:
-        """Function to get the package version of the git repository with the tag of environment"""
+    def GetGithubPackageVersionTag(repoLink:str, environment:str) -> str:
+        """Function to get the package version of the github repository with the tag of environment"""
 
         env = Environment.FromStr(environment)
         (is_jpl, owner, repo_name) = ExtractRepoData(repoLink)
@@ -120,8 +120,8 @@ class Github():
         return package_name
 
 
-    def GetGitPackageLinkWithTag(repoLink:str, environment:str) -> str:
-        """Function to get the package link of the git repository with the tag of environment"""
+    def GetGithubPackageLinkWithTag(repoLink:str, environment:str) -> str:
+        """Function to get the package link of the github repository with the tag of environment"""
 
         env = Environment.FromStr(environment)
         (is_jpl, owner, repo_name) = ExtractRepoData(repoLink = repoLink)
@@ -178,7 +178,7 @@ def ExtractRepoData(repoLink:str) -> tuple:
         is_jpl = False
         repoLink = repoLink.removeprefix(f'{github_base}/')
     else:
-        raise NotImplementedError(f'"{repoLink}" not an git address!')
+        raise NotImplementedError(f'"{repoLink}" not an Github address!')
 
     values = repoLink.split('/')
     print(f'isJpl: {is_jpl}')
