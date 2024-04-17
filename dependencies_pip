@@ -1,0 +1,6 @@
+requests
+gspread
+tqdm
+python-cmr
+pytz
+poetry

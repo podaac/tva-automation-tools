@@ -1,15 +1,14 @@
-# Copy umm v from ops to uat
-name: Umm V Auto Sync
+
+name: Repo Status Updater
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '0 8 * * *'  # Set the cron schedule for midnight PST
+    - cron: '0 9 * * *'  # Set the cron schedule for 1 am PST
   workflow_dispatch:
 
 jobs:
-  # First job in the workflow installs and verifies the software
   build:
-    name: Build, Test
+    name: Refresh Repos Statuses
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
@@ -20,28 +19,41 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+      - name: Install Dependencies
+        run: |
+          pip3 install -r dependencies_pip
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v2.0.0
+        uses: abatilo/actions-poetry@v3
         with:
-          poetry-version: 1.3.2
+          poetry-version: 1.5.1
 
       #########################################################################
-      # Install & Pylint & Flake
+      # Install & Run Pylint & Flake
       #########################################################################
       - name: Poetry Steps
-        working-directory: umm_v_auto
         run: |
           poetry install
-          poetry run pylint podaac
-          poetry run flake8 podaac
+          poetry run pylint .
+          poetry run flake8 .
 
       #########################################################################
-      # UMM V Auto Sync
+      # Setup Token for GSpread
       #########################################################################
-      - name: UMM V Auto Sync
-        working-directory: umm_v_auto
+      - name: Setup Token
+        env:
+          GOOGLE_TOKEN: ${{ secrets.GOOGLE_TOKEN }}
+        run: |
+          mkdir -p ~/.config/gspread
+          echo "$GOOGLE_TOKEN" > ~/.config/gspread/service_account.json
+
+      #########################################################################
+      # Start the Repo Status Updater
+      #########################################################################
+      - name: Generate Repos
         env:
           UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
           OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+          GITHUB_TOKEN_TEMP: ""
+          GITHUB_JPL_TOKEN_TEMP: ""
         run: |
-          poetry run python podaac/umm_v_auto_sync.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
+          poetry run python runner.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -gt $GITHUB_TOKEN_TEMP -jt $GITHUB_JPL_TOKEN_TEMP

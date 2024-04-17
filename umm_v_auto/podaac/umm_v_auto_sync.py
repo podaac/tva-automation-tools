@@ -1,16 +1,20 @@
 """ Github actions python script to sync ops umm v variables to uat umm v"""
 
+from datetime import datetime
+from tqdm import tqdm
+
+from enums import Provider
+
 import argparse
 import json
-from datetime import datetime
 import requests
-from tqdm import tqdm
 import cmr
 
+
+# File wide variables
 ops_collections = {}
 uat_collections = {}
 ops_collection_name_id = {}
-
 
 def search(*args, **kwargs):
     """Function to make requests calls"""
@@ -120,13 +124,15 @@ def parse_args():
 def get_ops_collection_concept_id(env, collection_name, headers):
     """Function to get ops concept it and umm v count from collection name"""
 
+    target_provider:Provider = Provider.POCLOUD
+    
     if env == "ops":
         mode = cmr.queries.CMR_OPS
     else:
         mode = cmr.queries.CMR_UAT
 
     url = cmr.queries.CollectionQuery(mode=mode).provider(
-        'POCLOUD').short_name(collection_name)._build_url()
+        target_provider.name).short_name(collection_name)._build_url()
     collections_query = requests.get(url, headers=headers, params={
                                      'page_size': 2000}).json()['feed']['entry']
 
@@ -143,13 +149,15 @@ def get_ops_collection_concept_id(env, collection_name, headers):
 def get_l2ss_associations(env, umm_name, headers):
     """Function to get associated collection for l2ss-py for a env"""
 
+    target_provider:Provider = Provider.POCLOUD
+    
     if env == "ops":
         mode = cmr.queries.CMR_OPS
     else:
         mode = cmr.queries.CMR_UAT
 
     concept_id = cmr.queries.ServiceQuery(mode=mode).provider(
-        'POCLOUD').name(umm_name).get()[0].get('concept_id')
+        target_provider.name).name(umm_name).get()[0].get('concept_id')
     url = cmr.queries.CollectionQuery(
         mode=mode).service_concept_id(concept_id)._build_url()
 
@@ -161,7 +169,7 @@ def get_l2ss_associations(env, umm_name, headers):
 
     collection_concept_ids = []
     for collection in collections:
-        if 'POCLOUD' in collection[0]:
+        if target_provider.name in collection[0]:
             collection_concept_ids.append(collection[0])
 
             if env == "uat":
@@ -196,7 +204,7 @@ def sync_ops_umm_v_to_uat(ops_concept_id, ops_token, uat_token):
     """Function that will copy umm-v from ops into uat"""
 
     # ops concept_id
-    target_provider = "POCLOUD"
+    target_provider:Provider = Provider.POCLOUD
 
     # Format hostname strings for the source and target CMR venues ->
     source_venue = "ops"
@@ -214,7 +222,7 @@ def sync_ops_umm_v_to_uat(ops_concept_id, ops_token, uat_token):
         # Request metadata about the collection in the target CMR venue ->
         target_coll_meta = search(f"https://{target_cmr}/search/collections.umm_json",
                                   params={'ShortName': source_coll_meta.get("umm").get("ShortName"),
-                                          'provider': target_provider, },
+                                          'provider': target_provider.name, },
                                   headers={'Accept': "application/json",
                                            'Authorization': uat_token, }, ).get("items")[0]
         target_coll = target_coll_meta.get("meta").get("concept-id")
