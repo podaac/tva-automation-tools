@@ -1,20 +1,20 @@
 [tool.poetry]
-name = "umm-v-auto-sync"
+name = "tva-automation-tool"
 version = "0.1.0"
 description = ""
-authors = ["Simon Liu <simon.liu@jpl.nasa.gov>"]
+authors = ["Zoltan Miskolci <zoltan.miskolci@jpl.nasa.gov>"]
 readme = "README.md"
-packages = [{include = "podaac"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-tqdm = "^4.66.1"
+python = "^3.9"
 requests = "^2.31.0"
+gspread = "^6.0.2"
+pytz = "^2024.1"
+tqdm = "^4.66.1"
 python-cmr = "^0.9.0"
 
-
 [tool.poetry.group.dev.dependencies]
-pylint = "^3.0.3"
+pylint = "^3.1.0"
 flake8 = "^7.0.0"
 
 [build-system]

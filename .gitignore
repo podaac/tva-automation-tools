@@ -1,0 +1,15 @@
+
+# Visual Studio Core related files
+.vscode
+.DS_Store
+
+# Python compiler cache
+**/__pycache__
+
+# Poetry files
+**/*.lock
+
+# Sensitive data
+**/*.pfx
+launchpad_token*
+passphrase
