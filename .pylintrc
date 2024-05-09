@@ -374,7 +374,7 @@ module-naming-style=snake_case
 
 # Regular expression matching correct module names. Overrides module-naming-
 # style.
-#module-rgx=
+module-rgx=(?:(?P<snake>[a-z_-]+))$   # snake_case extended to accept '-'' beside '_' for the project name to not throw an error
 
 # Colon-delimited sets of names that determine each other's naming style when
 # the name regexes allow several styles.
