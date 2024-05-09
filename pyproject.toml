@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tva-automation-tool"
+name = "tva-automation-tools"
 version = "0.1.0"
 description = ""
 authors = ["Zoltan Miskolci <zoltan.miskolci@jpl.nasa.gov>"]
