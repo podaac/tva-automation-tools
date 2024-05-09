@@ -14,7 +14,7 @@ def ParseArguments():
     """
 
     parser = argparse.ArgumentParser(
-        description='Synchronize umm-v between ops and uat',
+        description='Collect data from repositories and put it in a spreadsheet',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
