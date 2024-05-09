@@ -31,7 +31,7 @@ jobs:
       - name: Poetry Steps
         working-directory: umm_v_auto
         run: |
-          poetry install
+          poetry install --verbose
           poetry run pylint podaac
           poetry run flake8 podaac
 

@@ -32,7 +32,7 @@ jobs:
       #########################################################################
       - name: Poetry Steps
         run: |
-          poetry install
+          poetry install --verbose
           poetry run pylint .
           poetry run flake8 .
 
