@@ -1,4 +1,5 @@
 """Starter of the Repo Status Updater"""
+# pylint: disable=R0801
 import argparse
 
 from data_updater.organizer import Organizer

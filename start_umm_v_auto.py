@@ -1,4 +1,5 @@
 """Starter of the Repo Status Updater"""
+# pylint: disable=R0801
 import argparse
 
 from umm_v_auto.podaac import umm_v_auto_sync
