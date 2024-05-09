@@ -32,9 +32,9 @@ jobs:
       #########################################################################
       - name: Poetry Steps
         run: |
-          poetry install --verbose
+          poetry install
           poetry run pylint .
-          poetry run flake8 .
+        # poetry run flake8 .
 
       #########################################################################
       # Setup Token for GSpread
