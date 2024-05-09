@@ -34,7 +34,7 @@ jobs:
         run: |
           poetry install
           poetry run pylint .
-        # poetry run flake8 .
+          poetry run flake8 .
 
       #########################################################################
       # Setup Token for GSpread

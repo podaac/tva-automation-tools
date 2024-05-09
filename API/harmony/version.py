@@ -1,4 +1,4 @@
-"""API interface Module for Harmony Versions calls"""
+'''API interface Module for Harmony Versions calls'''
 import requests
 import json
 
@@ -8,17 +8,21 @@ import config
 
 # File wide variables
 conf = config.Config
-endpoint = "/versions"
+endpoint = '/versions'
+
 
 class Version():
-    """Class for Harmony Versions API functions"""
+    '''Class for Harmony Versions API functions'''
 
-    def GetVersion(environment:Environment, logging:bool=True) -> requests.Response:
-        """Function to call the versions endpoint"""
-        
+    def GetVersion(
+        environment: Environment,
+        logging: bool = True
+    ) -> requests.Response:
+        '''Function to call the versions endpoint'''
+
         if logging:
-            print(f'Getting data from Harmony "/versions" endpoint...')
-            
+            print('Getting data from Harmony "/versions" endpoint...')
+
         url = ''
         if environment == Environment.OPS:
             url = conf.Harmony_base_OPS + endpoint
@@ -26,22 +30,25 @@ class Version():
             url = conf.Harmony_base_UAT + endpoint
 
         response = requests.get(
-            url = url)
+            url=url)
 
         if (response.status_code != 200) and logging:
             print(f'Response: {response.status_code}')
             print(f'Response text:\r\n{response.text}\r\n')
             print(f'Request url:\r\n{response.request.url}\r\n')
-        
+
         return response
-    
-    
-    def GetVersionFor(jsonVariableName:str, environment:Environment, logging:bool=True) -> str:
-        """Function to extract the version data for the service"""
-        
+
+    def GetVersionFor(
+        jsonVariableName: str,
+        environment: Environment,
+        logging: bool = True
+    ) -> str:
+        '''Function to extract the version data for the service'''
+
         if logging:
             print(f'Getting version of "{jsonVariableName}" on "{environment.name}"...')
-            
+
         response = Version.GetVersion(environment, logging)
         version = 'Not found!'
         jsonData = json.loads(response.text)

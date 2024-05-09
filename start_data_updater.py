@@ -1,4 +1,4 @@
-"""Starter of the Repo Status Updater"""
+'''Starter of the Repo Status Updater'''
 # pylint: disable=R0801
 import argparse
 
@@ -7,12 +7,12 @@ import config.config
 
 
 def ParseArguments():
-    """
+    '''
     Parses the program arguments
     Returns
     -------
     args
-    """
+    '''
 
     parser = argparse.ArgumentParser(
         description='Collect data from repositories and put it in a spreadsheet',
@@ -42,11 +42,11 @@ def ParseArguments():
     args = parser.parse_args()
     return args
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     args = ParseArguments()
     config.config.Config.LaunchpadToken_OPS = args.ops_token
     config.config.Config.LaunchpadToken_UAT = args.uat_token
     config.config.Config.Github_Token = args.github_token
     config.config.Config.Github_Token_JPL = args.github_jpl_token
     Organizer.Start()
-    

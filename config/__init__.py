@@ -1,2 +1,2 @@
 '''init file'''
-from config.config import Config
+from config.config import Config        # noqa: F401

@@ -1,4 +1,4 @@
-"""Main module of the Repo Status Updater"""
+'''Main module of the Repo Status Updater'''
 # pylint: disable=E1101, R0903
 # E1101 => dynamic method usage
 # R0903 => only one main class
@@ -30,12 +30,13 @@ TEMPLATE_COLUMN_INDEX_ARGS = 5
 TEMPLATE_ROW_INDEX_HEADER = 5
 CONF = config.config.Config
 
+
 class Organizer():
-    """Class to organize the required updates"""
+    '''Class to organize the required updates'''
 
     def Start():
-        """Function to organize the required updates
-            Main function of the repository"""
+        '''Function to organize the required updates
+            Main function of the repository'''
 
         spreadsheet = Interactor(SPREADSHEET_ID)
         repo_template = GetRepoTemplate(spreadsheet)
@@ -50,16 +51,17 @@ class Organizer():
             if repo_name in IGNORE_REPO_LIST:
                 continue
 
-            repo_link = ""
+            repo_link = ''
             if row_index_repo in repo_data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS]:
                 repo_link = repo_data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][row_index_repo]
 
             # sheet_name = repo_name
             sheet_name = GetOrGenerateSheetName(
-                            spreadsheet = spreadsheet,
-                            rowIndex = row_index_repo,
-                            data = repo_data,
-                            template = repo_template)
+                spreadsheet=spreadsheet,
+                rowIndex=row_index_repo,
+                data=repo_data,
+                template=repo_template
+            )
 
             data_of_sheet_original = spreadsheet.reader.GetAllCellDataFromSheet(sheet_name)
             data_of_sheet = deepcopy(data_of_sheet_original)
@@ -75,12 +77,12 @@ class Organizer():
                     args = []
                     if row_index_template in data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS]:
                         args = ExtractArguments(
-                            fieldContent = data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS][row_index_template],
-                            repoLink = repo_link,
-                            argumentsToReplace = ['repo_link'])
+                            fieldContent=data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS][row_index_template],
+                            repoLink=repo_link,
+                            argumentsToReplace=['repo_link'])
                     data = GetData(
-                        methodName = method_name,
-                        arguments = args)
+                        methodName=method_name,
+                        arguments=args)
                     data_of_sheet[TEMPLATE_COLUMN_INDEX_VALUE][row_index_template] = data
 
             if data_of_sheet_original != data_of_sheet:
@@ -100,7 +102,7 @@ class Organizer():
 
 
 def GetRepoTemplate(spreadsheet) -> dict:
-    """Function to get the repo template data"""
+    '''Function to get the repo template data'''
 
     repo_template = spreadsheet.reader.GetAllCellDataFromSheet(REPO_TEMPLATE_SHEETNAME)
     template_row_index_header = TEMPLATE_ROW_INDEX_HEADER
@@ -115,13 +117,13 @@ def GetRepoTemplate(spreadsheet) -> dict:
     return repo_template
 
 
-def ExtractArguments(fieldContent:str, repoLink:str, argumentsToReplace:list) -> list:
-    """Function to get to convert the arguments from the prived string into the correct types"""
+def ExtractArguments(fieldContent: str, repoLink: str, argumentsToReplace: list) -> list:
+    '''Function to get to convert the arguments from the prived string into the correct types'''
 
     result = []
     temp_results = fieldContent.split(';')
     for temp_result in temp_results:
-        temp:str = temp_result
+        temp: str = temp_result
         temp = temp.strip(' ')
         if temp.startswith('['):
             stripped_values = []
@@ -140,11 +142,11 @@ def ExtractArguments(fieldContent:str, repoLink:str, argumentsToReplace:list) ->
     return result
 
 
-def GetData(methodName:str, arguments:list) -> str:
-    """Function to get execute the named method with the arguments"""
+def GetData(methodName: str, arguments: list) -> str:
+    '''Function to get execute the named method with the arguments'''
 
-    data = "Location information is missing!"
-    if methodName != "" and methodName is not None:
+    data = 'Location information is missing!'
+    if methodName != '' and methodName is not None:
         method_to_execute = getattr(Distributor, methodName)
         print(f'\r\n====================== Start of method "{methodName}" ======================')
         print(f'Arguments to use: {arguments}\r\n')
@@ -160,8 +162,8 @@ def GetData(methodName:str, arguments:list) -> str:
     return data
 
 
-def GetOrGenerateSheetName(spreadsheet:Interactor, rowIndex:int, data:dict, template:dict) -> str:
-    """Function to get execute the named method with the arguments"""
+def GetOrGenerateSheetName(spreadsheet: Interactor, rowIndex: int, data: dict, template: dict) -> str:
+    '''Function to get execute the named method with the arguments'''
 
     repo_name = data[REPOS_COLUMN_INDEX_REPOS][rowIndex]
     if rowIndex in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
@@ -194,9 +196,9 @@ def GetOrGenerateSheetName(spreadsheet:Interactor, rowIndex:int, data:dict, temp
         updated_template[2][2] = repo_name
         updated_template[2][3] = data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][rowIndex]
         spreadsheet.updater.CreateSheet(
-            sheetName = sheet_name,
-            rowCount = 50,
-            columnCount = 10)
+            sheetName=sheet_name,
+            rowCount=50,
+            columnCount=10)
         spreadsheet.updater.UpdateSheet(sheet_name, updated_template)
     gid = spreadsheet.reader.GetSheetId(sheet_name)
     data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex] = f'=HYPERLINK("#gid={gid}","{sheet_name}")'
