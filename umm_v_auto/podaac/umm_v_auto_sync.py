@@ -16,6 +16,7 @@ ops_collections = {}
 uat_collections = {}
 ops_collection_name_id = {}
 
+
 def search(*args, **kwargs):
     """Function to make requests calls"""
     return requests.get(*args, **kwargs).json()
@@ -124,8 +125,8 @@ def parse_args():
 def get_ops_collection_concept_id(env, collection_name, headers):
     """Function to get ops concept it and umm v count from collection name"""
 
-    target_provider:Provider = Provider.POCLOUD
-    
+    target_provider: Provider = Provider.POCLOUD
+
     if env == "ops":
         mode = cmr.queries.CMR_OPS
     else:
@@ -149,8 +150,8 @@ def get_ops_collection_concept_id(env, collection_name, headers):
 def get_l2ss_associations(env, umm_name, headers):
     """Function to get associated collection for l2ss-py for a env"""
 
-    target_provider:Provider = Provider.POCLOUD
-    
+    target_provider: Provider = Provider.POCLOUD
+
     if env == "ops":
         mode = cmr.queries.CMR_OPS
     else:
@@ -204,15 +205,15 @@ def sync_ops_umm_v_to_uat(ops_concept_id, ops_token, uat_token):
     """Function that will copy umm-v from ops into uat"""
 
     # ops concept_id
-    target_provider:Provider = Provider.POCLOUD
+    target_provider: Provider = Provider.POCLOUD
 
     # Format hostname strings for the source and target CMR venues ->
     source_venue = "ops"
     target_venue = "uat"
     source_cmr = "cmr.{}earthdata.nasa.gov".format(
-        source_venue+"." if source_venue in ['uat', 'sit'] else "")
+        source_venue + "." if source_venue in ['uat', 'sit'] else "")
     target_cmr = "cmr.{}earthdata.nasa.gov".format(
-        target_venue+"." if target_venue in ['uat', 'sit'] else "")
+        target_venue + "." if target_venue in ['uat', 'sit'] else "")
 
     # Request metadata about the collection in the source CMR venue ->
     source_pars = {'token': ops_token}

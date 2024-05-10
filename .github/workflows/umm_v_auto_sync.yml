@@ -39,9 +39,8 @@ jobs:
       # UMM V Auto Sync
       #########################################################################
       - name: UMM V Auto Sync
-        working-directory: umm_v_auto
         env:
           UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
           OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
         run: |
-          poetry run python podaac/umm_v_auto_sync.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
+          poetry run python start_umm_v_auto.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP

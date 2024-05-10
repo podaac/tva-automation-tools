@@ -56,4 +56,4 @@ jobs:
           GITHUB_TOKEN_TEMP: ""
           GITHUB_JPL_TOKEN_TEMP: ""
         run: |
-          poetry run python runner.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -gt $GITHUB_TOKEN_TEMP -jt $GITHUB_JPL_TOKEN_TEMP
+          poetry run python start_data_updater.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -gt $GITHUB_TOKEN_TEMP -jt $GITHUB_JPL_TOKEN_TEMP
