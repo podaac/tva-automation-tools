@@ -10,7 +10,7 @@ import requests
 import cmr
 
 from tqdm import tqdm
-from enums import Provider
+from enum import Provider
 
 # File wide variables
 ops_collections = {}
