@@ -29,11 +29,10 @@ jobs:
       # Install & Pylint & Flake
       #########################################################################
       - name: Poetry Steps
-        working-directory: umm_v_auto
         run: |
           poetry install
-          poetry run pylint podaac
-          poetry run flake8 podaac
+          poetry run pylint umm_v_auto
+          poetry run flake8 umm_v_auto
 
       #########################################################################
       # UMM V Auto Sync
