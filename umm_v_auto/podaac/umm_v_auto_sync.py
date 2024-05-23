@@ -1,4 +1,5 @@
 """ Github actions python script to sync ops umm v variables to uat umm v"""
+# pylint: disable=invalid-name
 
 import argparse
 import json
