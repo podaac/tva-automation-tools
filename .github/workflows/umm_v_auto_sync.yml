@@ -17,23 +17,22 @@ jobs:
       # Environment Setup
       #########################################################################
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v2.0.0
+        uses: abatilo/actions-poetry@v3.0.0
         with:
-          poetry-version: 1.3.2
+          poetry-version: 1.8.2
 
       #########################################################################
       # Install & Pylint & Flake
       #########################################################################
       - name: Poetry Steps
-        working-directory: umm_v_auto
         run: |
           poetry install
-          poetry run pylint podaac
-          poetry run flake8 podaac
+          poetry run pylint umm_v_auto
+          poetry run flake8 umm_v_auto
 
       #########################################################################
       # UMM V Auto Sync
