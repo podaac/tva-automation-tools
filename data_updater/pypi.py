@@ -11,12 +11,12 @@ from data_updater.utils import WebUtils
 class PyPi():
     '''Class for PyPi related methods'''
 
-    def GetPyPiVersion(repoLink: str, environment: str) -> str:
+    def GetPyPiVersion(repo_link: str, environment: str) -> str:
         '''Function to get the released version of the Github repository published to PyPi'''
 
         # Get the link from the PyPi Release method
         from data_updater.distributor import Distributor
-        url = Distributor.GeneratePyPiReleaseLink(repoLink, environment)
+        url = Distributor.GeneratePyPiReleaseLink(repo_link, environment)
         result = url
         print(f'result: {result}')
         if 'not found' not in url.lower() and 'does not exists' not in url.lower():

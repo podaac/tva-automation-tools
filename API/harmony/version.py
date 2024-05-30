@@ -40,20 +40,20 @@ class Version():
         return response
 
     def GetVersionFor(
-        jsonVariableName: str,
+        json_variable_name: str,
         environment: Environment,
         logging: bool = True
     ) -> str:
         '''Function to extract the version data for the service'''
 
         if logging:
-            print(f'Getting version of "{jsonVariableName}" on "{environment.name}"...')
+            print(f'Getting version of "{json_variable_name}" on "{environment.name}"...')
 
         response = Version.GetVersion(environment, logging)
         version = 'Not found!'
-        jsonData = json.loads(response.text)
-        for service in jsonData:
+        json_data = json.loads(response.text)
+        for service in json_data:
             for image in service['images']:
-                if image['image'] == jsonVariableName:
+                if image['image'] == json_variable_name:
                     version = image['tag']
         return version

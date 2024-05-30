@@ -15,9 +15,9 @@ class Contents():
 
     def GetFileFromRepository(
         owner: str,
-        repoName: str,
+        repo_name: str,
         filePath: str,
-        isJpl: bool = False,
+        is_jpl: bool = False,
         logging: bool = True
     ) -> requests.Response:
         '''Function to get a file content'''
@@ -26,25 +26,25 @@ class Contents():
             print(f'Getting file "{filePath}" with Github "/{ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
-            endpoint=f'/repos/{owner}/{repoName}/{ENDPOINT}/{filePath}',
-            isJpl=isJpl,
+            endpoint=f'/repos/{owner}/{repo_name}/{ENDPOINT}/{filePath}',
+            is_jpl=is_jpl,
             logging=logging)
 
 
     def GetDecodedFileContent(
         owner: str,
-        repoName: str,
+        repo_name: str,
         filePath: str,
-        isJpl: bool = False,
+        is_jpl: bool = False,
         logging: bool = True
     ) -> str:
         '''Function to decode the file content'''
 
         response: requests.Response = Contents.GetFileFromRepository(
             owner=owner,
-            repoName=repoName,
+            repo_name=repo_name,
             filePath=filePath,
-            isJpl=isJpl,
+            is_jpl=is_jpl,
             logging=logging
         )
 

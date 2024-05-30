@@ -20,13 +20,13 @@ def Search(*args, **kwargs):
     return requests.get(*args, **kwargs).json()
 
 
-def SearchSource(searchApi: str, conceptId: str, **kwargs) -> dict:
+def SearchSource(search_api: str, concept_id: str, **kwargs) -> dict:
     """Function to search source cmr for umm v meta data"""
 
-    source_coll_params = {'concept-id': conceptId, **kwargs}
+    source_coll_params = {'concept-id': concept_id, **kwargs}
     try:
         source_coll_meta = Search(
-            f"{searchApi}/collections.umm_json", params=source_coll_params).get("items")[0]
+            f"{search_api}/collections.umm_json", params=source_coll_params).get("items")[0]
     except (KeyError, IndexError) as e:  # noqa: F841 pylint: disable = unused-variable
         raise Exception(
             f"ERROR! Source collection was not found in CMR ({source_cmr}) for the input concept-id ({source_coll})")  # noqa: F821
@@ -49,7 +49,7 @@ def SearchSource(searchApi: str, conceptId: str, **kwargs) -> dict:
             "ERROR! Source collection metadata does not have any associations")
 
     def SourceVarsFunc(x):
-        return (x, Search(f"{searchApi}/variables.umm_json", params={'concept-id': x}).get("items")[0])
+        return (x, Search(f"{search_api}/variables.umm_json", params={'concept-id': x}).get("items")[0])
     return source_coll_meta, dict(map(SourceVarsFunc, tqdm(source_vars)))
 
 
@@ -58,17 +58,17 @@ def Ingest(*args, **kwargs):
     return requests.put(*args, **kwargs).json()
 
 
-def IngestTarget(ingestApi: str, variables: dict, token: str, verbose: bool = True) -> list:
+def IngestTarget(ingest_api: str, variables: dict, token: str, verbose: bool = True) -> list:
     """Function to ingest umm-v"""
 
-    search_api_variables_endpoint = f"{ingestApi.split('ingest/')[0]}search/variables.umm_json"
+    search_api_variables_endpoint = f"{ingest_api.split('ingest/')[0]}search/variables.umm_json"
 
-    def _ingest(recordData: dict) -> dict:
+    def _ingest(record_data: dict) -> dict:
         timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
         try:
-            meta, umm = recordData.get("meta"), recordData.get("umm")
+            meta, umm = record_data.get("meta"), record_data.get("umm")
             ummvar_native_id = meta.get("native-id")
-            response = requests.put(f'{ingestApi}/{ummvar_native_id}', data=json.dumps(umm, allow_nan=False), headers={
+            response = requests.put(f'{ingest_api}/{ummvar_native_id}', data=json.dumps(umm, allow_nan=False), headers={
                 # ;version={ummvar_version}",
                 'Content-type': "application/vnd.nasa.cmr.umm+json",
                 'Authorization': str(token),
@@ -90,7 +90,7 @@ def IngestTarget(ingestApi: str, variables: dict, token: str, verbose: bool = Tr
                     timestamp, status, ummvar_native_id, errors))
         return response.copy()
 
-    return list(map(lambda x: _ingest(recordData=variables[x]), tqdm(list(variables))))
+    return list(map(lambda x: _ingest(record_data=variables[x]), tqdm(list(variables))))
 
 
 def ParseArguments():
@@ -120,7 +120,7 @@ def ParseArguments():
     return args
 
 
-def GetOPSCollectionConceptId(env, collectionName, headers):
+def GetOPSCollectionConceptId(env, collection_name, headers):
     """Function to get ops concept it and umm v count from collection name"""
 
     if env == "ops":
@@ -129,21 +129,21 @@ def GetOPSCollectionConceptId(env, collectionName, headers):
         mode = cmr.queries.CMR_UAT
 
     url = cmr.queries.CollectionQuery(mode=mode).provider(
-        'POCLOUD').short_name(collectionName)._build_url()
+        'POCLOUD').short_name(collection_name)._build_url()
     collections_query = requests.get(url, headers=headers, params={
                                      'page_size': 2000}).json()['feed']['entry']
 
-    if collectionName not in ops_collection_name_id and len(collections_query) > 0:
+    if collection_name not in ops_collection_name_id and len(collections_query) > 0:
 
         variables = collections_query[0].get(
             "associations").get("variables", [])
-        ops_collection_name_id[collectionName] = {
+        ops_collection_name_id[collection_name] = {
             'concept_id': collections_query[0].get('id'),
             'umm_v_count': len(variables)
         }
 
 
-def GetL2ssAssociations(env, ummName, headers):
+def GetL2ssAssociations(env, umm_name, headers):
     """Function to get associated collection for l2ss-py for a env"""
 
     if env == "ops":
@@ -152,7 +152,7 @@ def GetL2ssAssociations(env, ummName, headers):
         mode = cmr.queries.CMR_UAT
 
     concept_id = cmr.queries.ServiceQuery(mode=mode).provider(
-        'POCLOUD').name(ummName).get()[0].get('concept_id')
+        'POCLOUD').name(umm_name).get()[0].get('concept_id')
     url = cmr.queries.CollectionQuery(
         mode=mode).service_concept_id(concept_id)._build_url()
 
@@ -178,7 +178,7 @@ def GetL2ssAssociations(env, ummName, headers):
                         'concept_id': collection[0]}
 
 
-def UmmVCount(env, collectionConceptId, collection, collections, headers):
+def UmmVCount(env, collection_concept_id, collection, collections, headers):
     """Function to get the umm-v count of a collection"""
 
     if env == "ops":
@@ -187,7 +187,7 @@ def UmmVCount(env, collectionConceptId, collection, collections, headers):
         mode = cmr.queries.CMR_UAT
 
     url = cmr.queries.CollectionQuery(
-        mode=mode).concept_id(collectionConceptId)._build_url()
+        mode=mode).concept_id(collection_concept_id)._build_url()
     collections_query = requests.get(url, headers=headers, params={
                                      'page_size': 2000}).json()['feed']['entry'][0]
 
@@ -195,7 +195,7 @@ def UmmVCount(env, collectionConceptId, collection, collections, headers):
     collections[collection]['umm_v_count'] = len(variables)
 
 
-def SyncOpsUmmVtoUAT(opsConceptId, tokenOPS, tokenUAT):
+def SyncOpsUmmVtoUAT(ops_concept_id, token_ops, token_uat):
     """Function that will copy umm-v from ops into uat"""
 
     # ops concept_id
@@ -210,22 +210,22 @@ def SyncOpsUmmVtoUAT(opsConceptId, tokenOPS, tokenUAT):
         target_venue + "." if target_venue in ['uat', 'sit'] else "")
 
     # Request metadata about the collection in the source CMR venue ->
-    source_pars = {'token': tokenOPS}
+    source_pars = {'token': token_ops}
     source_coll_meta, source_vars = SearchSource(
-        searchApi=f"https://{source_cmr}/search", conceptId=opsConceptId, **source_pars)
+        search_api=f"https://{source_cmr}/search", concept_id=ops_concept_id, **source_pars)
     try:
         # Request metadata about the collection in the target CMR venue ->
         target_coll_meta = Search(f"https://{target_cmr}/search/collections.umm_json",
                                   params={'ShortName': source_coll_meta.get("umm").get("ShortName"),
                                           'provider': target_provider, },
                                   headers={'Accept': "application/json",
-                                           'Authorization': tokenUAT, }, ).get("items")[0]
+                                           'Authorization': token_uat, }, ).get("items")[0]
         target_coll = target_coll_meta.get("meta").get("concept-id")
     except Exception as e:
         raise e
 
     # Ingest variables to the target CMR collection/provider/venue and return the list of api responses ->
-    return IngestTarget(ingestApi=f"https://{target_cmr}/ingest/collections/{target_coll}/variables", variables=source_vars, token=tokenUAT)
+    return IngestTarget(ingest_api=f"https://{target_cmr}/ingest/collections/{target_coll}/variables", variables=source_vars, token=token_uat)
 
 
 if __name__ == '__main__':

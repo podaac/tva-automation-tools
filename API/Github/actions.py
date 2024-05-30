@@ -13,8 +13,8 @@ class Actions():
 
     def GetWorkflowRuns(
         owner: str,
-        repoName: str,
-        isJpl: bool = False,
+        repo_name: str,
+        is_jpl: bool = False,
         logging: bool = True
     ) -> requests.Response:
         '''Function to get the workflow runs'''
@@ -23,6 +23,6 @@ class Actions():
             print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
-            endpoint=f'/repos/{owner}/{repoName}/{ENDPOINT}/runs',
-            isJpl=isJpl,
+            endpoint=f'/repos/{owner}/{repo_name}/{ENDPOINT}/runs',
+            is_jpl=is_jpl,
             logging=logging)

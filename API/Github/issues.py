@@ -13,8 +13,8 @@ class Issues():
 
     def GetIssues(
         owner: str,
-        repoName: str,
-        isJpl: bool = False,
+        repo_name: str,
+        is_jpl: bool = False,
         logging: bool = True
     ) -> requests.Response:
         '''Function to call the issues endpoint'''
@@ -23,6 +23,6 @@ class Issues():
             print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
-            endpoint=f'/repos/{owner}/{repoName}/{ENDPOINT}',
-            isJpl=isJpl,
+            endpoint=f'/repos/{owner}/{repo_name}/{ENDPOINT}',
+            is_jpl=is_jpl,
             logging=logging)

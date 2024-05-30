@@ -72,7 +72,7 @@ class Search():
 
 
     def GetConcept(
-        conceptId: str,
+        concept_id: str,
         isNative: bool = False,
         logging: bool = True,
         useOPSbase: bool = False
@@ -81,9 +81,9 @@ class Search():
 
         if logging:
             print('\r\nGetting Concept from CMR...')
-            print(f'Concept Id: {conceptId}')
+            print(f'Concept Id: {concept_id}')
         baseurl = conf.CMR_OPS_baseurl if useOPSbase else conf.CMR_baseurl
-        url = f'{baseurl + endpoint}/concepts/{conceptId}'
+        url = f'{baseurl + endpoint}/concepts/{concept_id}'
 
         if isNative:
             url += '.native'

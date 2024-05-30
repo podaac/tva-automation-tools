@@ -13,7 +13,7 @@ class Packages():
 
     def GetPackages(
         owner: str,
-        isJpl: bool = False,
+        is_jpl: bool = False,
         logging: bool = True
     ) -> requests.Response:
         '''Function to call the packages endpoint for the list of packages'''
@@ -23,7 +23,7 @@ class Packages():
 
         return GithubBaseCalls.Get(
             endpoint=f'/orgs/{owner}/{ENDPOINT}?package_type=container',
-            isJpl=isJpl,
+            is_jpl=is_jpl,
             logging=logging)
 
 
@@ -31,7 +31,7 @@ class Packages():
         owner: str,
         packageName: str,
         packageType: str = 'container',
-        isJpl: bool = False,
+        is_jpl: bool = False,
         logging: bool = True
     ) -> requests.Response:
         '''Function to call the packages endpoint for details of a package'''
@@ -41,5 +41,5 @@ class Packages():
 
         return GithubBaseCalls.Get(
             endpoint=f'/orgs/{owner}/{ENDPOINT}/{packageType}/{packageName}/versions',
-            isJpl=isJpl,
+            is_jpl=is_jpl,
             logging=logging)

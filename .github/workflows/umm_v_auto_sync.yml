@@ -31,8 +31,8 @@ jobs:
       - name: Poetry Steps
         run: |
           poetry install
-          poetry run pylint umm_v_auto
-          poetry run flake8 umm_v_auto
+          poetry run pylint umm_v_auto/podaac/
+          poetry run flake8 umm_v_auto/podaac/
 
       #########################################################################
       # UMM V Auto Sync

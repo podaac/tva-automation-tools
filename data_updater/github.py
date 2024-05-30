@@ -15,16 +15,16 @@ from enums import Environment
 class Github():
     '''Class for Github related methods'''
 
-    def GetGithubOpenPRCount(repoLink: str) -> int:
+    def GetGithubOpenPRCount(repo_link: str) -> int:
         '''Function to get the open pull requests count of the github repository'''
 
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link)
         if is_jpl:
             return 'API does not exists!'
         response = PullRequests.GetPullRequests(
-            isJpl=is_jpl,
+            is_jpl=is_jpl,
             owner=owner,
-            repoName=repo_name)
+            repo_name=repo_name)
         json_data = json.loads(response.text)
         count = 0
         for elem in json_data:
@@ -33,16 +33,16 @@ class Github():
         return count
 
 
-    def GetGithubOpenIssueCount(repoLink: str) -> int:
+    def GetGithubOpenIssueCount(repo_link: str) -> int:
         '''Function to get the open issues count of the github repository'''
 
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link)
         if is_jpl:
             return 'API does not exists!'
         response = Issues.GetIssues(
-            isJpl=is_jpl,
+            is_jpl=is_jpl,
             owner=owner,
-            repoName=repo_name)
+            repo_name=repo_name)
         json_data = json.loads(response.text)
         count = 0
         for elem in json_data:
@@ -51,16 +51,16 @@ class Github():
         return count
 
 
-    def GetGithubLastActionStatus(repoLink: str, branches: list[str]) -> str:
+    def GetGithubLastActionStatus(repo_link: str, branches: list[str]) -> str:
         '''Function to get the status of the last action ran on any of the provided branches of the github repository'''
 
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link)
         if is_jpl:
             return 'API does not exists!'
         response = Actions.GetWorkflowRuns(
-            isJpl=is_jpl,
+            is_jpl=is_jpl,
             owner=owner,
-            repoName=repo_name)
+            repo_name=repo_name)
         json_data = json.loads(response.text)
         most_recent_run = ''
         result = json_data['workflow_runs'][0]['updated_at']
@@ -75,19 +75,19 @@ class Github():
         return result
 
 
-    def GetGithubFailedActionCount(repoLink: str, daysToCheck: str, branches: list[str]) -> int:
+    def GetGithubFailedActionCount(repo_link: str, days_to_check: str, branches: list[str]) -> int:
         '''Function to get the count of the failed action ran
             on any of the provided branches of the github repository
             in the past x days'''
 
-        days_to_check = int(daysToCheck)
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink)
+        days_to_check = int(days_to_check)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link)
         if is_jpl:
             return 'API does not exists!'
         response = Actions.GetWorkflowRuns(
-            isJpl=is_jpl,
+            is_jpl=is_jpl,
             owner=owner,
-            repoName=repo_name)
+            repo_name=repo_name)
         json_data = json.loads(response.text)
         time_of_last = datetime.fromisoformat(json_data['workflow_runs'][0]['updated_at'][:-1])
         time_interval = time_of_last - timedelta(days=days_to_check)
@@ -98,17 +98,17 @@ class Github():
         return count
 
 
-    def GetGithubPackageVersionTag(repoLink: str, environment: str) -> str:
+    def GetGithubPackageVersionTag(repo_link: str, environment: str) -> str:
         '''Function to get the package version of the github repository with the tag of environment'''
 
         env = Environment.FromStr(environment)
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link)
         if is_jpl:
             return 'API does not exists!'
-        (package_name, package_type) = GitHubUtils.GetPackageDetails(isJpl=is_jpl, owner=owner, repoLink=repoLink)
+        (package_name, package_type) = GitHubUtils.GetPackageDetails(is_jpl=is_jpl, owner=owner, repo_link=repo_link)
         if package_type != '':
             response = Packages.GetPackagesDetails(
-                isJpl=is_jpl,
+                is_jpl=is_jpl,
                 owner=owner,
                 packageName=package_name,
                 packageType=package_type)
@@ -123,17 +123,17 @@ class Github():
         return package_name
 
 
-    def GetGithubPackageLinkWithTag(repoLink: str, environment: str) -> str:
+    def GetGithubPackageLinkWithTag(repo_link: str, environment: str) -> str:
         '''Function to get the package link of the github repository with the tag of environment'''
 
         env = Environment.FromStr(environment)
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink=repoLink)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link=repo_link)
         if is_jpl:
             return 'API does not exists!'
-        (package_name, package_type) = GitHubUtils.GetPackageDetails(isJpl=is_jpl, owner=owner, repoLink=repoLink)
+        (package_name, package_type) = GitHubUtils.GetPackageDetails(is_jpl=is_jpl, owner=owner, repo_link=repo_link)
         if package_type != '':
             response = Packages.GetPackagesDetails(
-                isJpl=is_jpl,
+                is_jpl=is_jpl,
                 owner=owner,
                 packageName=package_name,
                 packageType=package_type)
@@ -153,10 +153,10 @@ class Github():
         return package_name
 
 
-    def GetDocumentationLink(repoLink: str) -> str:
+    def GetDocumentationLink(repo_link: str) -> str:
         '''Function to generate the documentation link'''
 
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink=repoLink)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link=repo_link)
         url = f'https://podaac.github.io/{repo_name}'
         raw_page_content = WebUtils.GetUrl(url)
         do_exists = 'Site not found' not in raw_page_content and 'a GitHub Pages site here.' not in raw_page_content
@@ -165,11 +165,11 @@ class Github():
         return f'No Documentation present at "{url}"!'
 
 
-    def GetDocumentationVersion(repoLink: str) -> str:
+    def GetDocumentationVersion(repo_link: str) -> str:
         '''Function to check the documentation version'''
 
         from data_updater.distributor import Distributor
-        result = Distributor.GetDocumentationLink(repoLink)
+        result = Distributor.GetDocumentationLink(repo_link)
         if 'no documentation' not in result.lower():
             raw_page_content = WebUtils.GetUrl(result)
             pattern = r'<div\s+class=.version.+\s+([0-9a-zA-Z.]+)'
@@ -181,33 +181,33 @@ class Github():
         return result
 
 
-    def GenerateGHCRLink(repoLink: str, environment: str) -> str:
+    def GenerateGHCRLink(repo_link: str, environment: str) -> str:
         '''Function to create the GHCR link of the Github repository published to Docker'''
 
         from data_updater.distributor import Distributor
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link)
         if is_jpl:
             return 'API does not exists!'
-        (package_name, package_type) = GitHubUtils.GetPackageDetails(isJpl=is_jpl, owner=owner, repoLink=repoLink)
+        (package_name, package_type) = GitHubUtils.GetPackageDetails(is_jpl=is_jpl, owner=owner, repo_link=repo_link)
         result = package_name
         if package_type == 'container':
-            version = Distributor.GetGithubPackageVersionTag(repoLink=repoLink, environment=environment)
+            version = Distributor.GetGithubPackageVersionTag(repo_link=repo_link, environment=environment)
             result = f'ghcr.io/{owner}/{package_name}:{version}'
         return result
 
 
-    def GeneratePyPiReleaseLink(repoLink: str, environment: str) -> str:
+    def GeneratePyPiReleaseLink(repo_link: str, environment: str) -> str:
         '''Function to create the PyPi link of the Github repository from the poetry file found in the repository'''
 
         # Get the Poetry toml file content from the repository
         poetry_file_name = 'pyproject.toml'
-        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repoLink)
+        (is_jpl, owner, repo_name) = GitHubUtils.ExtractRepoData(repo_link)
         if is_jpl:
             return 'API does not exists!'
         file_content = Contents.GetDecodedFileContent(
-            isJpl=is_jpl,
+            is_jpl=is_jpl,
             owner=owner,
-            repoName=repo_name,
+            repo_name=repo_name,
             filePath=poetry_file_name)
         if 'not found' in file_content:
             return file_content

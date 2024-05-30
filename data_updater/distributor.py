@@ -17,10 +17,10 @@ class Distributor():
         '''Function to call GetAwsDeployedVersion'''
 
         result = Wrapper(
-            methoToExecute=AWS.GetAwsDeployedVersion,
+            metho_to_execute=AWS.GetAwsDeployedVersion,
             arguments=[environment],
-            methodName='GetAwsDeployedVersion',
-            levelOne=environment)
+            method_name='GetAwsDeployedVersion',
+            level_one=environment)
         return result
 
 
@@ -28,9 +28,9 @@ class Distributor():
         '''Function to call GetAwsLambdaImage'''
 
         result = Wrapper(
-            methoToExecute=AWS.GetAwsLambdaImage,
+            metho_to_execute=AWS.GetAwsLambdaImage,
             arguments=[],
-            methodName='GetAwsLambdaImage')
+            method_name='GetAwsLambdaImage')
         return result
 
 
@@ -38,104 +38,104 @@ class Distributor():
         '''Function to call GetAwsLambdaName'''
 
         result = Wrapper(
-            methoToExecute=AWS.GetAwsLambdaName,
+            metho_to_execute=AWS.GetAwsLambdaName,
             arguments=[],
-            methodName='GetAwsLambdaName')
+            method_name='GetAwsLambdaName')
         return result
 
 
-    def GetGithubPackageVersionTag(repoLink: str, environment: str) -> str:
+    def GetGithubPackageVersionTag(repo_link: str, environment: str) -> str:
         '''Function to call GetGithubPackageVersionTag'''
         result = Wrapper(
-            methoToExecute=Github.GetGithubPackageVersionTag,
-            arguments=[repoLink, environment],
-            methodName='GetGithubPackageVersionTag',
-            levelOne=environment)
+            metho_to_execute=Github.GetGithubPackageVersionTag,
+            arguments=[repo_link, environment],
+            method_name='GetGithubPackageVersionTag',
+            level_one=environment)
         return result
 
 
-    def GetGithubOpenPRCount(repoLink: str) -> int:
+    def GetGithubOpenPRCount(repo_link: str) -> int:
         '''Function to call GetGithubOpenPRCount'''
 
         result = Wrapper(
-            methoToExecute=Github.GetGithubOpenPRCount,
-            arguments=[repoLink],
-            methodName='GetGithubOpenPRCount')
+            metho_to_execute=Github.GetGithubOpenPRCount,
+            arguments=[repo_link],
+            method_name='GetGithubOpenPRCount')
         return result
 
 
-    def GetGithubOpenIssueCount(repoLink: str) -> int:
+    def GetGithubOpenIssueCount(repo_link: str) -> int:
         '''Function to call GetGithubOpenIssueCount'''
 
         result = Wrapper(
-            methoToExecute=Github.GetGithubOpenIssueCount,
-            arguments=[repoLink],
-            methodName='GetGithubOpenIssueCount')
+            metho_to_execute=Github.GetGithubOpenIssueCount,
+            arguments=[repo_link],
+            method_name='GetGithubOpenIssueCount')
         return result
 
 
-    def GetGithubLastActionStatus(repoLink: str, branches: list[str]) -> bool:
+    def GetGithubLastActionStatus(repo_link: str, branches: list[str]) -> bool:
         '''Function to call GetGithubLastActionStatus'''
 
         result = Wrapper(
-            methoToExecute=Github.GetGithubLastActionStatus,
-            arguments=[repoLink, branches],
-            methodName='GetGithubLastActionStatus')
+            metho_to_execute=Github.GetGithubLastActionStatus,
+            arguments=[repo_link, branches],
+            method_name='GetGithubLastActionStatus')
         return result
 
 
-    def GetGithubFailedActionCount(repoLink: str, daysToCheck: str, branches: list[str]) -> int:
+    def GetGithubFailedActionCount(repo_link: str, days_to_check: str, branches: list[str]) -> int:
         '''Function to call GetGithubFailedActionCount'''
 
         result = Wrapper(
-            methoToExecute=Github.GetGithubFailedActionCount,
-            arguments=[repoLink, daysToCheck, branches],
-            methodName='GetGithubFailedActionCount')
+            metho_to_execute=Github.GetGithubFailedActionCount,
+            arguments=[repo_link, days_to_check, branches],
+            method_name='GetGithubFailedActionCount')
         return result
 
 
-    def GetGithubPackageLinkWithTag(repoLink: str, environment: str) -> str:
+    def GetGithubPackageLinkWithTag(repo_link: str, environment: str) -> str:
         '''Function to call GetGithubPackageLinkWithTag'''
 
         result = Wrapper(
-            methoToExecute=Github.GetGithubPackageLinkWithTag,
-            arguments=[repoLink, environment],
-            methodName='GetGithubPackageLinkWithTag',
-            levelOne=environment)
+            metho_to_execute=Github.GetGithubPackageLinkWithTag,
+            arguments=[repo_link, environment],
+            method_name='GetGithubPackageLinkWithTag',
+            level_one=environment)
         return result
 
 
 
-    def GenerateGHCRLink(repoLink: str, environment: str) -> str:
+    def GenerateGHCRLink(repo_link: str, environment: str) -> str:
         '''Function to call GenerateGHCRLink'''
 
         result = Wrapper(
-            methoToExecute=Github.GenerateGHCRLink,
-            arguments=[repoLink, environment],
-            methodName='GenerateGHCRLink',
-            levelOne=environment)
+            metho_to_execute=Github.GenerateGHCRLink,
+            arguments=[repo_link, environment],
+            method_name='GenerateGHCRLink',
+            level_one=environment)
         return result
 
 
-    def GeneratePyPiReleaseLink(repoLink: str, environment: str) -> str:
+    def GeneratePyPiReleaseLink(repo_link: str, environment: str) -> str:
         '''Function to call GeneratePyPiReleaseLink'''
 
         result = Wrapper(
-            methoToExecute=Github.GeneratePyPiReleaseLink,
-            arguments=[repoLink, environment],
-            methodName='GeneratePyPiReleaseLink',
-            levelOne=environment)
+            metho_to_execute=Github.GeneratePyPiReleaseLink,
+            arguments=[repo_link, environment],
+            method_name='GeneratePyPiReleaseLink',
+            level_one=environment)
         return result
 
 
-    def GetPyPiVersion(repoLink: str, environment: str) -> str:
+    def GetPyPiVersion(repo_link: str, environment: str) -> str:
         '''Function to call GetPyPiVersion'''
 
         result = Wrapper(
-            methoToExecute=PyPi.GetPyPiVersion,
-            arguments=[repoLink, environment],
-            methodName='GetPyPiVersion',
-            levelOne=environment)
+            metho_to_execute=PyPi.GetPyPiVersion,
+            arguments=[repo_link, environment],
+            method_name='GetPyPiVersion',
+            level_one=environment)
         return result
 
 
@@ -143,64 +143,64 @@ class Distributor():
         '''Function to call GetCumulusReleaseLink'''
 
         result = Wrapper(
-            methoToExecute=Cumulus.GetCumulusReleaseLink,
+            metho_to_execute=Cumulus.GetCumulusReleaseLink,
             arguments=[environment],
-            methodName='GetCumulusReleaseLink',
-            levelOne=environment)
+            method_name='GetCumulusReleaseLink',
+            level_one=environment)
         return result
 
 
-    def GetVersionFromHarmony(environment: str, serviceName: str = '') -> str:
+    def GetVersionFromHarmony(environment: str, service_name: str = '') -> str:
         '''Function to call GetHarmonyVersion'''
 
-        if serviceName == '':
+        if service_name == '':
             result = 'No service defined!'
         else:
             result = Wrapper(
-                methoToExecute=Harmony.GetVersionFromHarmony,
-                arguments=[environment, serviceName],
-                methodName='GetVersionFromHarmony',
-                levelOne=environment)
+                metho_to_execute=Harmony.GetVersionFromHarmony,
+                arguments=[environment, service_name],
+                method_name='GetVersionFromHarmony',
+                level_one=environment)
         return result
 
 
-    def GetDocumentationLink(repoLink: str) -> str:
+    def GetDocumentationLink(repo_link: str) -> str:
         '''Function to get the documentation link for the repository'''
 
         result = Wrapper(
-            methoToExecute=Github.GetDocumentationLink,
-            arguments=[repoLink],
-            methodName='GetDocumentationLink')
+            metho_to_execute=Github.GetDocumentationLink,
+            arguments=[repo_link],
+            method_name='GetDocumentationLink')
         return result
 
 
-    def GetDocumentationVersion(repoLink: str) -> str:
+    def GetDocumentationVersion(repo_link: str) -> str:
         '''Function to get the documentation version for the repository'''
 
         result = Wrapper(
-            methoToExecute=Github.GetDocumentationVersion,
-            arguments=[repoLink],
-            methodName='GetDocumentationVersion')
+            metho_to_execute=Github.GetDocumentationVersion,
+            arguments=[repo_link],
+            method_name='GetDocumentationVersion')
         return result
 
 
-def Wrapper(methoToExecute, arguments: list, methodName: str, levelOne: str = 'all'):
+def Wrapper(metho_to_execute, arguments: list, method_name: str, level_one: str = 'all'):
     '''Function to store data found or reuse already extracted data'''
 
-    if methodName not in CONF.VAR_DataExtracted:
-        CONF.VAR_DataExtracted[methodName] = {}
-    if levelOne not in CONF.VAR_DataExtracted[methodName]:
+    if method_name not in CONF.VAR_DataExtracted:
+        CONF.VAR_DataExtracted[method_name] = {}
+    if level_one not in CONF.VAR_DataExtracted[method_name]:
         # Execute action here
         if len(arguments) == 0:
-            result = methoToExecute()
+            result = metho_to_execute()
         elif len(arguments) == 1:
-            result = methoToExecute(arguments[0])
+            result = metho_to_execute(arguments[0])
         elif len(arguments) == 2:
-            result = methoToExecute(arguments[0], arguments[1])
+            result = metho_to_execute(arguments[0], arguments[1])
         elif len(arguments) == 3:
-            result = methoToExecute(arguments[0], arguments[1], arguments[2])
-        CONF.VAR_DataExtracted[methodName][levelOne] = result
+            result = metho_to_execute(arguments[0], arguments[1], arguments[2])
+        CONF.VAR_DataExtracted[method_name][level_one] = result
     else:
         print('Result found from previous execution, using stored data!')
-        result = CONF.VAR_DataExtracted[methodName][levelOne]
+        result = CONF.VAR_DataExtracted[method_name][level_one]
     return result

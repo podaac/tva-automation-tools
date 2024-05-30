@@ -69,10 +69,10 @@ class Organizer():
             use_template_data = False        # Force update all sheets from the Template data
             sheet_name = GetOrGenerateSheetName(
                 spreadsheet=spreadsheet,
-                rowIndex=row_index_repo,
+                row_index=row_index_repo,
                 data=repo_data,
                 template=repo_template,
-                forceUpdate=use_template_data
+                force_update=use_template_data
             )
 
             data_of_sheet_original = spreadsheet.reader.GetAllCellDataFromSheet(sheet_name)
@@ -89,11 +89,11 @@ class Organizer():
                     args = []
                     if row_index_template in data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS]:
                         args = ExtractArguments(
-                            fieldContent=data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS][row_index_template],
-                            repoLink=repo_link,
-                            argumentsToReplace=['repo_link'])
+                            field_content=data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS][row_index_template],
+                            repo_link=repo_link,
+                            arguments_to_replace=['repo_link'])
                     data = GetData(
-                        methodName=method_name,
+                        method_name=method_name,
                         arguments=args)
                     data_of_sheet[TEMPLATE_COLUMN_INDEX_VALUE][row_index_template] = data
 
@@ -129,11 +129,11 @@ def GetRepoTemplate(spreadsheet) -> dict:
     return repo_template
 
 
-def ExtractArguments(fieldContent: str, repoLink: str, argumentsToReplace: list) -> list:
+def ExtractArguments(field_content: str, repo_link: str, arguments_to_replace: list) -> list:
     '''Function to get to convert the arguments from the prived string into the correct types'''
 
     result = []
-    temp_results = fieldContent.split(';')
+    temp_results = field_content.split(';')
     for temp_result in temp_results:
         temp: str = temp_result
         temp = temp.strip(' ')
@@ -147,21 +147,21 @@ def ExtractArguments(fieldContent: str, repoLink: str, argumentsToReplace: list)
             value = dict(temp)
             result.append(value)
         else:
-            if temp.lower() in argumentsToReplace:
-                result.append(repoLink)
+            if temp.lower() in arguments_to_replace:
+                result.append(repo_link)
             else:
                 result.append(temp)
     return result
 
 
-def GetData(methodName: str, arguments: list) -> str:
+def GetData(method_name: str, arguments: list) -> str:
     '''Function to get execute the named method with the arguments'''
 
     data = 'Location information is missing!'
-    print(f'\r\n====================== Start of method "{methodName}" ======================')
+    print(f'\r\n====================== Start of method "{method_name}" ======================')
     print(f'Arguments to use: {arguments}\r\n')
-    if methodName != '' and methodName is not None:
-        method_to_execute = getattr(Distributor, methodName)
+    if method_name != '' and method_name is not None:
+        method_to_execute = getattr(Distributor, method_name)
         if len(arguments) == 0:
             data = method_to_execute()
         elif len(arguments) == 1:
@@ -175,12 +175,12 @@ def GetData(methodName: str, arguments: list) -> str:
     return data
 
 
-def GetOrGenerateSheetName(spreadsheet: Interactor, rowIndex: int, data: dict, template: dict, forceUpdate: bool = False) -> str:
+def GetOrGenerateSheetName(spreadsheet: Interactor, row_index: int, data: dict, template: dict, force_update: bool = False) -> str:
     '''Function to get execute the named method with the arguments'''
 
-    repo_name = data[REPOS_COLUMN_INDEX_REPOS][rowIndex]
-    if rowIndex in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
-        hyperlink = data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex]
+    repo_name = data[REPOS_COLUMN_INDEX_REPOS][row_index]
+    if row_index in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
+        hyperlink = data[REPOS_COLUMN_INDEX_SHEET_LINK][row_index]
         print(f'\r\nCell content: {hyperlink}')
         print(f'Is hyperlink: {hyperlink.startswith("=")}')
         if hyperlink.startswith('='):
@@ -195,32 +195,32 @@ def GetOrGenerateSheetName(spreadsheet: Interactor, rowIndex: int, data: dict, t
         sheet_name = repo_name
 
     print(f'Sheet name: {sheet_name}')
-    for i in range(0, rowIndex + 1, 1):
+    for i in range(0, row_index + 1, 1):
         if i in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
             prev_sheet_name = data[REPOS_COLUMN_INDEX_SHEET_LINK][i]
-            if prev_sheet_name == sheet_name and i != rowIndex:
+            if prev_sheet_name == sheet_name and i != row_index:
                 sheet_name = f'{sheet_name}_({i})'
                 print(f'Renamed sheet to "{sheet_name}"')
 
     do_exists = spreadsheet.reader.CheckIfSheetExists(sheet_name)
     # Update the sheets with data from the template
-    if not do_exists or forceUpdate:
+    if not do_exists or force_update:
         row_count = 50
         column_count = 10
         updated_template = deepcopy(template)
         updated_template[2][2] = repo_name
-        updated_template[2][3] = data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][rowIndex]
+        updated_template[2][3] = data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][row_index]
         # Create the sheet or force clear the existing one for the update
-        if not forceUpdate:
+        if not force_update:
             spreadsheet.updater.CreateSheet(
-                sheetName=sheet_name,
-                rowCount=row_count,
-                columnCount=column_count)
+                sheet_name=sheet_name,
+                row_count=row_count,
+                column_count=column_count)
         else:
             spreadsheet.updater.ClearSheet(sheet_name, TEMPLATE_ROW_INDEX_HEADER + 1, row_count, column_count)
         spreadsheet.updater.UpdateSheet(sheet_name, updated_template)
     # Create the hyperlink in the Repos sheet to the new sheet
     gid = spreadsheet.reader.GetSheetId(sheet_name)
-    data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex] = f'=HYPERLINK("#gid={gid}","{sheet_name}")'
+    data[REPOS_COLUMN_INDEX_SHEET_LINK][row_index] = f'=HYPERLINK("#gid={gid}","{sheet_name}")'
 
     return sheet_name

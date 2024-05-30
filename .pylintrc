@@ -290,14 +290,14 @@ min-similarity-lines=4
 [BASIC]
 
 # Naming style matching correct argument names.
-argument-naming-style=camelCase
+argument-naming-style=snake_case
 
 # Regular expression matching correct argument names. Overrides argument-
 # naming-style.
 #argument-rgx=
 
 # Naming style matching correct attribute names.
-attr-naming-style=camelCase
+attr-naming-style=snake_case
 
 # Regular expression matching correct attribute names. Overrides attr-naming-
 # style.
@@ -337,7 +337,7 @@ const-naming-style=UPPER_CASE
 # ones are exempt.
 docstring-min-length=-1
 
-# Naming style matching correct function names.
+# Naming style matching correct function names. Methods not in a class.
 function-naming-style=PascalCase
 
 # Regular expression matching correct function names. Overrides function-
@@ -362,7 +362,7 @@ inlinevar-naming-style=any
 # inlinevar-naming-style.
 #inlinevar-rgx=
 
-# Naming style matching correct method names.
+# Naming style matching correct method names. Methods inside a class.
 method-naming-style=PascalCase
 
 # Regular expression matching correct method names. Overrides method-naming-
@@ -370,7 +370,7 @@ method-naming-style=PascalCase
 #method-rgx=
 
 # Naming style matching correct module names.
-module-naming-style=snake_case
+# module-naming-style=snake_case
 
 # Regular expression matching correct module names. Overrides module-naming-
 # style.
