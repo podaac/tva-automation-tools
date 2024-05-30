@@ -47,20 +47,32 @@ class Organizer():
 
         # Update each repository one by one
         for row_index_repo in repo_data[REPOS_COLUMN_INDEX_REPOS]:
+            CONF.VAR_DataExtracted = {}
             repo_name = repo_data[REPOS_COLUMN_INDEX_REPOS][row_index_repo]
+
+            print('\r\n\r\n\r\n=============================================================================================================')
+            print(f'============================== Starting extraction for "{repo_name}" ==============================')
+            print(f'Place on Repo page: {row_index_repo}')
             if repo_name in IGNORE_REPO_LIST:
                 continue
+
+            # Stop after the first line, this is for code testing and debug
+            # if row_index_repo > 3:
+            #     print('Stopping run...')
+            #     break
 
             repo_link = ''
             if row_index_repo in repo_data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS]:
                 repo_link = repo_data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][row_index_repo]
 
-            # sheet_name = repo_name
+            # Create the sheet
+            use_template_data = False        # Force update all sheets from the Template data
             sheet_name = GetOrGenerateSheetName(
                 spreadsheet=spreadsheet,
                 rowIndex=row_index_repo,
                 data=repo_data,
-                template=repo_template
+                template=repo_template,
+                forceUpdate=use_template_data
             )
 
             data_of_sheet_original = spreadsheet.reader.GetAllCellDataFromSheet(sheet_name)
@@ -146,10 +158,10 @@ def GetData(methodName: str, arguments: list) -> str:
     '''Function to get execute the named method with the arguments'''
 
     data = 'Location information is missing!'
+    print(f'\r\n====================== Start of method "{methodName}" ======================')
+    print(f'Arguments to use: {arguments}\r\n')
     if methodName != '' and methodName is not None:
         method_to_execute = getattr(Distributor, methodName)
-        print(f'\r\n====================== Start of method "{methodName}" ======================')
-        print(f'Arguments to use: {arguments}\r\n')
         if len(arguments) == 0:
             data = method_to_execute()
         elif len(arguments) == 1:
@@ -159,10 +171,11 @@ def GetData(methodName: str, arguments: list) -> str:
         elif len(arguments) == 3:
             data = method_to_execute(arguments[0], arguments[1], arguments[2])
     print(f'\r\nInformation found: "{data}"')
+
     return data
 
 
-def GetOrGenerateSheetName(spreadsheet: Interactor, rowIndex: int, data: dict, template: dict) -> str:
+def GetOrGenerateSheetName(spreadsheet: Interactor, rowIndex: int, data: dict, template: dict, forceUpdate: bool = False) -> str:
     '''Function to get execute the named method with the arguments'''
 
     repo_name = data[REPOS_COLUMN_INDEX_REPOS][rowIndex]
@@ -190,16 +203,23 @@ def GetOrGenerateSheetName(spreadsheet: Interactor, rowIndex: int, data: dict, t
                 print(f'Renamed sheet to "{sheet_name}"')
 
     do_exists = spreadsheet.reader.CheckIfSheetExists(sheet_name)
-    if not do_exists:
-        # Create the sheet and the corresponding hyperlink
+    # Update the sheets with data from the template
+    if not do_exists or forceUpdate:
+        row_count = 50
+        column_count = 10
         updated_template = deepcopy(template)
         updated_template[2][2] = repo_name
         updated_template[2][3] = data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][rowIndex]
-        spreadsheet.updater.CreateSheet(
-            sheetName=sheet_name,
-            rowCount=50,
-            columnCount=10)
+        # Create the sheet or force clear the existing one for the update
+        if not forceUpdate:
+            spreadsheet.updater.CreateSheet(
+                sheetName=sheet_name,
+                rowCount=row_count,
+                columnCount=column_count)
+        else:
+            spreadsheet.updater.ClearSheet(sheet_name, TEMPLATE_ROW_INDEX_HEADER + 1, row_count, column_count)
         spreadsheet.updater.UpdateSheet(sheet_name, updated_template)
+    # Create the hyperlink in the Repos sheet to the new sheet
     gid = spreadsheet.reader.GetSheetId(sheet_name)
     data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex] = f'=HYPERLINK("#gid={gid}","{sheet_name}")'
 

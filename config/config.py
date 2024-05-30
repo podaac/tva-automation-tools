@@ -38,3 +38,6 @@ class Config():
 
     # PyPi
     PyPi_base = ''
+
+    # Global Variables
+    VAR_DataExtracted = {}

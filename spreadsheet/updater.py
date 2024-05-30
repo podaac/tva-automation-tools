@@ -38,6 +38,21 @@ class Updater(GSheetBase):
         worksheet.update_cells(cell_list, value_input_option=ValueInputOption.user_entered)
 
 
+    def ClearSheet(self, sheetName: str, startRowIndex: int, endRowIndex: int, columnCountIndex: int):
+        '''Function for clearing a worksheet'''
+
+        print(f'Clearing sheet "{sheetName}" between rows "{startRowIndex}" and "{endRowIndex}"...')
+        worksheet = self.workbook.worksheet(sheetName)
+        cell_list = []
+        for column_index in range(1, columnCountIndex, 1):
+            for row_index in range(startRowIndex, endRowIndex, 1):
+                cell_list.append(Cell(
+                    row=row_index,
+                    col=column_index,
+                    value=''))
+        worksheet.update_cells(cell_list, value_input_option=ValueInputOption.user_entered)
+
+
     def SetCellHorizontalAlignment(
         self,
         sheetName: str,

@@ -16,10 +16,10 @@ class Packages():
         isJpl: bool = False,
         logging: bool = True
     ) -> requests.Response:
-        '''Function to call the packages endpoint'''
+        '''Function to call the packages endpoint for the list of packages'''
 
         if logging:
-            print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
+            print(f'Getting package list from Github "/{ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
             endpoint=f'/orgs/{owner}/{ENDPOINT}?package_type=container',
@@ -34,10 +34,10 @@ class Packages():
         isJpl: bool = False,
         logging: bool = True
     ) -> requests.Response:
-        '''Function to call the packages endpoint'''
+        '''Function to call the packages endpoint for details of a package'''
 
         if logging:
-            print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
+            print(f'Getting package details from Github "/{ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
             endpoint=f'/orgs/{owner}/{ENDPOINT}/{packageType}/{packageName}/versions',
