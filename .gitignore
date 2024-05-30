@@ -6,9 +6,6 @@
 # Python compiler cache
 **/__pycache__
 
-# Poetry files
-**/*.lock
-
 # Sensitive data
 **/*.pfx
 launchpad_token*

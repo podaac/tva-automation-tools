@@ -1,15 +1,16 @@
 """ Github actions python script to sync ops umm v variables to uat umm v"""
+# pylint: disable=invalid-name
 
 from datetime import datetime
-from tqdm import tqdm
 
-from enums import Provider
 
 import argparse
 import json
 import requests
 import cmr
 
+from tqdm import tqdm
+from enums import Provider
 
 # File wide variables
 ops_collections = {}
