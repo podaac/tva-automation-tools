@@ -9,7 +9,7 @@ import cmr
 
 
 
-# File wide variables
+# Constants
 ops_collections = {}
 uat_collections = {}
 ops_collection_name_id = {}

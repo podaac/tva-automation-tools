@@ -1,18 +1,21 @@
-'''API interface Module for Harmony Versions calls'''
-import requests
+'''Harmony API interface module'''
+# pylint: disable=R0903
+# R0801 => Logging out api response shouldn't count as duplicate code
+
 import json
+import requests
 
 from enums import Environment
-import config
+import config.config
 
 
-# File wide variables
-conf = config.Config
-endpoint = '/versions'
+# Constants
+Conf = config.Config
+BASE_ENDPOINT = '/versions'
 
 
 class Version():
-    '''Class for Harmony Versions API functions'''
+    '''Harmony Versions API interface class'''
 
     def GetVersion(
         environment: Environment,
@@ -25,19 +28,20 @@ class Version():
 
         url = ''
         if environment == Environment.OPS:
-            url = conf.Harmony_base_OPS + endpoint
+            url = Conf.Harmony_base_OPS + BASE_ENDPOINT
         elif environment == Environment.UAT:
-            url = conf.Harmony_base_UAT + endpoint
+            url = Conf.Harmony_base_UAT + BASE_ENDPOINT
 
         response = requests.get(
             url=url)
 
-        if (response.status_code != 200) and logging:
+        if response.status_code != 200 and logging:
             print(f'Response: {response.status_code}')
             print(f'Response text:\r\n{response.text}\r\n')
             print(f'Request url:\r\n{response.request.url}\r\n')
 
         return response
+
 
     def GetVersionFor(
         json_variable_name: str,

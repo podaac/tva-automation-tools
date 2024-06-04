@@ -1,7 +1,7 @@
 '''Main module of the Repo Status Updater'''
 # pylint: disable=E1101, R0903
 # E1101 => dynamic method usage
-# R0903 => only one main class
+# R0903 => Need only 1 public method
 
 from datetime import datetime
 from copy import deepcopy
@@ -15,7 +15,7 @@ from spreadsheet import Interactor
 import config.config
 
 
-# File wide variables
+# Constants
 SPREADSHEET_ID = '1wBIbd56mBDYQLKwHtK1Dzk7n6mtHMc9kftiRTQ63NOw'
 REPOS_SHEETNAME = 'Repos'
 REPOS_COLUMN_INDEX_REPOS = 1

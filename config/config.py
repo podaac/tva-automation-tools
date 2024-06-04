@@ -1,5 +1,6 @@
 '''Config data'''
 # pylint: disable=R0903
+# R0903 => File focuses around global constants
 
 
 class Config():

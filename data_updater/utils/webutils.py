@@ -1,5 +1,6 @@
 '''Web utility module'''
 # pylint: disable=R0903
+# R0903 => Need only 1 public method
 
 from os import popen
 

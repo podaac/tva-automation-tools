@@ -1,15 +1,19 @@
-'''API interface Module for Github Pull Requests calls'''
+'''Github API interface module'''
+# pylint: disable=R0801, R0903
+# R0801 => Calling a method shouldn't count as duplicate code
+# R0903 => Need only 1 public method
+
 import requests
 
-from API.Github.github_base_calls import GithubBaseCalls
+from API.github.github_base_calls import GithubBaseCalls
 
 
-# File wide variables
-ENDPOINT = 'pulls'
+# Constants
+BASE_ENDPOINT = 'pulls'
 
 
 class PullRequests():
-    '''Class for Github Pull Requests API functions'''
+    '''Github Pull Requests API interface class'''
 
     def GetPullRequests(
         owner: str,
@@ -20,9 +24,9 @@ class PullRequests():
         '''Function to call the pull requests endpoint'''
 
         if logging:
-            print(f'Getting data from Github "/{ENDPOINT}" endpoint...')
+            print(f'Getting data from Github "/{BASE_ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
-            endpoint=f'/repos/{owner}/{repo_name}/{ENDPOINT}',
+            endpoint=f'/repos/{owner}/{repo_name}/{BASE_ENDPOINT}',
             is_jpl=is_jpl,
             logging=logging)

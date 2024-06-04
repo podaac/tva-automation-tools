@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import json
 import re
 
-from API.Github import Actions, Contents, Issues, Packages, PullRequests
+from API.github import Actions, Contents, Issues, Packages, PullRequests
 from data_updater.utils import GitHubUtils, WebUtils
 from enums import Environment
 
@@ -110,8 +110,8 @@ class Github():
             response = Packages.GetPackagesDetails(
                 is_jpl=is_jpl,
                 owner=owner,
-                packageName=package_name,
-                packageType=package_type)
+                package_name=package_name,
+                package_type=package_type)
             json_data = json.loads(response.text)
             for elem in json_data:
                 tags = elem['metadata']['container']['tags']
@@ -135,8 +135,8 @@ class Github():
             response = Packages.GetPackagesDetails(
                 is_jpl=is_jpl,
                 owner=owner,
-                packageName=package_name,
-                packageType=package_type)
+                package_name=package_name,
+                package_type=package_type)
             json_data_info = json.loads(response.text)
             for elem in json_data_info:
                 tags = elem['metadata']['container']['tags']
@@ -208,7 +208,7 @@ class Github():
             is_jpl=is_jpl,
             owner=owner,
             repo_name=repo_name,
-            filePath=poetry_file_name)
+            file_path=poetry_file_name)
         if 'not found' in file_content:
             return file_content
 
@@ -227,6 +227,8 @@ class Github():
             url = f'https://pypi.org/project/{poetry_project_name}'
         elif environment.lower() in ['uat']:
             url = f'https://test.pypi.org/project/{poetry_project_name}'
+        else:
+            raise NotImplementedError(f'Url is not defined for environment "{environment.lower()}"')
 
         # Check if the url exists
         raw_page_content = WebUtils.GetUrl(url)

@@ -1,7 +1,7 @@
 '''PyPi module'''
 # pylint: disable=C0415, R0903
 # C0415 => To avoid circular imports
-# R0903 => only one main class
+# R0903 => Need only 1 public method
 
 import re
 

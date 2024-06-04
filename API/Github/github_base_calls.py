@@ -1,15 +1,18 @@
-'''API interface Module for Github basic calls'''
+'''Github API interface module'''
+# pylint: disable=R0903
+# R0801 => Logging out api response shouldn't count as duplicate code
+
 import requests
 
-import config
+import config.config
 
 
-# File wide variables
-conf = config.Config
+# Constants
+Conf = config.Config
 
 
 class GithubBaseCalls():
-    '''Class for Github basic API functions'''
+    '''Github base API interface class'''
 
     def GetForRepo(
         endpoint: str,
@@ -41,11 +44,11 @@ class GithubBaseCalls():
         custom_headers = {}
         custom_headers['Accept'] = 'application/json'
         if is_jpl:
-            url = conf.Github_JPL_base
-            custom_headers['Authorization'] = f'Bearer {conf.Github_Token_JPL}'
+            url = Conf.Github_JPL_base
+            custom_headers['Authorization'] = f'Bearer {Conf.Github_Token_JPL}'
         else:
-            url = conf.Github_base
-            custom_headers['Authorization'] = f'Bearer {conf.Github_Token}'
+            url = Conf.Github_base
+            custom_headers['Authorization'] = f'Bearer {Conf.Github_Token}'
 
         url = url + endpoint
         response = requests.get(

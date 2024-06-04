@@ -6,7 +6,7 @@ from data_updater import AWS, Cumulus, Github, Harmony, PyPi
 import config.config
 
 
-# File wide variables
+# Constants
 CONF = config.Config
 
 
@@ -199,6 +199,8 @@ def Wrapper(metho_to_execute, arguments: list, method_name: str, level_one: str 
             result = metho_to_execute(arguments[0], arguments[1])
         elif len(arguments) == 3:
             result = metho_to_execute(arguments[0], arguments[1], arguments[2])
+        else:
+            raise NotImplementedError(f'Argument handling for "{len(arguments)}" arguments is not implemented!')
         CONF.VAR_DataExtracted[method_name][level_one] = result
     else:
         print('Result found from previous execution, using stored data!')
