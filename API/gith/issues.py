@@ -1,31 +1,32 @@
 '''Github API interface module'''
-# pylint: disable=R0903
+# pylint: disable=R0801, R0903
+# R0801 => Calling a method shouldn't count as duplicate code
 # R0903 => Need only 1 public method
 
 import requests
 
-from API.github.github_base_calls import GithubBaseCalls
+from API.gith.github_base_calls import GithubBaseCalls
 
 
 # Constants
-BASE_ENDPOINT = 'actions'
+BASE_ENDPOINT = 'issues'
 
 
-class Actions():
-    '''Github Actions API interface class'''
+class Issues():
+    '''Github Issues API interface class'''
 
-    def GetWorkflowRuns(
+    def GetIssues(
         owner: str,
         repo_name: str,
         is_jpl: bool = False,
         logging: bool = True
     ) -> requests.Response:
-        '''Function to get the workflow runs'''
+        '''Function to call the issues endpoint'''
 
         if logging:
             print(f'Getting data from Github "/{BASE_ENDPOINT}" endpoint...')
 
         return GithubBaseCalls.Get(
-            endpoint=f'/repos/{owner}/{repo_name}/{BASE_ENDPOINT}/runs',
+            endpoint=f'/repos/{owner}/{repo_name}/{BASE_ENDPOINT}',
             is_jpl=is_jpl,
             logging=logging)

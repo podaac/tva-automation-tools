@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import json
 import re
 
-from API.github import Actions, Contents, Issues, Packages, PullRequests
+from API.gith import Actions, Contents, Issues, Packages, PullRequests
 from data_updater.utils import GitHubUtils, WebUtils
 from enums import Environment
 

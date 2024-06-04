@@ -4,7 +4,7 @@ import base64
 import json
 import requests
 
-from API.github.github_base_calls import GithubBaseCalls
+from API.gith.github_base_calls import GithubBaseCalls
 
 
 # Constants

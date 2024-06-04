@@ -3,7 +3,7 @@
 # E1101 => dynamic method usage
 
 import json
-from API.github import Packages
+from API.gith import Packages
 
 
 class GitHubUtils():
