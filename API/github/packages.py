@@ -2,7 +2,7 @@
 
 import requests
 
-from API.gith.github_base_calls import GithubBaseCalls
+from API.github.github_base_calls import GithubBaseCalls
 
 
 # Constants
