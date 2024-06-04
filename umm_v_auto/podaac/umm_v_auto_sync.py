@@ -1,4 +1,5 @@
 """ Github actions python script to sync ops umm v variables to uat umm v"""
+# pylint: disable=invalid-name
 
 from datetime import datetime
 import argparse
@@ -6,7 +7,6 @@ import json
 from tqdm import tqdm
 import requests
 import cmr
-
 
 
 # Constants

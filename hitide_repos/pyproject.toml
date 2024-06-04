@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "tva-automation-tools"
+name = "hitide-repos-dashboard"
 version = "0.1.0"
 description = ""
-authors = ["Zoltan Miskolci <zoltan.miskolci@jpl.nasa.gov>"]
+authors = ["James Wood <James.F.Wood@jpl.nasa.gov>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -10,8 +10,6 @@ python = "^3.10"
 requests = "^2.31.0"
 gspread = "^6.0.2"
 pytz = "^2024.1"
-tqdm = "^4.66.1"
-python-cmr = "^0.11.0"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.1.0"
