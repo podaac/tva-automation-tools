@@ -8,24 +8,24 @@ from spreadsheet.gsheet_base import GSheetBase
 class Reader(GSheetBase):
     '''Class for methods to read Google Spreadsheets'''
 
-    def CheckIfSheetExists(self, sheetName: str) -> bool:
+    def CheckIfSheetExists(self, sheet_name: str) -> bool:
         '''Function for checking if the worksheet exists or not'''
 
         worksheets: list[Worksheet] = self.workbook.worksheets()
         do_exists = False
         for worksheet in worksheets:
-            if worksheet.title == sheetName:
+            if worksheet.title == sheet_name:
                 do_exists = True
                 break
-        print(f'\r\nChecking if sheet "{sheetName}" exists: {do_exists}...')
+        print(f'\r\nChecking if sheet "{sheet_name}" exists: {do_exists}...')
         return do_exists
 
 
-    def GetAllCellDataFromSheet(self, sheetName: str):
+    def GetAllCellDataFromSheet(self, sheet_name: str):
         '''Function for reading aall cell data from the worksheet, except empty ones'''
 
-        print(f'Reading cell information in sheet "{sheetName}"...')
-        worksheet = self.workbook.worksheet(sheetName)
+        print(f'Reading cell information in sheet "{sheet_name}"...')
+        worksheet = self.workbook.worksheet(sheet_name)
         cell_data_list: list[Cell] = worksheet.get_all_cells()
         result = {}
         for cell_data in cell_data_list:
@@ -41,19 +41,19 @@ class Reader(GSheetBase):
         return result
 
 
-    def GetColumnDataFromSheet(self, sheetName: str, columnIndex: int) -> list[str]:
+    def GetColumnDataFromSheet(self, sheet_name: str, column_index: int) -> list[str]:
         '''Function for reading a single column data from the worksheet'''
 
-        print(f'\r\nReading column "{columnIndex}" information in sheet "{sheetName}"...')
+        print(f'\r\nReading column "{column_index}" information in sheet "{sheet_name}"...')
         result = []
-        worksheet = self.workbook.worksheet(sheetName)
+        worksheet = self.workbook.worksheet(sheet_name)
 
-        result = worksheet.col_values(columnIndex)
+        result = worksheet.col_values(column_index)
         return result
 
 
-    def GetSheetId(self, sheetName: str) -> str:
+    def GetSheetId(self, sheet_name: str) -> str:
         '''Function for getting the "gid" of the worksheet'''
 
-        worksheet = self.workbook.worksheet(sheetName)
+        worksheet = self.workbook.worksheet(sheet_name)
         return worksheet.id

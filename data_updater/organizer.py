@@ -1,7 +1,7 @@
 '''Main module of the Repo Status Updater'''
 # pylint: disable=E1101, R0903
 # E1101 => dynamic method usage
-# R0903 => only one main class
+# R0903 => Need only 1 public method
 
 from datetime import datetime
 from copy import deepcopy
@@ -15,7 +15,7 @@ from spreadsheet import Interactor
 import config.config
 
 
-# File wide variables
+# Constants
 SPREADSHEET_ID = '1wBIbd56mBDYQLKwHtK1Dzk7n6mtHMc9kftiRTQ63NOw'
 REPOS_SHEETNAME = 'Repos'
 REPOS_COLUMN_INDEX_REPOS = 1
@@ -47,20 +47,32 @@ class Organizer():
 
         # Update each repository one by one
         for row_index_repo in repo_data[REPOS_COLUMN_INDEX_REPOS]:
+            CONF.VAR_DataExtracted = {}
             repo_name = repo_data[REPOS_COLUMN_INDEX_REPOS][row_index_repo]
+
+            print('\r\n\r\n\r\n=============================================================================================================')
+            print(f'============================== Starting extraction for "{repo_name}" ==============================')
+            print(f'Place on Repo page: {row_index_repo}')
             if repo_name in IGNORE_REPO_LIST:
                 continue
+
+            # Stop after the first line, this is for code testing and debug
+            # if row_index_repo > 3:
+            #     print('Stopping run...')
+            #     break
 
             repo_link = ''
             if row_index_repo in repo_data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS]:
                 repo_link = repo_data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][row_index_repo]
 
-            # sheet_name = repo_name
+            # Create the sheet
+            use_template_data = False        # Force update all sheets from the Template data
             sheet_name = GetOrGenerateSheetName(
                 spreadsheet=spreadsheet,
-                rowIndex=row_index_repo,
+                row_index=row_index_repo,
                 data=repo_data,
-                template=repo_template
+                template=repo_template,
+                force_update=use_template_data
             )
 
             data_of_sheet_original = spreadsheet.reader.GetAllCellDataFromSheet(sheet_name)
@@ -77,11 +89,11 @@ class Organizer():
                     args = []
                     if row_index_template in data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS]:
                         args = ExtractArguments(
-                            fieldContent=data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS][row_index_template],
-                            repoLink=repo_link,
-                            argumentsToReplace=['repo_link'])
+                            field_content=data_of_sheet[TEMPLATE_COLUMN_INDEX_ARGS][row_index_template],
+                            repo_link=repo_link,
+                            arguments_to_replace=['repo_link'])
                     data = GetData(
-                        methodName=method_name,
+                        method_name=method_name,
                         arguments=args)
                     data_of_sheet[TEMPLATE_COLUMN_INDEX_VALUE][row_index_template] = data
 
@@ -117,11 +129,11 @@ def GetRepoTemplate(spreadsheet) -> dict:
     return repo_template
 
 
-def ExtractArguments(fieldContent: str, repoLink: str, argumentsToReplace: list) -> list:
+def ExtractArguments(field_content: str, repo_link: str, arguments_to_replace: list) -> list:
     '''Function to get to convert the arguments from the prived string into the correct types'''
 
     result = []
-    temp_results = fieldContent.split(';')
+    temp_results = field_content.split(';')
     for temp_result in temp_results:
         temp: str = temp_result
         temp = temp.strip(' ')
@@ -135,21 +147,21 @@ def ExtractArguments(fieldContent: str, repoLink: str, argumentsToReplace: list)
             value = dict(temp)
             result.append(value)
         else:
-            if temp.lower() in argumentsToReplace:
-                result.append(repoLink)
+            if temp.lower() in arguments_to_replace:
+                result.append(repo_link)
             else:
                 result.append(temp)
     return result
 
 
-def GetData(methodName: str, arguments: list) -> str:
+def GetData(method_name: str, arguments: list) -> str:
     '''Function to get execute the named method with the arguments'''
 
     data = 'Location information is missing!'
-    if methodName != '' and methodName is not None:
-        method_to_execute = getattr(Distributor, methodName)
-        print(f'\r\n====================== Start of method "{methodName}" ======================')
-        print(f'Arguments to use: {arguments}\r\n')
+    print(f'\r\n====================== Start of method "{method_name}" ======================')
+    print(f'Arguments to use: {arguments}\r\n')
+    if method_name != '' and method_name is not None:
+        method_to_execute = getattr(Distributor, method_name)
         if len(arguments) == 0:
             data = method_to_execute()
         elif len(arguments) == 1:
@@ -159,15 +171,16 @@ def GetData(methodName: str, arguments: list) -> str:
         elif len(arguments) == 3:
             data = method_to_execute(arguments[0], arguments[1], arguments[2])
     print(f'\r\nInformation found: "{data}"')
+
     return data
 
 
-def GetOrGenerateSheetName(spreadsheet: Interactor, rowIndex: int, data: dict, template: dict) -> str:
+def GetOrGenerateSheetName(spreadsheet: Interactor, row_index: int, data: dict, template: dict, force_update: bool = False) -> str:
     '''Function to get execute the named method with the arguments'''
 
-    repo_name = data[REPOS_COLUMN_INDEX_REPOS][rowIndex]
-    if rowIndex in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
-        hyperlink = data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex]
+    repo_name = data[REPOS_COLUMN_INDEX_REPOS][row_index]
+    if row_index in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
+        hyperlink = data[REPOS_COLUMN_INDEX_SHEET_LINK][row_index]
         print(f'\r\nCell content: {hyperlink}')
         print(f'Is hyperlink: {hyperlink.startswith("=")}')
         if hyperlink.startswith('='):
@@ -182,25 +195,32 @@ def GetOrGenerateSheetName(spreadsheet: Interactor, rowIndex: int, data: dict, t
         sheet_name = repo_name
 
     print(f'Sheet name: {sheet_name}')
-    for i in range(0, rowIndex + 1, 1):
+    for i in range(0, row_index + 1, 1):
         if i in data[REPOS_COLUMN_INDEX_SHEET_LINK]:
             prev_sheet_name = data[REPOS_COLUMN_INDEX_SHEET_LINK][i]
-            if prev_sheet_name == sheet_name and i != rowIndex:
+            if prev_sheet_name == sheet_name and i != row_index:
                 sheet_name = f'{sheet_name}_({i})'
                 print(f'Renamed sheet to "{sheet_name}"')
 
     do_exists = spreadsheet.reader.CheckIfSheetExists(sheet_name)
-    if not do_exists:
-        # Create the sheet and the corresponding hyperlink
+    # Update the sheets with data from the template
+    if not do_exists or force_update:
+        row_count = 50
+        column_count = 10
         updated_template = deepcopy(template)
         updated_template[2][2] = repo_name
-        updated_template[2][3] = data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][rowIndex]
-        spreadsheet.updater.CreateSheet(
-            sheetName=sheet_name,
-            rowCount=50,
-            columnCount=10)
+        updated_template[2][3] = data[REPOS_COLUMN_INDEX_GITHUB_ADDRESS][row_index]
+        # Create the sheet or force clear the existing one for the update
+        if not force_update:
+            spreadsheet.updater.CreateSheet(
+                sheet_name=sheet_name,
+                row_count=row_count,
+                column_count=column_count)
+        else:
+            spreadsheet.updater.ClearSheet(sheet_name, TEMPLATE_ROW_INDEX_HEADER + 1, row_count, column_count)
         spreadsheet.updater.UpdateSheet(sheet_name, updated_template)
+    # Create the hyperlink in the Repos sheet to the new sheet
     gid = spreadsheet.reader.GetSheetId(sheet_name)
-    data[REPOS_COLUMN_INDEX_SHEET_LINK][rowIndex] = f'=HYPERLINK("#gid={gid}","{sheet_name}")'
+    data[REPOS_COLUMN_INDEX_SHEET_LINK][row_index] = f'=HYPERLINK("#gid={gid}","{sheet_name}")'
 
     return sheet_name

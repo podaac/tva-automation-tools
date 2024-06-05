@@ -6,11 +6,11 @@ from spreadsheet.updater import Updater
 class Interactor():
     '''Collection Class to interact with Google Spreadsheet'''
 
-    def __init__(self, spreadsheetID: str) -> None:
+    def __init__(self, spreadsheet_id: str) -> None:
         '''Function for class initialization'''
 
-        self._reader = Reader(spreadsheetID)
-        self._updater = Updater(spreadsheetID)
+        self._reader = Reader(spreadsheet_id)
+        self._updater = Updater(spreadsheet_id)
 
 
     @property

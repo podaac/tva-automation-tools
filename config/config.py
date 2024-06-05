@@ -1,5 +1,6 @@
 '''Config data'''
 # pylint: disable=R0903
+# R0903 => File focuses around global constants
 
 
 class Config():
@@ -38,3 +39,6 @@ class Config():
 
     # PyPi
     PyPi_base = ''
+
+    # Global Variables
+    VAR_DataExtracted = {}

@@ -38,14 +38,14 @@ if __name__ == '__main__':
     ops_headers = {'Authorization': _args.ops_token}
     uat_headers = {'Authorization': _args.uat_token}
 
-    umm_v_auto_sync.get_l2ss_associations('uat', 'PODAAC L2 Cloud Subsetter', uat_headers)
+    umm_v_auto_sync.GetL2ssAssociations('uat', 'PODAAC L2 Cloud Subsetter', uat_headers)
 
     # Get all the ops collection that are in uat l2ss
     for collection, item in umm_v_auto_sync.uat_collections.items():
-        umm_v_auto_sync.get_ops_collection_concept_id('ops', collection, ops_headers)
+        umm_v_auto_sync.GetOPSCollectionConceptId('ops', collection, ops_headers)
 
     for collection, item in umm_v_auto_sync.uat_collections.items():
-        umm_v_auto_sync.umm_v_count(
+        umm_v_auto_sync.UmmVCount(
             'uat',
             item.get('concept_id'),
             collection, umm_v_auto_sync.uat_collections, uat_headers
@@ -61,6 +61,6 @@ if __name__ == '__main__':
                 'concept_id')
             print(f'Sync collection {collection}')
             try:
-                umm_v_auto_sync.sync_ops_umm_v_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
+                umm_v_auto_sync.SyncOpsUmmVtoUAT(ops_concept_id, _args.ops_token, _args.uat_token)
             except Exception as e:  # pylint: disable = broad-exception-caught
                 print(e)
