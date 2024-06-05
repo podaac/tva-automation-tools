@@ -1,52 +1,63 @@
-"""API interface Module for Harmony Versions calls"""
-import requests
+'''Harmony API interface module'''
+# pylint: disable=R0903
+# R0801 => Logging out api response shouldn't count as duplicate code
+
 import json
+import requests
 
 from enums import Environment
-import config
+import config.config
 
 
-# File wide variables
-conf = config.Config
-endpoint = "/versions"
+# Constants
+Conf = config.Config
+BASE_ENDPOINT = '/versions'
+
 
 class Version():
-    """Class for Harmony Versions API functions"""
+    '''Harmony Versions API interface class'''
 
-    def GetVersion(environment:Environment, logging:bool=True) -> requests.Response:
-        """Function to call the versions endpoint"""
-        
+    def GetVersion(
+        environment: Environment,
+        logging: bool = True
+    ) -> requests.Response:
+        '''Function to call the versions endpoint'''
+
         if logging:
-            print(f'Getting data from Harmony "/versions" endpoint...')
-            
+            print('Getting data from Harmony "/versions" endpoint...')
+
         url = ''
         if environment == Environment.OPS:
-            url = conf.Harmony_base_OPS + endpoint
+            url = Conf.Harmony_base_OPS + BASE_ENDPOINT
         elif environment == Environment.UAT:
-            url = conf.Harmony_base_UAT + endpoint
+            url = Conf.Harmony_base_UAT + BASE_ENDPOINT
 
         response = requests.get(
-            url = url)
+            url=url)
 
-        if (response.status_code != 200) and logging:
+        if response.status_code != 200 and logging:
             print(f'Response: {response.status_code}')
             print(f'Response text:\r\n{response.text}\r\n')
             print(f'Request url:\r\n{response.request.url}\r\n')
-        
+
         return response
-    
-    
-    def GetVersionFor(jsonVariableName:str, environment:Environment, logging:bool=True) -> str:
-        """Function to extract the version data for the service"""
-        
+
+
+    def GetVersionFor(
+        json_variable_name: str,
+        environment: Environment,
+        logging: bool = True
+    ) -> str:
+        '''Function to extract the version data for the service'''
+
         if logging:
-            print(f'Getting version of "{jsonVariableName}" on "{environment.name}"...')
-            
+            print(f'Getting version of "{json_variable_name}" on "{environment.name}"...')
+
         response = Version.GetVersion(environment, logging)
         version = 'Not found!'
-        jsonData = json.loads(response.text)
-        for service in jsonData:
+        json_data = json.loads(response.text)
+        for service in json_data:
             for image in service['images']:
-                if image['image'] == jsonVariableName:
+                if image['image'] == json_variable_name:
                     version = image['tag']
         return version

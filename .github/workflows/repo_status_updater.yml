@@ -33,7 +33,7 @@ jobs:
       - name: Poetry Steps
         run: |
           poetry install
-          poetry run pylint .
+          poetry run pylint ./*
           poetry run flake8 .
 
       #########################################################################
@@ -53,7 +53,7 @@ jobs:
         env:
           UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
           OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
-          GITHUB_TOKEN_TEMP: ""
-          GITHUB_JPL_TOKEN_TEMP: ""
+          GITHUB_TOKEN_TEMP: ${{ github.token }}
+          GITHUB_JPL_TOKEN_TEMP: "No_Token"
         run: |
-          poetry run python runner.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -gt $GITHUB_TOKEN_TEMP -jt $GITHUB_JPL_TOKEN_TEMP
+          poetry run python start_data_updater.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -gt $GITHUB_TOKEN_TEMP -jt $GITHUB_JPL_TOKEN_TEMP

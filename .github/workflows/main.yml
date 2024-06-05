@@ -31,8 +31,8 @@ jobs:
       - name: Poetry Steps
         run: |
           poetry install
-          poetry run pylint umm_v_auto
-          poetry run flake8 umm_v_auto
+          poetry run pylint umm_v_auto/podaac/*
+          poetry run flake8 umm_v_auto/podaac/
 
       #########################################################################
       # UMM V Auto Sync
@@ -42,4 +42,4 @@ jobs:
           UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
           OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
         run: |
-          poetry run python umm_v_auto/podaac/umm_v_auto_sync.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
+          poetry run python start_umm_v_auto.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP

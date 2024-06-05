@@ -1,29 +1,30 @@
 """ Github actions python script to sync ops umm v variables to uat umm v"""
-# pylint: disable=invalid-name
 
+from datetime import datetime
 import argparse
 import json
-from datetime import datetime
 import requests
 from tqdm import tqdm
 import cmr
 
+
+# Constants
 ops_collections = {}
 uat_collections = {}
 ops_collection_name_id = {}
 
 
-def search(*args, **kwargs):
+def Search(*args, **kwargs):
     """Function to make requests calls"""
     return requests.get(*args, **kwargs).json()
 
 
-def search_source(search_api: str, concept_id: str, **kwargs) -> dict:
+def SearchSource(search_api: str, concept_id: str, **kwargs) -> dict:
     """Function to search source cmr for umm v meta data"""
 
     source_coll_params = {'concept-id': concept_id, **kwargs}
     try:
-        source_coll_meta = search(
+        source_coll_meta = Search(
             f"{search_api}/collections.umm_json", params=source_coll_params).get("items")[0]
     except (KeyError, IndexError) as e:  # noqa: F841 pylint: disable = unused-variable
         raise Exception(
@@ -46,17 +47,17 @@ def search_source(search_api: str, concept_id: str, **kwargs) -> dict:
         raise Exception(
             "ERROR! Source collection metadata does not have any associations")
 
-    def source_vars_func(x):
-        return (x, search(f"{search_api}/variables.umm_json", params={'concept-id': x}).get("items")[0])
-    return source_coll_meta, dict(map(source_vars_func, tqdm(source_vars)))
+    def SourceVarsFunc(x):
+        return (x, Search(f"{search_api}/variables.umm_json", params={'concept-id': x}).get("items")[0])
+    return source_coll_meta, dict(map(SourceVarsFunc, tqdm(source_vars)))
 
 
-def ingest(*args, **kwargs):
+def Ingest(*args, **kwargs):
     """Function to make cmr put calls"""
     return requests.put(*args, **kwargs).json()
 
 
-def ingest_target(ingest_api: str, variables: dict, token: str, verbose: bool = True) -> list:
+def IngestTarget(ingest_api: str, variables: dict, token: str, verbose: bool = True) -> list:
     """Function to ingest umm-v"""
 
     search_api_variables_endpoint = f"{ingest_api.split('ingest/')[0]}search/variables.umm_json"
@@ -91,7 +92,7 @@ def ingest_target(ingest_api: str, variables: dict, token: str, verbose: bool = 
     return list(map(lambda x: _ingest(record_data=variables[x]), tqdm(list(variables))))
 
 
-def parse_args():
+def ParseArguments():
     """
     Parses the program arguments
     Returns
@@ -118,7 +119,7 @@ def parse_args():
     return args
 
 
-def get_ops_collection_concept_id(env, collection_name, headers):
+def GetOPSCollectionConceptId(env, collection_name, headers):
     """Function to get ops concept it and umm v count from collection name"""
 
     if env == "ops":
@@ -141,7 +142,7 @@ def get_ops_collection_concept_id(env, collection_name, headers):
         }
 
 
-def get_l2ss_associations(env, umm_name, headers):
+def GetL2ssAssociations(env, umm_name, headers):
     """Function to get associated collection for l2ss-py for a env"""
 
     if env == "ops":
@@ -176,7 +177,7 @@ def get_l2ss_associations(env, umm_name, headers):
                         'concept_id': collection[0]}
 
 
-def umm_v_count(env, collection_concept_id, collection, collections, headers):
+def UmmVCount(env, collection_concept_id, collection, collections, headers):
     """Function to get the umm-v count of a collection"""
 
     if env == "ops":
@@ -193,7 +194,7 @@ def umm_v_count(env, collection_concept_id, collection, collections, headers):
     collections[collection]['umm_v_count'] = len(variables)
 
 
-def sync_ops_umm_v_to_uat(ops_concept_id, ops_token, uat_token):
+def SyncOpsUmmVtoUAT(ops_concept_id, token_ops, token_uat):
     """Function that will copy umm-v from ops into uat"""
 
     # ops concept_id
@@ -203,46 +204,44 @@ def sync_ops_umm_v_to_uat(ops_concept_id, ops_token, uat_token):
     source_venue = "ops"
     target_venue = "uat"
     source_cmr = "cmr.{}earthdata.nasa.gov".format(
-        source_venue+"." if source_venue in ['uat', 'sit'] else "")
+        source_venue + "." if source_venue in ['uat', 'sit'] else "")
     target_cmr = "cmr.{}earthdata.nasa.gov".format(
-        target_venue+"." if target_venue in ['uat', 'sit'] else "")
+        target_venue + "." if target_venue in ['uat', 'sit'] else "")
 
     # Request metadata about the collection in the source CMR venue ->
-    source_pars = {'token': ops_token}
-    source_coll_meta, source_vars = search_source(
+    source_pars = {'token': token_ops}
+    source_coll_meta, source_vars = SearchSource(
         search_api=f"https://{source_cmr}/search", concept_id=ops_concept_id, **source_pars)
     try:
         # Request metadata about the collection in the target CMR venue ->
-        target_coll_meta = search(f"https://{target_cmr}/search/collections.umm_json",
+        target_coll_meta = Search(f"https://{target_cmr}/search/collections.umm_json",
                                   params={'ShortName': source_coll_meta.get("umm").get("ShortName"),
                                           'provider': target_provider, },
                                   headers={'Accept': "application/json",
-                                           'Authorization': uat_token, }, ).get("items")[0]
+                                           'Authorization': token_uat, }, ).get("items")[0]
         target_coll = target_coll_meta.get("meta").get("concept-id")
     except Exception as e:
         raise e
 
     # Ingest variables to the target CMR collection/provider/venue and return the list of api responses ->
-    return ingest_target(ingest_api=f"https://{target_cmr}/ingest/collections/{target_coll}/variables",
-                         variables=source_vars, token=uat_token)
+    return IngestTarget(ingest_api=f"https://{target_cmr}/ingest/collections/{target_coll}/variables", variables=source_vars, token=token_uat)
 
 
 if __name__ == '__main__':
 
-    _args = parse_args()
+    _args = ParseArguments()
 
     ops_headers = {'Authorization': _args.ops_token}
     uat_headers = {'Authorization': _args.uat_token}
 
-    get_l2ss_associations('uat', "PODAAC L2 Cloud Subsetter", uat_headers)
+    GetL2ssAssociations('uat', "PODAAC L2 Cloud Subsetter", uat_headers)
 
     # Get all the ops collection that are in uat l2ss
     for collection, item in uat_collections.items():
-        get_ops_collection_concept_id('ops', collection, ops_headers)
+        GetOPSCollectionConceptId('ops', collection, ops_headers)
 
     for collection, item in uat_collections.items():
-        umm_v_count('uat', item.get('concept_id'),
-                    collection, uat_collections, uat_headers)
+        UmmVCount('uat', item.get('concept_id'), collection, uat_collections, uat_headers)
 
     for collection, item in uat_collections.items():
 
@@ -254,6 +253,6 @@ if __name__ == '__main__':
                 'concept_id')
             print(f"Sync collection {collection}")
             try:
-                sync_ops_umm_v_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
+                SyncOpsUmmVtoUAT(ops_concept_id, _args.ops_token, _args.uat_token)
             except Exception as e:  # pylint: disable = broad-exception-caught
                 print(e)
