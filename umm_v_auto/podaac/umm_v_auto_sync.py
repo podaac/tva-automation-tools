@@ -1,8 +1,8 @@
 """ Github actions python script to sync ops umm v variables to uat umm v"""
 
+from datetime import datetime
 import argparse
 import json
-from datetime import datetime
 import requests
 from tqdm import tqdm
 import cmr
