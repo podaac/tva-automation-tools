@@ -2,11 +2,12 @@
 # pylint: disable=R0801
 import argparse
 
+import json
+import boto3
+
 from data_updater.organizer import Organizer
 import config.config
 
-import boto3
-import json
 
 def ParseArguments():
     '''
