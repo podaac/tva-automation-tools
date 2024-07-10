@@ -64,10 +64,10 @@ def list_lambda_function_details():
     
 if __name__ == '__main__':
 
-    print('im here')
-    function_details = list_lambda_function_details()
-    for function_detail in function_details:
-        print(json.dumps(function_detail, indent=4))
+#    print('im here')
+#    function_details = list_lambda_function_details()
+#    for function_detail in function_details:
+#        print(json.dumps(function_detail, indent=4))
 
     args = ParseArguments()
     config.config.Config.LaunchpadToken_OPS = args.ops_token
