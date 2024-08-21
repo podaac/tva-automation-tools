@@ -1,0 +1,44 @@
+# Copy umm v from ops to uat
+name: l2ss concise chain sync
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Set the cron schedule for midnight PST
+  workflow_dispatch:
+
+jobs:
+  # First job in the workflow installs and verifies the software
+  build:
+    name: Build, Test
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      #########################################################################
+      # Environment Setup
+      #########################################################################
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v3.0.0
+        with:
+          poetry-version: 1.8.2
+
+      #########################################################################
+      # Install & Pylint & Flake
+      #########################################################################
+      - name: Poetry Steps
+        run: |
+          poetry install
+
+      #########################################################################
+      # UMM V Auto Sync
+      #########################################################################
+      - name: UMM V Auto Sync
+        working-directory: l2ss_concise_chain
+        env:
+          UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
+          OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+        run: |
+          poetry run python l2ss_concise_chain.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
