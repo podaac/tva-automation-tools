@@ -33,9 +33,9 @@ jobs:
           poetry install
 
       #########################################################################
-      # UMM V Auto Sync
+      # L2SS Concise Chain Automation Sync
       #########################################################################
-      - name: UMM V Auto Sync
+      - name: L2SS Concise Chain Automation Sync
         working-directory: l2ss_concise_chain
         env:
           UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}

@@ -18,12 +18,12 @@ def parse_args():
     )
 
     parser.add_argument('-ut', '--uat_token',
-                        help='launchpad token file for uat',
+                        help='launchpad token for uat',
                         required=False,
                         metavar='')
 
     parser.add_argument('-ot', '--ops_token',
-                        help='launchpad token file for ops',
+                        help='launchpad token for ops',
                         required=False,
                         metavar='')
 
@@ -64,16 +64,8 @@ if __name__ == '__main__':
 
     _args = parse_args()
 
-    with open(_args.uat_token) as file:
-        uat_token_file = json.load(file)
-        uat_token = uat_token_file.get('token')
-
-    with open(_args.ops_token) as file:
-        ops_token_file = json.load(file)
-        ops_token = uat_token_file.get('token')
-
-    ops_headers = {'Authorization': ops_token}
-    uat_headers = {'Authorization': uat_token}
+    ops_headers = {'Authorization': args.ops_token}
+    uat_headers = {'Authorization': args.uat_token}
 
     uat_l2ss_service_concept_id = cmr.queries.ServiceQuery(mode=cmr.queries.CMR_UAT).provider('POCLOUD').name('PODAAC L2 Cloud Subsetter').get()[0].get('concept_id')
     uat_l2ss_collections = create_assoc.current_association(uat_l2ss_service_concept_id, "https://cmr.uat.earthdata.nasa.gov", uat_headers)
