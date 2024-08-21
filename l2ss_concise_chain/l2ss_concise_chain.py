@@ -45,6 +45,7 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
         for assoc_concept_id in add:
             resp = create_assoc.add_association(url_prefix, service_concept_id, assoc_concept_id, headers, timeout=timeout)
             if resp.status_code != 200:
+                print(resp.content)
                 print("Failed add association: concept_id being associated may not be valid: %s", assoc_concept_id)
             else:
                 print("Succesfully add association: concept_id: ", assoc_concept_id)
