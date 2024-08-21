@@ -15,6 +15,17 @@ files = [
 typing-extensions = {version = ">=4.0.0", markers = "python_version < \"3.11\""}
 
 [[package]]
+name = "backoff"
+version = "2.2.1"
+description = "Function decoration for backoff and retry"
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "backoff-2.2.1-py3-none-any.whl", hash = "sha256:63579f9a0628e06278f7e47b7d7d5b6ce20dc65c5e96a6f3ca99a6adca0396e8"},
+    {file = "backoff-2.2.1.tar.gz", hash = "sha256:03f829f5bb1923180821643f8753b0502c3b682293992485b0eef2807afa5cba"},
+]
+
+[[package]]
 name = "boto3"
 version = "1.35.3"
 description = "The AWS SDK for Python"
@@ -172,6 +183,25 @@ files = [
     {file = "charset_normalizer-3.3.2-cp39-cp39-win_amd64.whl", hash = "sha256:b01b88d45a6fcb69667cd6d2f7a9aeb4bf53760d7fc536bf679ec94fe9f3ff3d"},
     {file = "charset_normalizer-3.3.2-py3-none-any.whl", hash = "sha256:3e4d1f6587322d2788836a99c69062fbb091331ec940e02d12d179c1d53e25fc"},
 ]
+
+[[package]]
+name = "cmr-umm-updater"
+version = "0.7.1"
+description = "Github action that publishes UMM-S and UMM-T updates to CMR"
+optional = false
+python-versions = "^3.10"
+files = []
+develop = false
+
+[package.dependencies]
+backoff = "^2.2.1"
+requests = "^2.22"
+
+[package.source]
+type = "git"
+url = "https://github.com/podaac/cmr-umm-updater.git"
+reference = "main"
+resolved_reference = "cba356fd5dad7bcf133d67f4420ed2d1130be6fa"
 
 [[package]]
 name = "colorama"
@@ -621,4 +651,5 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "dae8a57769c0c9455226b2b859b8836f24ccb97adfe2dfc411a5a2484955f6b1"
+content-hash = "f7b810ceec6b9003a4a501f4046400f48d6482885c7f9e08a8775e77cf5d6bbd"
+
