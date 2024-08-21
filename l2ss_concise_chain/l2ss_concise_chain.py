@@ -62,7 +62,7 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
 
 if __name__ == '__main__':
 
-    _args = parse_args()
+    args = parse_args()
 
     ops_headers = {'Authorization': args.ops_token}
     uat_headers = {'Authorization': args.uat_token}
