@@ -38,7 +38,9 @@ jobs:
       # Setup AWS profile
       #########################################################################
       - name: Set AWS profile environment variable
-        run: echo "AWS_PROFILE=service-ops" >> $GITHUB_ENV
+        run: |
+          echo "AWS_PROFILE=service-ops" >> $GITHUB_ENV
+          echo "AWS_REGION=us-west-2" >> $GITHUB_ENV
 
       - name: Configure custom AWS profile
         run: |
@@ -47,7 +49,7 @@ jobs:
           echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_SERVICES_OPS }}" >> ~/.aws/credentials
           echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_SERVICES_OPS }}" >> ~/.aws/credentials
           # Create the config file
-          echo "[default]" >> ~/.aws/config
+          echo "[service-ops]" >> ~/.aws/config
           echo "region=us-west-2" >> ~/.aws/config
 
 
