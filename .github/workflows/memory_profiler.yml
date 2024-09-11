@@ -48,7 +48,7 @@ jobs:
           echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_SERVICES_OPS }}" >> ~/.aws/credentials
           # Create the config file
           echo "[service-ops]" >> ~/.aws/config
-          echo "region=us-east-1" >> ~/.aws/config
+          echo "region=us-west-2" >> ~/.aws/config
 
 
       #########################################################################
