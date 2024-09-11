@@ -1,0 +1,57 @@
+# Copy umm v from ops to uat
+name: Umm V Auto Sync
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Set the cron schedule for midnight PST
+  workflow_dispatch:
+
+jobs:
+  # First job in the workflow installs and verifies the software
+  build:
+    name: Build, Test
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      #########################################################################
+      # Environment Setup
+      #########################################################################
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v3.0.0
+        with:
+          poetry-version: 1.8.2
+
+
+      #########################################################################
+      # Install backfill tool
+      #########################################################################
+      - name: Install backfill tool
+        run: |
+          pip install git+https://github.com/podaac/hitide-backfill-tool.git@feature/parallel_memory_profiler
+
+
+      #########################################################################
+      # Setup AWS profile
+      #########################################################################
+      - name: Set AWS profile environment variable
+        run: echo "AWS_PROFILE=service-ops" >> $GITHUB_ENV
+
+      - name: Configure custom AWS profile
+        run: |
+          mkdir -p ~/.aws
+          echo "[my-custom-profile]" >> ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_SERVICES_OPS }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_SERVICES_OPS }}" >> ~/.aws/credentials
+          echo "region=us-east-1" >> ~/.aws/config
+
+
+      #########################################################################
+      # Run Memory Profiler
+      #########################################################################
+      - name: Run Memory Profiler
+        run: |
+          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-services-ops-hitide-backfill-lambda --aws_profile service-ops --start_time 24
