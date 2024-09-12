@@ -66,9 +66,9 @@ jobs:
 
 
       #########################################################################
-      # Write to google spreadsheet
+      # Run memory profiler and Write to google spreadsheet
       #########################################################################
-      - name: Setup Token
+      - name: Running Memory Profiler
         working-directory: memory_profiler
         env:
           SPREADSHEET_ID: ${{ secrets.HITIDE_AWS_SHEET_ID }}
