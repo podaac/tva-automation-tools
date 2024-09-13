@@ -16,18 +16,18 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_path,
 # Authorize and create a client
 client = gspread.authorize(credentials)
 
-# Accept the spreadsheet name as a command-line argument
+# Open the Google Sheets by its ID
+spreadsheet_id = os.environ['SPREADSHEET_ID']
+sheet = client.open_by_key(spreadsheet_id)
+
+# Accept the worksheet name as a command-line argument
 if len(sys.argv) < 2:
-    print("Please provide the Google Sheet name as an argument.")
+    print("Please provide the worksheet name as a command-line argument.")
     sys.exit(1)
 
-spreadsheet_name = sys.argv[1]
-
-# Open the Google Sheets by its name
-sheet = client.open(spreadsheet_name)
-
-# Select the first worksheet
-worksheet = sheet.get_worksheet(0)
+# Select the worksheet name from the command-line argument
+worksheet_name = sys.argv[1]
+worksheet = sheet.worksheet(worksheet_name)
 
 # Read the CSV file
 with open('collection_statistics.csv', mode='r') as file:
@@ -37,4 +37,4 @@ with open('collection_statistics.csv', mode='r') as file:
 # Write CSV data into the Google Sheet
 worksheet.update('A1', data)
 
-print(f"CSV data has been written to the Google Sheets: {spreadsheet_name}.")
+print(f"CSV data has been written to the Google Sheets in worksheet '{worksheet_name}'.")

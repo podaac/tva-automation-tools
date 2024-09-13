@@ -76,10 +76,10 @@ jobs:
         env:
           SPREADSHEET_ID: ${{ secrets.HITIDE_AWS_SHEET_ID }}
         run: |
-          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-services-ops-hitide-backfill-lambda --aws_profile service-ops --start_time 168
+          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-services-ops-hitide-backfill-lambda --aws_profile service-ops --start_time 12
           python spreadsheet_write.py "TIG Service OPS Lambdas"
 
-          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-ops-cumulus-lambda --aws_profile cumulus-ops --start_time 168
+          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-ops-cumulus-lambda --aws_profile cumulus-ops --start_time 12
           python spreadsheet_write.py "TIG Cumulus OPS Lambdas"
 
 
