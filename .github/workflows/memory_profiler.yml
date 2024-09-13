@@ -3,7 +3,8 @@ name: Memory Profiler
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '0 8 * * *'  # Set the cron schedule for midnight PST
+    # Run at midnight (00:00) every Sunday
+    - cron: "0 0 * * 0"
   workflow_dispatch:
 
 jobs:
@@ -20,11 +21,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v3.0.0
-        with:
-          poetry-version: 1.8.2
-
 
       #########################################################################
       # Install backfill tool
@@ -49,10 +45,16 @@ jobs:
           echo "[service-ops]" >> ~/.aws/credentials
           echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_SERVICES_OPS }}" >> ~/.aws/credentials
           echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_SERVICES_OPS }}" >> ~/.aws/credentials
+        
+          echo "[cumulus-ops]" >> ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}" >> ~/.aws/credentials          
+
           # Create the config file
           echo "[service-ops]" >> ~/.aws/config
           echo "region=us-west-2" >> ~/.aws/config
-
+          echo "[cumulus-ops]" >> ~/.aws/config
+          echo "region=us-west-2" >> ~/.aws/config
 
       #########################################################################
       # Setup Token for GSpread
@@ -67,17 +69,17 @@ jobs:
 
       #########################################################################
       # Run memory profiler and Write to google spreadsheet
+      # Profile memory of tig in service ops for the last week
       #########################################################################
       - name: Running Memory Profiler
         working-directory: memory_profiler
         env:
           SPREADSHEET_ID: ${{ secrets.HITIDE_AWS_SHEET_ID }}
         run: |
-          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-services-ops-hitide-backfill-lambda --aws_profile service-ops --start_time 48
-          python spreadsheet_write.py
+          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-services-ops-hitide-backfill-lambda --aws_profile service-ops --start_time 168
+          python spreadsheet_write.py "TIG Service OPS Lambdas"
 
-
-
-
+          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-ops-cumulus-lambda --aws_profile cumulus-ops --start_time 168
+          python spreadsheet_write.py "TIG Cumulus OPS Lambdas"
 
 
