@@ -45,7 +45,6 @@ jobs:
           echo "[service-ops]" >> ~/.aws/credentials
           echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_SERVICES_OPS }}" >> ~/.aws/credentials
           echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_SERVICES_OPS }}" >> ~/.aws/credentials
-        
           echo "[cumulus-ops]" >> ~/.aws/credentials
           echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}" >> ~/.aws/credentials
           echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}" >> ~/.aws/credentials          
@@ -76,10 +75,9 @@ jobs:
         env:
           SPREADSHEET_ID: ${{ secrets.HITIDE_AWS_SHEET_ID }}
         run: |
-          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-services-ops-hitide-backfill-lambda --aws_profile service-ops --start_time 12
+          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-services-ops-hitide-backfill-lambda --aws_profile service-ops --start_time 168
           python spreadsheet_write.py "TIG Service OPS Lambdas"
 
-          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-ops-cumulus-lambda --aws_profile cumulus-ops --start_time 12
+          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-ops-cumulus-lambda --aws_profile cumulus-ops --start_time 168
           python spreadsheet_write.py "TIG Cumulus OPS Lambdas"
-
-
+  
