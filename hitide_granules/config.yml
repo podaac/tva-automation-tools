@@ -1,0 +1,34 @@
+
+### CMR SEARCH OPTIONS ###
+cmr: ops # required
+collection: MODIS_A-JPL-L2P-v2019.0  # required
+provider: pocloud  # required
+#start_date: "2022-01-01T00:00:00Z"
+#end_date: "2016-02-01T00:00:00Z"
+page_size: 500
+#page_limit: 1
+#edl_token: edl-token
+# launchpad_token: insert-launchpad-token-here
+
+### GRANULE PARSING OPTIONS ###
+# geometries: [GPolygons, Lines]
+# footprint: 'on'
+# image: 'on'
+#dmrpp: 'on'
+use_data_url: true
+
+### FOR FINDING MESSAGE INFORMATION ###
+cumulus: ops  # required
+#cumulus_configurations: ../cumulus-configurations
+
+### MESSAGE SENDING OPTIONS ###
+#default_message_config: default_message_config.json
+aws_profile: ngap-service-ops
+# message_file: /path/to/message/file.txt
+# message_limit: 20
+# user: insert-optional-username-here
+preview: true
+
+### LOGS ###
+log_file: log.txt 
+log_level: DEBUG
