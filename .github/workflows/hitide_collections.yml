@@ -16,17 +16,12 @@ jobs:
       #########################################################################
       # Environment Setup
       #########################################################################
-      - name: Checkout Cumulus Configuration
-        uses: actions/checkout@v4
-        with:
-          repository: 'username/other-repo'
-          path: 'subdir/other-repo'
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v3.0.0
         with:
           poetry-version: 1.8.3
 
