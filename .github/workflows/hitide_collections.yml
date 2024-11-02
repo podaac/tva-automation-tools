@@ -1,0 +1,82 @@
+
+name: HiTIDE Collections Update
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Set the cron schedule for 1 am PST
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Refresh HiTIDE Collections Google Sheet
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+
+      #########################################################################
+      # Environment Setup
+      #########################################################################
+      - name: Checkout Cumulus Configuration
+        uses: actions/checkout@v4
+        with:
+          repository: 'username/other-repo'
+          path: 'subdir/other-repo'
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: 1.8.3
+
+      #########################################################################
+      # Install & Run Pylint & Flake
+      #########################################################################
+      - name: Poetry Steps
+        run: |
+          poetry install
+    #      poetry run pylint ./*
+    #      poetry run flake8 .
+
+      #########################################################################
+      # Setup AWS profiles
+      #########################################################################
+      - name: Configure custom AWS profile
+        run: |
+          mkdir -p ~/.aws
+          echo "[ngap-cumulus-ops]" >> ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}" >> ~/.aws/credentials
+          echo "[ngap-cumulus-uat]" >> ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_UAT }}" >> ~/.aws/credentials          
+
+          # Create the config file
+          echo "[ngap-cumulus-ops]" >> ~/.aws/config
+          echo "region=us-west-2" >> ~/.aws/config
+          echo "[ngap-cumulus-uat]" >> ~/.aws/config
+          echo "region=us-west-2" >> ~/.aws/config
+
+      #########################################################################
+      # Setup Token for GSpread
+      #########################################################################
+      - name: Setup Token
+        env:
+          GOOGLE_TOKEN: ${{ secrets.GOOGLE_TOKEN }}
+        run: |
+          mkdir -p ~/.config/gspread
+          echo "$GOOGLE_TOKEN" > ~/.config/gspread/service_account.json
+
+      #########################################################################
+      # Start the Repo Status Updater
+      #########################################################################
+      - name: Update HiTIDE Collections Google Sheet
+        working-directory: hitide_collections
+        env:
+          UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
+          OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+          AWS_DEFAULT_REGION: us-west-2
+          SPREADSHEET_ID: ${{ secrets.HITIDE_COLLECTIONS_SHEET_ID }}
+        run: |
+          poetry run python hitide_collections.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -d data
