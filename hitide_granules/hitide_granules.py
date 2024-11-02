@@ -7,7 +7,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import random
 import gspread
-import netrc
 
 import uuid
 from retrying import retry
@@ -130,7 +129,7 @@ def get_info(short_name, args):
     granule_url = cmr.queries.GranuleQuery(
                     mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
     
-    headers = {'Authorization': args.edl_token}
+    headers = {'Authorization': args.launchpad_token}
 
     first_granule = requests.get(granule_url, headers=headers, params={
                                 'page_size': 1, 'sort_key': 'start_date'}).json()['feed']['entry']
@@ -313,7 +312,7 @@ def next_month(date_str):
 #     granule_url = cmr.queries.GranuleQuery(
 #                     mode=mode).provider('POCLOUD').short_name(args.collection)._build_url()
     
-#     headers = {'Authorization': args.edl_token}
+#     headers = {'Authorization': args.launchpad_token}
 
 #     granule_count = requests.get(granule_url, headers=headers, params={
 #                                 'page_size': 0}).headers["CMR-Hits"]
@@ -502,7 +501,7 @@ def main(args=None):
     # load args
     args = parse_args(args)
 
-    args.edl_token = os.environ['OPS_TOKEN_TEMP']
+    args.launchpad_token = os.environ['OPS_TOKEN_TEMP']
 
     logger = logger_from_args(args)
 
