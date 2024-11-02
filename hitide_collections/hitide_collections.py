@@ -503,19 +503,11 @@ if __name__ == '__main__':
 
     _args = parse_args()
 
-    with open(_args.uat_token) as file:
-        uat_token_file = json.load(file)
-        uat_token = uat_token_file.get('token')
-
-    with open(_args.ops_token) as file:
-        ops_token_file = json.load(file)
-        ops_token = ops_token_file.get('token')
-
-    ops_headers = {'Authorization': ops_token}
+    ops_headers = {'Authorization': _args.ops_token}
     hitide_collections_ops = HitideCollections('ops', ops_headers, _args.data)
     hitide_collections_ops.run()
 
-    uat_headers = {'Authorization': uat_token}
+    uat_headers = {'Authorization': _args.uat_token}
     hitide_collections_uat = HitideCollections('uat', uat_headers, _args.data)
     hitide_collections_uat.run()
 
