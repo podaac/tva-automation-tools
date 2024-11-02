@@ -502,7 +502,7 @@ def main(args=None):
     # load args
     args = parse_args(args)
 
-    args.launchpad_token = os.environ['OPS_TOKEN_TEMP']
+    args.edl_token = os.environ['OPS_TOKEN_TEMP']
 
     logger = logger_from_args(args)
 
