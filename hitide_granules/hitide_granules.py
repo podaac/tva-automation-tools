@@ -496,7 +496,7 @@ def do_last_granules_runs(args, logger):
         print("Update failed after multiple retries. You may want to handle this error further.")
 
 
-def bearer_token(env):
+def bearer_token(env, logger):
     tokens = []
     headers: dict = {'Accept': 'application/json'}
     url: str = f"https://{'uat.' if env == 'uat' else ''}urs.earthdata.nasa.gov/api/users"
@@ -511,8 +511,8 @@ def bearer_token(env):
             tokens.append(x['access_token'])
 
     except Exception as ex:  # noqa E722
-        print(ex)
-        print("Error getting the token - check user name and password")
+        logger.error(ex)
+        logger.error("Error getting the token - check user name and password")
 
     # No tokens exist, try to create one
     if not tokens:
@@ -522,8 +522,8 @@ def bearer_token(env):
             response_content: dict = json.loads(resp.content)
             tokens.append(response_content['access_token'])
         except Exception as ex:  # noqa E722
-            print(ex)
-            print("Error getting the token - check user name and password")
+            logger.error(ex)
+            logger.error("Error getting the token - check user name and password")
 
     # If still no token, then we can't do anything
     if not tokens:
@@ -537,12 +537,16 @@ def main(args=None):
     # load args
     args = parse_args(args)
 
-    args.edl_token = bearer_token(args.cmr)
-
     logger = logger_from_args(args)
 
     logger.info(f"Started backfill: "                                 # pylint: disable=W1203
                 f"{datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z')}")
+
+    args.edl_token = bearer_token(args.cmr, logger)
+
+    if not args.edl_token:
+        logger.error("Could not get bearer token")
+        exit(1)
 
     do_count_runs(args, logger)
   #  do_last_granules_runs(args, logger)
