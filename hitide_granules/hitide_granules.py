@@ -129,7 +129,7 @@ def get_info(short_name, args):
     granule_url = cmr.queries.GranuleQuery(
                     mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
     
-    headers = {'Authorization': args.launchpad_token}
+    headers = {'Authorization': f"Bearer {args.edl_token}"}
 
     first_granule = requests.get(granule_url, headers=headers, params={
                                 'page_size': 1, 'sort_key': 'start_date'}).json()['feed']['entry']
@@ -312,7 +312,7 @@ def next_month(date_str):
 #     granule_url = cmr.queries.GranuleQuery(
 #                     mode=mode).provider('POCLOUD').short_name(args.collection)._build_url()
     
-#     headers = {'Authorization': args.launchpad_token}
+#     headers = {'Authorization': f"Bearer {args.edl_token}"}
 
 #     granule_count = requests.get(granule_url, headers=headers, params={
 #                                 'page_size': 0}).headers["CMR-Hits"]
@@ -494,14 +494,50 @@ def do_last_granules_runs(args, logger):
         print('done update last granules sheet')
     except RetryError:
         print("Update failed after multiple retries. You may want to handle this error further.")
-    
+
+
+def bearer_token(env):
+    tokens = []
+    headers: dict = {'Accept': 'application/json'}
+    url: str = f"https://{'uat.' if env == 'uat' else ''}urs.earthdata.nasa.gov/api/users"
+
+    # First just try to get a token that already exists
+    try:
+        resp = requests.get(url + "/tokens", headers=headers,
+                                   auth=requests.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
+        response_content = json.loads(resp.content)
+
+        for x in response_content:
+            tokens.append(x['access_token'])
+
+    except Exception as ex:  # noqa E722
+        print(ex)
+        print("Error getting the token - check user name and password")
+
+    # No tokens exist, try to create one
+    if not tokens:
+        try:
+            resp = requests.post(url + "/token", headers=headers,
+                                        auth=requests.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
+            response_content: dict = json.loads(resp.content)
+            tokens.append(response_content['access_token'])
+        except Exception as ex:  # noqa E722
+            print(ex)
+            print("Error getting the token - check user name and password")
+
+    # If still no token, then we can't do anything
+    if not tokens:
+        return None
+
+    return next(iter(tokens))
+
 
 def main(args=None):
  
     # load args
     args = parse_args(args)
 
-    args.launchpad_token = os.environ['OPS_TOKEN_TEMP']
+    args.edl_token = bearer_token(args.cmr)
 
     logger = logger_from_args(args)
 

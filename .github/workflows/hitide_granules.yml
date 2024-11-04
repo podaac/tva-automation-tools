@@ -65,8 +65,8 @@ jobs:
       - name: Update HiTIDE Granules Google Sheet
         working-directory: hitide_granules
         env:
-          UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
-          OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+          CMR_USER: ${{ secrets.CMR_USER }}
+          CMR_PASS: ${{ secrets.CMR_PASS }}
           AWS_DEFAULT_REGION: us-west-2
           COLLECTIONS_SPREADSHEET_ID: ${{ secrets.HITIDE_COLLECTIONS_SHEET_ID }}
           SPREADSHEET_ID: ${{ secrets.HITIDE_GRANULES_SHEET_ID }}
