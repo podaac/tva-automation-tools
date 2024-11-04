@@ -3,7 +3,7 @@ name: HiTIDE Granules Update
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '15 10 * * *'  # Set the cron schedule for 2am PST
+    - cron: '10 10 * * *'  # Set the cron schedule for 2am PST
   workflow_dispatch:
 
 jobs:
