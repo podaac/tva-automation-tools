@@ -389,6 +389,8 @@ class HitideCollections:
                     collection['thumbnail_count'] = len(forge_tig_config.get('imgVariables'))
                 else:
                     collection['thumbnail_count'] = 0
+            else:
+                print(f"Failed to get collection config from {collection_config}")
 
             cumulus_config = self.cumulus_configurations_from_api.get(short_name)
 
