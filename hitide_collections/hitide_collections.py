@@ -503,11 +503,11 @@ if __name__ == '__main__':
 
     _args = parse_args()
 
-    ops_headers = {'Authorization': _args.ops_token}
+    ops_headers = {'Authorization': f'Bearer {_args.ops_token}'}
     hitide_collections_ops = HitideCollections('ops', ops_headers, _args.data)
     hitide_collections_ops.run()
 
-    uat_headers = {'Authorization': _args.uat_token}
+    uat_headers = {'Authorization': f'Bearer {_args.uat_token}'}
     hitide_collections_uat = HitideCollections('uat', uat_headers, _args.data)
     hitide_collections_uat.run()
 
