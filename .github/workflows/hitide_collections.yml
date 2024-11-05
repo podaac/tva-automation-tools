@@ -3,7 +3,7 @@ name: HiTIDE Collections Update
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '0 9 * * *'  # Set the cron schedule for 1 am PST
+    - cron: '10 9 * * *'  # Set the cron schedule for 1 am PST
   workflow_dispatch:
 
 jobs:
