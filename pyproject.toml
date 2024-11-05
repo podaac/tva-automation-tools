@@ -2,7 +2,7 @@
 name = "tva-automation-tools"
 version = "0.1.0"
 description = ""
-authors = ["Zoltan Miskolci <zoltan.miskolci@jpl.nasa.gov>"]
+authors = ["James Wood <james.f.wood@jpl.nasa.gov>"]
 readme = "README.md"
 package-mode = false
 
