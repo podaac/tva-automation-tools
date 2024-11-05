@@ -17,6 +17,9 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from graphql_query import execute_graphql_query
 
+from podaac.hitide_backfill_tool.s3_reader import S3Reader
+from podaac.hitide_backfill_tool.cli import logger_from_args
+
 gc = gspread.service_account()
 
 spreadsheet_id = os.environ['SPREADSHEET_ID']
@@ -37,7 +40,9 @@ class HitideCollections:
 
 #TODO: load txts and forge-tig-config and see if any collections in there that aren't linked in the other services anymore
 
-    def __init__(self, env, data_path):
+    def __init__(self, logger, env, data_path):
+
+        self.logger = logger
 
         self.env = env
         self.data_path = data_path
@@ -60,6 +65,10 @@ class HitideCollections:
             exit(1)
         
         self.headers = {'Authorization': f"Bearer {token}"}
+
+        # Setup S3 access to read data-config files
+        aws_profile = f"podaac-services-{self.env}"
+        self.s3  = S3Reader(self.logger, aws_profile)
 
         self.get_association_text_collections()
         self.get_cumulus_api_workflow_choices()
@@ -371,15 +380,12 @@ class HitideCollections:
 
             print(f"Updating {self.env} collection...{concept_id} ({short_name})")
 
-            collection_config = (
-                f"https://hitide.podaac.{'uat.' if self.env == 'uat' else ''}"
-                f"earthdatacloud.nasa.gov/dataset-configs/{short_name}.cfg"
-            )
+            try:
+                collection_config = f"s3://podaac-services-{self.env}-hitide/dataset-configs/{short_name}.cfg"
 
-            forge_tig_config_resp = self.session.get(collection_config)
+                config = self.s3.read_file_from_s3(collection_config)
+                forge_tig_config = json.loads(config)
 
-            if forge_tig_config_resp.status_code == 200:
-                forge_tig_config = forge_tig_config_resp.json()
                 collection['forge_tig_config'] = "X"
 
                 if forge_tig_config.get('footprint'):
@@ -389,8 +395,9 @@ class HitideCollections:
                     collection['thumbnail_count'] = len(forge_tig_config.get('imgVariables'))
                 else:
                     collection['thumbnail_count'] = 0
-            else:
-                print(f"Failed to get collection config from {collection_config}")
+            except Exception as exc:
+                self.logger.error(f"Error: {str(exc)}\n")
+                self.logger.error(f"Failed to get collection config from {collection_config}")
 
             cumulus_config = self.cumulus_configurations_from_api.get(short_name)
 
@@ -527,6 +534,12 @@ def parse_args():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     
+    parser.add_argument('--log-file',
+                        default='log.txt')
+    
+    parser.add_argument("--log-level",
+                        default="DEBUG")
+
     parser.add_argument('-d', '--data',
                         help='path to data folder',
                         required=True,
@@ -540,10 +553,12 @@ if __name__ == '__main__':
 
     _args = parse_args()
 
-    hitide_collections_ops = HitideCollections("ops", _args.data)
+    logger = logger_from_args(_args)
+
+    hitide_collections_ops = HitideCollections(logger, "ops", _args.data)
     hitide_collections_ops.run()
 
-    hitide_collections_uat = HitideCollections("uat", _args.data)
+    hitide_collections_uat = HitideCollections(logger, "uat", _args.data)
     hitide_collections_uat.run()
 
     status_ws = workbook.worksheet("Status")
