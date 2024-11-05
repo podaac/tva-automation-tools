@@ -36,10 +36,9 @@ class HitideCollections:
 
 #TODO: load txts and forge-tig-config and see if any collections in there that aren't linked in the other services anymore
 
-    def __init__(self, env, headers, data_path):
+    def __init__(self, env, data_path):
 
         self.env = env
-        self.headers = headers
         self.data_path = data_path
 
         self.collections = {}
@@ -51,6 +50,15 @@ class HitideCollections:
         self.session = Session()
         self.session.mount('http://', adapter)
         self.session.mount('https://', adapter)
+
+        # Get bearer tokens
+        token = self.bearer_token()
+
+        if not token:
+            print("Could not get bearer token")
+            exit(1)
+        
+        self.headers = {'Authorization': f"Bearer {token}"}
 
         self.get_association_text_collections()
         self.get_cumulus_api_workflow_choices()
@@ -455,6 +463,42 @@ class HitideCollections:
             error_list.append([f"{short_name} ({self.env.upper()})", str(e), e.__traceback__.tb_lineno])
 
 
+    def bearer_token(self):
+        tokens = []
+        headers: dict = {'Accept': 'application/json'}
+        url: str = f"https://{'uat.' if self.env == 'uat' else ''}urs.earthdata.nasa.gov/api/users"
+
+        # First just try to get a token that already exists
+        try:
+            resp = self.session.get(url + "/tokens", headers=headers,
+                                    auth=self.session.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
+            response_content = json.loads(resp.content)
+
+            for x in response_content:
+                tokens.append(x['access_token'])
+
+        except Exception as ex:  # noqa E722
+            print(ex)
+            print(f"Error getting the {self.env} token - check user name and password")
+
+        # No tokens exist, try to create one
+        if not tokens:
+            try:
+                resp = self.session.post(url + "/token", headers=headers,
+                                            auth=self.session.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
+                response_content: dict = json.loads(resp.content)
+                tokens.append(response_content['access_token'])
+            except Exception as ex:  # noqa E722
+                print(ex)
+                print(f"Error getting the {self.env} token - check user name and password")
+
+        # If still no token, then we can't do anything
+        if not tokens:
+            return None
+
+        return next(iter(tokens))
+
+
     def run(self):
 
         self.add_watches()
@@ -479,16 +523,6 @@ def parse_args():
         description='Update CMR with latest profile',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-
-    parser.add_argument('-ut', '--uat_token',
-                        help='launchpad token file for uat',
-                        required=True,
-                        metavar='')
-
-    parser.add_argument('-ot', '--ops_token',
-                        help='launchpad token file for ops',
-                        required=True,
-                        metavar='')
     
     parser.add_argument('-d', '--data',
                         help='path to data folder',
@@ -503,12 +537,10 @@ if __name__ == '__main__':
 
     _args = parse_args()
 
-    ops_headers = {'Authorization': _args.ops_token}
-    hitide_collections_ops = HitideCollections('ops', ops_headers, _args.data)
+    hitide_collections_ops = HitideCollections("ops", _args.data)
     hitide_collections_ops.run()
 
-    uat_headers = {'Authorization': _args.uat_token}
-    hitide_collections_uat = HitideCollections('uat', uat_headers, _args.data)
+    hitide_collections_uat = HitideCollections("uat", _args.data)
     hitide_collections_uat.run()
 
     status_ws = workbook.worksheet("Status")

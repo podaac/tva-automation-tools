@@ -69,9 +69,9 @@ jobs:
       - name: Update HiTIDE Collections Google Sheet
         working-directory: hitide_collections
         env:
-          UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
-          OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+          CMR_USER: ${{ secrets.CMR_USER }}
+          CMR_PASS: ${{ secrets.CMR_PASS }}
           AWS_DEFAULT_REGION: us-west-2
           SPREADSHEET_ID: ${{ secrets.HITIDE_COLLECTIONS_SHEET_ID }}
         run: |
-          poetry run python hitide_collections.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -d data
+          poetry run python hitide_collections.py -d data

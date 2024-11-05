@@ -129,7 +129,7 @@ def get_info(short_name, args):
     granule_url = cmr.queries.GranuleQuery(
                     mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
     
-    headers = {'Authorization': f"Bearer {args.edl_token}"}
+    headers = {"Authorization": f"Bearer {args.edl_token}"}
 
     first_granule = requests.get(granule_url, headers=headers, params={
                                 'page_size': 1, 'sort_key': 'start_date'}).json()['feed']['entry']
@@ -312,7 +312,7 @@ def next_month(date_str):
 #     granule_url = cmr.queries.GranuleQuery(
 #                     mode=mode).provider('POCLOUD').short_name(args.collection)._build_url()
     
-#     headers = {'Authorization': f"Bearer {args.edl_token}"}
+#     headers = {"Authorization": f"Bearer {args.edl_token}"}
 
 #     granule_count = requests.get(granule_url, headers=headers, params={
 #                                 'page_size': 0}).headers["CMR-Hits"]
