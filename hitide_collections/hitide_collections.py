@@ -2,6 +2,7 @@ import argparse
 import csv
 import json
 import os
+import requests
 import traceback
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
@@ -471,7 +472,7 @@ class HitideCollections:
         # First just try to get a token that already exists
         try:
             resp = self.session.get(url + "/tokens", headers=headers,
-                                    auth=self.session.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
+                                    auth=requests.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
             response_content = json.loads(resp.content)
 
             for x in response_content:
@@ -485,7 +486,7 @@ class HitideCollections:
         if not tokens:
             try:
                 resp = self.session.post(url + "/token", headers=headers,
-                                            auth=self.session.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
+                                            auth=requests.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
                 response_content: dict = json.loads(resp.content)
                 tokens.append(response_content['access_token'])
             except Exception as ex:  # noqa E722
