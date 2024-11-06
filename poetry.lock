@@ -1041,13 +1041,13 @@ type = ["mypy (>=1.11.2)"]
 
 [[package]]
 name = "podaac-hitide-backfill-tool"
-version = "0.10.0rc4"
+version = "0.10.0rc5"
 description = "Backfill footprints and images for HiTIDE collections"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "podaac_hitide_backfill_tool-0.10.0rc4-py3-none-any.whl", hash = "sha256:9b52484c00014e86def42ae6fb42943d521595063b8b5cd830c3e5bfe702fd8b"},
-    {file = "podaac_hitide_backfill_tool-0.10.0rc4.tar.gz", hash = "sha256:09c7d2dbbaa91f36aac825a0a756c558644990fb352091f9ea17f5ad03db81bb"},
+    {file = "podaac_hitide_backfill_tool-0.10.0rc5-py3-none-any.whl", hash = "sha256:d4e5d233baaf1b0ac44e9c203c564d23297f3991a55024980df43ebb1c8d2c0e"},
+    {file = "podaac_hitide_backfill_tool-0.10.0rc5.tar.gz", hash = "sha256:03691eb6eafd0c2744aad0ea1dd6fa03cd976111798ee2d0d1fb182a96914a17"},
 ]
 
 [package.dependencies]
@@ -1606,13 +1606,13 @@ files = [
 
 [[package]]
 name = "tqdm"
-version = "4.66.6"
+version = "4.67.0"
 description = "Fast, Extensible Progress Meter"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "tqdm-4.66.6-py3-none-any.whl", hash = "sha256:223e8b5359c2efc4b30555531f09e9f2f3589bcd7fdd389271191031b49b7a63"},
-    {file = "tqdm-4.66.6.tar.gz", hash = "sha256:4bdd694238bef1485ce839d67967ab50af8f9272aab687c0d7702a01da0be090"},
+    {file = "tqdm-4.67.0-py3-none-any.whl", hash = "sha256:0cd8af9d56911acab92182e88d763100d4788bdf421d251616040cc4d44863be"},
+    {file = "tqdm-4.67.0.tar.gz", hash = "sha256:fe5a6f95e6fe0b9755e9469b77b9c3cf850048224ecaa8293d7d2d31f97d869a"},
 ]
 
 [package.dependencies]
@@ -1620,6 +1620,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [package.extras]
 dev = ["pytest (>=6)", "pytest-cov", "pytest-timeout", "pytest-xdist"]
+discord = ["requests"]
 notebook = ["ipywidgets (>=6)"]
 slack = ["slack-sdk"]
 telegram = ["requests"]
@@ -1830,4 +1831,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "8a516e5675a2359cefa0cfcb859ddc57a4e3dd89634398a99209a45d4a0cc74f"
+content-hash = "b74a78e026b2bbe4eee7fd24a70e28cb2c75da72e48b4680b35eefa008d2b8ca"
