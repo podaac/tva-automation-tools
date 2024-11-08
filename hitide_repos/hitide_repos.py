@@ -93,8 +93,15 @@ def get_repos():
 
     repo_table = repos_sheet.get_all_values()
     
+    col_index = 1
+    for index, col in enumerate(repo_table[0]):
+        if col == 'JPL GitHub':
+            col_index = index
+            break
+
     for index, row in enumerate(repo_table[1:]):
-        repo_list.append(row[0])
+        if row[col_index] == '':
+            repo_list.append(row[0])
 
     return repo_list
 
@@ -120,7 +127,7 @@ def main(args=None):
         new_table.append(row)
 
 
-    repos_sheet.update(new_table, 'B2')
+    repos_sheet.update(new_table, 'C2')
 
 
     # Example usage:
