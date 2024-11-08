@@ -115,7 +115,7 @@ def main(args=None):
 
         print("Repo: " + repo)
         row.append(get_open_pr_count("podaac/" + repo, github_token))
-        row.append(get_latest_release(repo))
+        row.append(get_latest_release("podaac/" + repo))
 
         new_table.append(row)
 
