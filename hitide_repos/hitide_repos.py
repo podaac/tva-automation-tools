@@ -64,11 +64,10 @@ def get_latest_release(repo_name):
             if not release["prerelease"]:
                 return release["tag_name"]
 
-        return "No non-pre-release versions found"
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
-        return ""
 
+    return ""
 
 def get_repos():
     """Get the list of repositories from the spreadsheet"""
