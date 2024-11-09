@@ -141,13 +141,13 @@ def main():
         row = []
 
         try:
-            repo_name = repo.get('name')
+            repo_name = "podaac/" + repo.get('name') if '/' not in repo.get('name') else repo.get('name')
             jpl_github = repo.get('jpl_github')
 
             print("Repo: " + repo_name)
             if not jpl_github:
-                pr_count = get_open_pr_count("podaac/" + repo_name, github_token)
-                latest_release = get_latest_release("podaac/" + repo_name)
+                pr_count = get_open_pr_count(repo_name, github_token)
+                latest_release = get_latest_release(repo_name)
 
                 row.append(pr_count)
                 row.append(latest_release)
