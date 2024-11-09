@@ -73,30 +73,19 @@ def get_latest_release(repo_name):
 
 def get_package_versions(repo_name, token):
     owner, package_name = repo_name.split("/")
-    # GitHub API URL for the container package versions
     versions_url = f"https://api.github.com/orgs/{owner}/packages/container/{package_name}/versions"
 
-    # Headers for authentication
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github.v3+json"
     }
 
-    # Fetch package versions
-    response_versions = requests.get(versions_url, headers=headers)
-    if response_versions.status_code != 200:
-        print(f"Failed to retrieve package versions: {response_versions.status_code}")
+    response = requests.get(versions_url, headers=headers)
+    if response.status_code != 200:
+        print(f"Failed to retrieve package versions: {response.status_code}")
         return None
 
-    # Parse and filter versions by labels "ops" or "uat"
-    versions = response_versions.json()
-    versions_with_labels = [
-        version for version in versions
-        if 'tags' in version['metadata']['container'] and 
-           any(label in version['metadata']['container']['tags'] for label in ["ops", "uat"])
-    ]
-
-    return versions_with_labels
+    return response.json()
 
 
 def get_repos():
@@ -165,7 +154,7 @@ def main():
 
     versions = get_package_versions(repo_name, github_token)
     if versions:
-        print("Versions with 'ops' or 'uat' Labels:")
+        print("Package Versions:")
         for version in versions:
             print(f"Version ID: {version['id']}, Tags: {version['metadata']['container']['tags']}")
 
