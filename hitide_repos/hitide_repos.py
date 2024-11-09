@@ -115,6 +115,9 @@ def main():
 
                 row.append(pr_count)
                 row.append(latest_release)
+            else:
+                row.append("")
+                row.append("")
         except Exception as ex:
             print(ex)
 
