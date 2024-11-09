@@ -72,8 +72,9 @@ def get_latest_release(repo_name):
 
 
 def get_github_container_package_info(repo_name, token):
+    owner, package_name = repo_name.split("/")
     # GitHub API URLs for the container package and its versions
-    api_url = f"https://api.github.com/repos/{repo_name}/packages/container/{repo_name.split('/')[-1]}"
+    api_url = f"https://api.github.com/orgs/{owner}/packages/container/{package_name}"
     versions_url = f"{api_url}/versions"
 
     # Headers for authentication
