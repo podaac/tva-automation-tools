@@ -71,21 +71,39 @@ def get_latest_release(repo_name):
     return ""
 
 
-def get_package_versions(repo_name, token):
+def get_all_tagged_package_versions(repo_name, token):
     owner, package_name = repo_name.split("/")
     versions_url = f"https://api.github.com/orgs/{owner}/packages/container/{package_name}/versions"
-
+    
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github.v3+json"
     }
 
-    response = requests.get(versions_url, headers=headers)
-    if response.status_code != 200:
-        print(f"Failed to retrieve package versions: {response.status_code}")
-        return None
+    all_tagged_versions = []
+    page = 1
 
-    return response.json()
+    # Loop through all pages to get all versions
+    while True:
+        response = requests.get(versions_url, headers=headers, params={"page": page, "per_page": 100})
+        if response.status_code != 200:
+            print(f"Failed to retrieve package versions: {response.status_code}")
+            return None
+
+        versions = response.json()
+        if not versions:
+            break  # Exit loop if there are no more versions
+
+        # Filter versions to include only those with tags
+        tagged_versions = [
+            version for version in versions
+            if 'tags' in version['metadata']['container'] and version['metadata']['container']['tags']
+        ]
+
+        all_tagged_versions.extend(tagged_versions)
+        page += 1
+
+    return all_tagged_versions
 
 
 def get_repos():
@@ -152,7 +170,7 @@ def main():
     latest_release = get_latest_release(repo_name)
     print(f"Latest release for {repo_name}: {latest_release}")
 
-    versions = get_package_versions(repo_name, github_token)
+    versions = get_all_tagged_package_versions(repo_name, github_token)
     if versions:
         print("Package Versions:")
         for version in versions:
