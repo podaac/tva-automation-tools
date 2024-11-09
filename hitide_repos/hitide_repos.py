@@ -25,7 +25,8 @@ def get_open_pr_count(repo_name, github_token):
     url = "https://api.github.com/search/issues"
     query = f"repo:{repo_name} is:pr is:open"
     headers = {
-        "Authorization": f"Bearer {github_token}"
+        "Authorization": f"Bearer {github_token}",
+        "Accept": "application/vnd.github.v3+json"
     }
 
     params = {
@@ -68,6 +69,37 @@ def get_latest_release(repo_name):
         print(f"An error occurred: {e}")
 
     return ""
+
+
+def get_github_container_package_info(repo_name, token):
+    # GitHub API URLs for the container package and its versions
+    api_url = f"https://api.github.com/repos/{repo_name}/packages/container/{repo_name.split('/')[-1]}"
+    versions_url = f"{api_url}/versions"
+
+    # Headers for authentication
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+
+    # Fetch package details
+    response_package = requests.get(api_url, headers=headers)
+    if response_package.status_code != 200:
+        print(f"Failed to retrieve package info: {response_package.status_code}")
+        return None
+
+    # Fetch package versions
+    response_versions = requests.get(versions_url, headers=headers)
+    if response_versions.status_code != 200:
+        print(f"Failed to retrieve package versions: {response_versions.status_code}")
+        return None
+
+    # Combine package info and versions in a dictionary
+    package_info = response_package.json()
+    package_info["versions"] = response_versions.json()
+
+    return package_info
+
 
 def get_repos():
     """Get the list of repositories from the spreadsheet"""
@@ -133,6 +165,10 @@ def main():
     latest_release = get_latest_release(repo_name)
     print(f"Latest release for {repo_name}: {latest_release}")
 
+    package_data = get_github_container_package_info(repo_name, github_token)
+    if package_data:
+        print("Package Info and Versions:")
+        print(package_data)
 
 if __name__ == "__main__":
     main()
