@@ -71,11 +71,10 @@ def get_latest_release(repo_name):
     return ""
 
 
-def get_github_container_package_info(repo_name, token):
+def get_package_versions(repo_name, token):
     owner, package_name = repo_name.split("/")
-    # GitHub API URLs for the container package and its versions
-    api_url = f"https://api.github.com/orgs/{owner}/packages/container/{package_name}"
-    versions_url = f"{api_url}/versions"
+    # GitHub API URL for the container package versions
+    versions_url = f"https://api.github.com/orgs/{owner}/packages/container/{package_name}/versions"
 
     # Headers for authentication
     headers = {
@@ -83,23 +82,21 @@ def get_github_container_package_info(repo_name, token):
         "Accept": "application/vnd.github.v3+json"
     }
 
-    # Fetch package details
-    response_package = requests.get(api_url, headers=headers)
-    if response_package.status_code != 200:
-        print(f"Failed to retrieve package info: {response_package.status_code}")
-        return None
-
     # Fetch package versions
     response_versions = requests.get(versions_url, headers=headers)
     if response_versions.status_code != 200:
         print(f"Failed to retrieve package versions: {response_versions.status_code}")
         return None
 
-    # Combine package info and versions in a dictionary
-    package_info = response_package.json()
-    package_info["versions"] = response_versions.json()
+    # Parse and filter versions by labels "ops" or "uat"
+    versions = response_versions.json()
+    versions_with_labels = [
+        version for version in versions
+        if 'tags' in version['metadata']['container'] and 
+           any(label in version['metadata']['container']['tags'] for label in ["ops", "uat"])
+    ]
 
-    return package_info
+    return versions_with_labels
 
 
 def get_repos():
@@ -166,10 +163,11 @@ def main():
     latest_release = get_latest_release(repo_name)
     print(f"Latest release for {repo_name}: {latest_release}")
 
-    package_data = get_github_container_package_info(repo_name, github_token)
-    if package_data:
-        print("Package Info and Versions:")
-        print(package_data)
+    versions = get_package_versions(repo_name, tokgithub_tokenen)
+    if versions:
+        print("Versions with 'ops' or 'uat' Labels:")
+        for version in versions:
+            print(f"Version ID: {version['id']}, Tags: {version['metadata']['container']['tags']}")
 
 if __name__ == "__main__":
     main()
