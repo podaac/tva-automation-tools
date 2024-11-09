@@ -163,7 +163,7 @@ def main():
     latest_release = get_latest_release(repo_name)
     print(f"Latest release for {repo_name}: {latest_release}")
 
-    versions = get_package_versions(repo_name, tokgithub_tokenen)
+    versions = get_package_versions(repo_name, github_token)
     if versions:
         print("Versions with 'ops' or 'uat' Labels:")
         for version in versions:
