@@ -1,32 +1,15 @@
-from concurrent.futures import ThreadPoolExecutor
-from multiprocessing import Lock
 import os
-import pytz
-from datetime import datetime
-import gspread
 import requests
-
-from retrying import retry
-
+import gspread
 
 gc = gspread.service_account()
-
-lock = Lock()
 
 spreadsheet_id = os.environ['SPREADSHEET_ID']
 
 workbook = gc.open_by_key(spreadsheet_id)
 
-now = datetime.now(pytz.timezone('US/Pacific'))
-current_month = now.strftime("%Y-%m")
+repos_sheet = workbook.worksheet("Repos")
 
-# Now, create or open a worksheet in the spreadsheet
-worksheet_title = "Repos"
-
-repos_sheet = workbook.worksheet(worksheet_title)
-
-
-import requests
 
 def get_open_pr_count(repo_name, github_token):
     """
@@ -85,14 +68,15 @@ def get_latest_release(repo_name):
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
         return None
-    
+
 
 def get_repos():
+    """Get the list of repositories from the spreadsheet"""
 
     repo_list = []
 
     repo_table = repos_sheet.get_all_values()
-    
+
     col_index = 1
     for index, col in enumerate(repo_table[0]):
         if col == 'JPL GitHub':
@@ -100,15 +84,15 @@ def get_repos():
             break
 
     for index, row in enumerate(repo_table[1:]):
-        if row[col_index] == '':
-            repo_list.append(row[0])
+        repo = {"name": row[0],
+                "jpl_github": row[col_index] == 'X'}
+        repo_list.append(repo)
 
     return repo_list
 
 
-def main(args=None):
-    
-    print("Hello World!")
+def main():
+    """ Update HiTIDE DevOps Repos Google Sheet"""
 
     repos = get_repos()
 
@@ -118,14 +102,23 @@ def main(args=None):
 
     new_table = []
     for repo in repos:
-        row = [repo]
+        row = []
 
-        print("Repo: " + repo)
-        row.append(get_open_pr_count("podaac/" + repo, github_token))
-        row.append(get_latest_release("podaac/" + repo))
+        try:
+            repo_name = repo.get('name')
+            jpl_github = repo.get('jpl_github')
+
+            print("Repo: " + repo_name)
+            if not jpl_github:
+                pr_count = get_open_pr_count("podaac/" + repo_name, github_token)
+                latest_release = get_latest_release("podaac/" + repo_name)
+
+                row.append(pr_count)
+                row.append(latest_release)
+        except Exception as ex:
+            print(ex)
 
         new_table.append(row)
-
 
     repos_sheet.update(new_table, 'C2')
 
