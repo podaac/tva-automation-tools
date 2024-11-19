@@ -22,7 +22,7 @@ def get_open_pr_count(repo_name, github_token):
     Returns:
     int: The number of open pull requests.
     """
-    url = "https://api.github.com/search/issues"
+    url = "https://api.github.com/search/issues"        #search/issues is only for issues and PRs
     query = f"repo:{repo_name} is:pr is:open"
     headers = {
         "Authorization": f"Bearer {github_token}",
@@ -43,15 +43,16 @@ def get_open_pr_count(repo_name, github_token):
         return ""
 
 
-def get_latest_release(repo_name):
+def get_releases(repo_name):
     """
-    Returns the latest release version (excluding pre-releases) for a given GitHub repository.
+    Returns a list of releases for a given GitHub repository.
+    Includes only final releases and prereleases that contain "rc" in the tag name.
 
     Parameters:
     repo_name (str): The repository name in the format "owner/repo".
 
     Returns:
-    str: The tag name of the latest release, or None if there are no releases.
+    list: A list of tag names for the filtered releases, or an empty list if none are found.
     """
     url = f"https://api.github.com/repos/{repo_name}/releases"
 
@@ -60,10 +61,12 @@ def get_latest_release(repo_name):
         response.raise_for_status()
         releases = response.json()
 
-        # Filter out pre-releases and return the first release found
-        for release in releases:
-            if not release["prerelease"]:
-                return release["tag_name"]
+        # Filter for final releases or prereleases containing "rc" in the tag_name
+        filtered_releases = [
+            release["tag_name"] for release in releases 
+            if not release["prerelease"] or ("rc" in release["tag_name"].lower())
+        ]
+        return filtered_releases
 
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
@@ -147,7 +150,12 @@ def main():
             print("Repo: " + repo_name)
             if not jpl_github:
                 pr_count = get_open_pr_count(repo_name, github_token)
-                latest_release = get_latest_release(repo_name)
+
+                releases = get_releases(repo_name)
+                print("Releases: ")
+                print(releases)
+                
+                latest_release = releases[0] if releases else ""
 
                 row.append(pr_count)
                 row.append(latest_release)
@@ -167,8 +175,8 @@ def main():
     open_pr_count = get_open_pr_count(repo_name, github_token)
     print(f"Open PR count for {repo_name}: {open_pr_count}")
 
-    latest_release = get_latest_release(repo_name)
-    print(f"Latest release for {repo_name}: {latest_release}")
+    releases = get_releases(repo_name)
+    print(f"Releases for {repo_name}: {releases}")
 
     versions = get_all_tagged_package_versions(repo_name, github_token)
     if versions:
