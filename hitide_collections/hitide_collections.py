@@ -82,7 +82,7 @@ class HitideCollections:
             self.get_cumulus_api_workflow_choices()
         except Exception as ex:
             self.logger.error(ex)
-            error_list.append([[f"NA ({self.env.upper()})", str(ex), ex.__traceback__.tb_lineno])
+            error_list.append([f"NA ({self.env.upper()})", str(ex), ex.__traceback__.tb_lineno])
             self.cumulus_configurations_from_api = {}
 
 
