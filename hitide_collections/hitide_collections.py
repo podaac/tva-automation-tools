@@ -81,7 +81,7 @@ class HitideCollections:
             self.get_cumulus_api_workflow_choices()
         except Exception as ex:
             self.logger.error(ex)
-            self.cumulus_configurations_from_api = []
+            self.cumulus_configurations_from_api = {}
 
 
     def add_collections(self, umm_name, collections_query):
