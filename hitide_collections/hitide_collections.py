@@ -68,7 +68,12 @@ class HitideCollections:
 
         # Setup S3 access to read data-config files
         aws_profile = f"podaac-services-{self.env}"
-        self.s3  = S3Reader(self.logger, aws_profile)
+
+        try:
+            self.s3  = S3Reader(self.logger, aws_profile)
+        except Exception as ex:
+            self.logger.error(ex)
+            self.s3 = None
 
         self.get_association_text_collections()
         self.get_cumulus_api_workflow_choices()
@@ -395,7 +400,8 @@ class HitideCollections:
                     collection['thumbnail_count'] = len(forge_tig_config.get('imgVariables'))
                 else:
                     collection['thumbnail_count'] = 0
-            except Exception:
+            except Exception as ex:
+                self.logger.error(ex)
                 pass
 
             cumulus_config = self.cumulus_configurations_from_api.get(short_name)
