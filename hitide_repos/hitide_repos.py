@@ -1,6 +1,7 @@
 import os
 import requests
 import gspread
+from bs4 import BeautifulSoup
 
 gc = gspread.service_account()
 
@@ -120,6 +121,32 @@ def get_all_tagged_package_versions(repo_name, token):
     return all_tagged_versions
 
 
+def get_webpage_title(url):
+    """
+    Fetches the title of a web page given its URL.
+
+    Parameters:
+        url (str): The URL of the web page.
+
+    Returns:
+        str: The title of the web page, or an error message if unavailable.
+    """
+    try:
+        # Send an HTTP GET request to the URL
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
+
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Find the title tag
+        title = soup.title.string if soup.title else "Title not found"
+        return title.strip() if title else "Title is empty"
+
+    except requests.exceptions.RequestException as e:
+        return None
+
+
 def get_repos():
     """Get the list of repositories from the spreadsheet"""
 
@@ -182,13 +209,23 @@ def main():
                             uat_package = version['metadata']['container']['tags'][0]
 
                         print(f"Version ID: {version['id']}, Tags: {version['metadata']['container']['tags']}")
-                            
+
+                # Get Gibhub.io docs version
+                title = get_webpage_title(f"https://podaac.github.io/{repo_name}/")
+
+                docs_version = ""
+                if title:
+                    title_words = title.split()
+                    docs_version = title_words[-2] if len(title_words) > 1 else None
+
                 row.append(pr_count)
                 row.append(final_release)
                 row.append(rc_release)
                 row.append(ops_package)
                 row.append(uat_package)
+                row.append(docs_version)
             else:
+                row.append("")
                 row.append("")
                 row.append("")
                 row.append("")
