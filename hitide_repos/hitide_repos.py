@@ -12,23 +12,19 @@ workbook = gc.open_by_key(spreadsheet_id)
 repos_sheet = workbook.worksheet("Repos")
 
 
-def get_open_count(repo_name, github_token, count_type):
+def get_open_pr_count(repo_name, github_token):
     """
-    Returns the number of open pull requests or issues for a given GitHub repository.
+    Returns the number of open pull requests for a given GitHub repository.
 
     Parameters:
     repo_name (str): The repository name in the format "owner/repo".
-    github_token (str): Your GitHub personal access token.
-    count_type (str): The type of count to retrieve, either "pr" for pull requests or "issue" for issues.
+    token (str): Your GitHub personal access token.
 
     Returns:
-    int: The number of open pull requests or issues.
+    int: The number of open pull requests.
     """
-    if count_type not in ["pr", "issue"]:
-        raise ValueError("Invalid count_type. Use 'pr' for pull requests or 'issue' for issues.")
-
-    url = "https://api.github.com/search/issues"  # search/issues is used for both issues and PRs
-    query = f"repo:{repo_name} is:{count_type} is:open"
+    url = "https://api.github.com/search/issues"        #search/issues is only for issues and PRs
+    query = f"repo:{repo_name} is:pr is:open"
     headers = {
         "Authorization": f"Bearer {github_token}",
         "Accept": "application/vnd.github.v3+json"
@@ -45,6 +41,28 @@ def get_open_count(repo_name, github_token, count_type):
         return data["total_count"]
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
+        return ""
+
+
+def get_issue_count(repo_name, github_token):
+    # GitHub API endpoint for issues in a repository
+    url = f'https://api.github.com/repos/{repo_name}/issues'
+    
+    # Define headers for authentication
+    headers = {
+        'Authorization': f'Bearer {github_token}'
+    }
+
+    # Make the request to the GitHub API
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        # If the request is successful, return the count of issues
+        issues = response.json()
+        return len(issues)
+    else:
+        # If there's an error, print the status code and message
+        print(f"Error: {response.status_code}, {response.json()}")
         return ""
 
 
@@ -191,8 +209,8 @@ def main():
 
             print("Repo: " + repo_name)
             if not jpl_github:
-                pr_count = get_open_count(repo_name, github_token, "pr")
-            #    issue_count = get_open_count(repo_name, github_token, "issue")
+                pr_count = get_open_pr_count(repo_name, github_token)
+                issue_count = get_issue_count(repo_name, github_token)
 
                 releases = get_latest_releases(repo_name)
                 print("Releases: ")
@@ -226,13 +244,14 @@ def main():
                     docs_version = title_words[-2] if len(title_words) > 1 else None
 
                 row.append(pr_count)
-                row.append("")
+                row.append(issue_count)
                 row.append(final_release)
                 row.append(rc_release)
                 row.append(ops_package)
                 row.append(uat_package)
                 row.append(docs_version)
             else:
+                row.append("")
                 row.append("")
                 row.append("")
                 row.append("")
@@ -249,7 +268,7 @@ def main():
 
     # Example usage:
     repo_name = "podaac/forge-py"
-    open_pr_count = get_open_count(repo_name, github_token, "pr")
+    open_pr_count = get_open_pr_count(repo_name, github_token)
     print(f"Open PR count for {repo_name}: {open_pr_count}")
 
     releases = get_latest_releases(repo_name)
