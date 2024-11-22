@@ -133,7 +133,7 @@ def get_repos():
             col_index = index
             break
 
-    for index, row in enumerate(repo_table[1:]):
+    for index, row in enumerate(repo_table[2:]):
         repo = {"name": row[0],
                 "jpl_github": row[col_index] == 'X'}
         repo_list.append(repo)
@@ -169,10 +169,28 @@ def main():
                 final_release = releases.get("latest_final", "")
                 rc_release = releases.get("latest_rc", "")
 
+                ops_package = ""
+                uat_package = ""
+
+                versions = get_all_tagged_package_versions(repo_name, github_token)
+                if versions:
+                    print("Package Versions:")
+                    for version in versions:
+                        if 'ops' in version['metadata']['container']['tags']:
+                            ops_package = version['metadata']['container']['tags'][0]
+                        if 'uat' in version['metadata']['container']['tags']:
+                            uat_package = version['metadata']['container']['tags'][0]
+
+                        print(f"Version ID: {version['id']}, Tags: {version['metadata']['container']['tags']}")
+                            
                 row.append(pr_count)
                 row.append(final_release)
                 row.append(rc_release)
+                row.append(ops_package)
+                row.append(uat_package)
             else:
+                row.append("")
+                row.append("")
                 row.append("")
                 row.append("")
                 row.append("")
