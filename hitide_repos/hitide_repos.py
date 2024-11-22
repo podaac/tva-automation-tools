@@ -211,7 +211,9 @@ def main():
                         print(f"Version ID: {version['id']}, Tags: {version['metadata']['container']['tags']}")
 
                 # Get Gibhub.io docs version
-                title = get_webpage_title(f"https://podaac.github.io/{repo_name}/")
+                name = repo_name.split("/")[-1]
+                title = get_webpage_title(f"https://podaac.github.io/{name}/")
+                print(f"Title: {title}")
 
                 docs_version = ""
                 if title:
