@@ -65,7 +65,7 @@ def get_open_issues_count(repo_name, github_token):
         # If the request is successful, return the count of open issues
         issues = response.json()
         # Filter out PRs if needed
-        return len([issue for issue in issues if 'pull_request' not in issue])
+        return len(issues)
     else:
         # If there's an error, print the status code and message
         print(f"Error: {response.status_code}, {response.json()}")
