@@ -192,7 +192,7 @@ def main():
             print("Repo: " + repo_name)
             if not jpl_github:
                 pr_count = get_open_count(repo_name, github_token, "pr")
-                issue_count = get_open_count(repo_name, github_token, "issue")
+            #    issue_count = get_open_count(repo_name, github_token, "issue")
 
                 releases = get_latest_releases(repo_name)
                 print("Releases: ")
@@ -226,7 +226,7 @@ def main():
                     docs_version = title_words[-2] if len(title_words) > 1 else None
 
                 row.append(pr_count)
-                row.append(issue_count)
+                row.append("")
                 row.append(final_release)
                 row.append(rc_release)
                 row.append(ops_package)
