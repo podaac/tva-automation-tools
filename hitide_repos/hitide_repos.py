@@ -166,11 +166,14 @@ def main():
                 print("Releases: ")
                 print(releases)
                 
-                latest_release = releases.get("latest_final", "")
+                final_release = releases.get("latest_final", "")
+                rc_release = releases.get("latest_rc", "")
 
                 row.append(pr_count)
-                row.append(latest_release)
+                row.append(final_release)
+                row.append(rc_release)
             else:
+                row.append("")
                 row.append("")
                 row.append("")
         except Exception as ex:
@@ -178,7 +181,7 @@ def main():
 
         new_table.append(row)
 
-    repos_sheet.update(new_table, 'C2')
+    repos_sheet.update(new_table, 'C3')
 
 
     # Example usage:
