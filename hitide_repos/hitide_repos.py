@@ -44,22 +44,28 @@ def get_open_pr_count(repo_name, github_token):
         return ""
 
 
-def get_issue_count(repo_name, github_token):
+def get_open_issues_count(repo_name, github_token):
     # GitHub API endpoint for issues in a repository
     url = f'https://api.github.com/repos/{repo_name}/issues'
-    
+
     # Define headers for authentication
     headers = {
         'Authorization': f'Bearer {github_token}'
     }
 
+    # Define the parameters to get only open issues (not pull requests)
+    params = {
+        'state': 'open',  # Only open issues
+    }
+
     # Make the request to the GitHub API
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
 
     if response.status_code == 200:
-        # If the request is successful, return the count of issues
+        # If the request is successful, return the count of open issues
         issues = response.json()
-        return len(issues)
+        # Filter out PRs if needed
+        return len([issue for issue in issues if 'pull_request' not in issue])
     else:
         # If there's an error, print the status code and message
         print(f"Error: {response.status_code}, {response.json()}")
@@ -210,7 +216,7 @@ def main():
             print("Repo: " + repo_name)
             if not jpl_github:
                 pr_count = get_open_pr_count(repo_name, github_token)
-                issue_count = get_issue_count(repo_name, github_token)
+                issue_count = get_open_issues_count(repo_name, github_token)
 
                 releases = get_latest_releases(repo_name)
                 print("Releases: ")
