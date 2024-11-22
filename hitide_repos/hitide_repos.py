@@ -12,19 +12,23 @@ workbook = gc.open_by_key(spreadsheet_id)
 repos_sheet = workbook.worksheet("Repos")
 
 
-def get_open_pr_count(repo_name, github_token):
+def get_open_count(repo_name, github_token, count_type):
     """
-    Returns the number of open pull requests for a given GitHub repository.
+    Returns the number of open pull requests or issues for a given GitHub repository.
 
     Parameters:
     repo_name (str): The repository name in the format "owner/repo".
-    token (str): Your GitHub personal access token.
+    github_token (str): Your GitHub personal access token.
+    count_type (str): The type of count to retrieve, either "pr" for pull requests or "issue" for issues.
 
     Returns:
-    int: The number of open pull requests.
+    int: The number of open pull requests or issues.
     """
-    url = "https://api.github.com/search/issues"        #search/issues is only for issues and PRs
-    query = f"repo:{repo_name} is:pr is:open"
+    if count_type not in ["pr", "issue"]:
+        raise ValueError("Invalid count_type. Use 'pr' for pull requests or 'issue' for issues.")
+
+    url = "https://api.github.com/search/issues"  # search/issues is used for both issues and PRs
+    query = f"repo:{repo_name} is:{count_type} is:open"
     headers = {
         "Authorization": f"Bearer {github_token}",
         "Accept": "application/vnd.github.v3+json"
@@ -187,7 +191,8 @@ def main():
 
             print("Repo: " + repo_name)
             if not jpl_github:
-                pr_count = get_open_pr_count(repo_name, github_token)
+                pr_count = get_open_count(repo_name, github_token, "pr")
+                issue_count = get_open_count(repo_name, github_token, "issue")
 
                 releases = get_latest_releases(repo_name)
                 print("Releases: ")
@@ -221,6 +226,7 @@ def main():
                     docs_version = title_words[-2] if len(title_words) > 1 else None
 
                 row.append(pr_count)
+                row.append(issue_count)
                 row.append(final_release)
                 row.append(rc_release)
                 row.append(ops_package)
@@ -243,7 +249,7 @@ def main():
 
     # Example usage:
     repo_name = "podaac/forge-py"
-    open_pr_count = get_open_pr_count(repo_name, github_token)
+    open_pr_count = get_open_count(repo_name, github_token, "pr")
     print(f"Open PR count for {repo_name}: {open_pr_count}")
 
     releases = get_latest_releases(repo_name)
