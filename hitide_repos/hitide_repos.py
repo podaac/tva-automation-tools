@@ -56,20 +56,31 @@ def get_open_issues_count(repo_name, github_token):
     # Define the parameters to get only open issues (not pull requests)
     params = {
         'state': 'open',  # Only open issues
+        'per_page': 100,  # Get up to 100 issues per page (max allowed by GitHub)
     }
 
-    # Make the request to the GitHub API
-    response = requests.get(url, headers=headers, params=params)
+    open_issues_count = 0
+    page = 1
 
-    if response.status_code == 200:
-        # If the request is successful, return the count of open issues
-        issues = response.json()
-        # Filter out PRs if needed
-        return len(issues)
-    else:
-        # If there's an error, print the status code and message
-        print(f"Error: {response.status_code}, {response.json()}")
-        return ""
+    while True:
+        # Add pagination to the request
+        params['page'] = page
+        response = requests.get(url, headers=headers, params=params)
+
+        if response.status_code == 200:
+            issues = response.json()
+            if not issues:
+                # If no issues are returned, we've reached the last page
+                break
+            # Count open issues and exclude pull requests
+            open_issues_count += len([issue for issue in issues if 'pull_request' not in issue])
+            page += 1
+        else:
+            # If there's an error, print the status code and message
+            print(f"Error: {response.status_code}, {response.json()}")
+            return ""
+
+    return open_issues_count
 
 
 def get_latest_releases(repo_name):
