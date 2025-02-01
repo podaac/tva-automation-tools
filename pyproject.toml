@@ -23,7 +23,7 @@ cmr-umm-updater = { git = "https://github.com/podaac/cmr-umm-updater.git", branc
 gspread-formatting = "^1.2.0"
 gql = {extras = ["all"], version = "^3.5.0"}
 retrying = "^1.3.4"
-podaac-hitide-backfill-tool = { version = "0.10.0rc32", source = "testpypi" }
+podaac-hitide-backfill-tool = { version = "0.10.0rc33", source = "testpypi" }
 beautifulsoup4 = "^4.12.3"
 
 [tool.poetry.group.dev.dependencies]

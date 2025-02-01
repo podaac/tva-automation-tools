@@ -1036,13 +1036,13 @@ type = ["mypy (>=1.11.2)"]
 
 [[package]]
 name = "podaac-hitide-backfill-tool"
-version = "0.10.0rc32"
+version = "0.10.0rc33"
 description = "Backfill footprints and images for HiTIDE collections"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "podaac_hitide_backfill_tool-0.10.0rc32-py3-none-any.whl", hash = "sha256:30ea1f7ebbd6d6aca66a988d9094f2da32b2f53c8ecf3e9f0c41a3ecd491f41a"},
-    {file = "podaac_hitide_backfill_tool-0.10.0rc32.tar.gz", hash = "sha256:9b310d170ce9c985b44690dca271716d432a00c06d3e4abc7c475ebd6e1e2739"},
+    {file = "podaac_hitide_backfill_tool-0.10.0rc33-py3-none-any.whl", hash = "sha256:41dc6bf3d5ec58775c8f92975d1df3e90ebef0776a1606de6a49a9922f4bb48a"},
+    {file = "podaac_hitide_backfill_tool-0.10.0rc33.tar.gz", hash = "sha256:ac5b6314a931e7db78b7b666a8e406513b5193270cc83ecc86c344b639eb9858"},
 ]
 
 [package.dependencies]
@@ -1851,4 +1851,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "ad9841e0389be47b54c58adb86edf37eccc7dd8c9c7bf975c3e61d34000f18fd"
+content-hash = "3ff54f6ca03680233094a2aaab6e649710a0738954d3623982172745d8e08833"

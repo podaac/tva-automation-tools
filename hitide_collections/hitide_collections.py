@@ -307,8 +307,10 @@ class HitideCollections:
         s3_url = f"s3://podaac-services-{self.env}-hitide/dataset-configs"
     
         forge_tig_config_files = self.s3.list_s3_keys(s3_url)
-    
         print(forge_tig_config_files)
+
+        short_names = [path.split("/")[1].rsplit(".", 1)[0] for path in forge_tig_config_files]
+        print(short_names)
     
 
     def add_watches(self):
