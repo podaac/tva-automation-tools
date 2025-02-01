@@ -38,8 +38,6 @@ def read_csv_file(filename):
 
 class HitideCollections:
 
-#TODO: load txts and forge-tig-config and see if any collections in there that aren't linked in the other services anymore
-
     def __init__(self, logger, env, data_path):
 
         self.logger = logger
@@ -333,8 +331,6 @@ class HitideCollections:
             mode = cmr.queries.CMR_UAT
 
         for concept_id in concept_ids:
-            print(concept_id)
-
             try:
                 url = cmr.queries.CollectionQuery(
                         mode=mode).provider('POCLOUD').concept_id(concept_id)._build_url()
@@ -351,6 +347,7 @@ class HitideCollections:
 
     def add_configs(self):
 
+        # Add collections from forge tig config files
         s3_url = f"s3://podaac-services-{self.env}-hitide/dataset-configs"
     
         forge_tig_config_files = self.s3.list_s3_keys(s3_url)
@@ -375,15 +372,15 @@ class HitideCollections:
                 print(short_name)
                 pass
 
-        # Add HiTIDE UI .txt associations
+        # Add collections from hitide-ui txt associations file
         self.add_concept_ids(self.hitide_associations_text)
 
-        # Add l2ss-py-autotest associations
+        # Add collections from l2ss-py-autotest txt associations files
         l2ss_autotest_id_files = self.list_github_files("l2ss-py-autotest", f"tests/cmr/l2ss-py/{self.env}")
         l2ss_concept_ids = [path.split("/")[-1] for path in l2ss_autotest_id_files]
         self.add_concept_ids(l2ss_concept_ids)
 
-        # Add concise-autotest associations
+        # Add collections from concise-autotest txt associations files
         concise_autotest_id_files = self.list_github_files("concise-autotest", f"tests/cmr/concise/{self.env}")
         concise_concept_ids = [path.split("/")[-1] for path in concise_autotest_id_files]
         self.add_concept_ids(concise_concept_ids)
