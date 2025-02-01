@@ -371,8 +371,29 @@ class HitideCollections:
                 print(concept_id)
                 pass
 
-        
-    
+        # Add l2ss-py-autotest associations
+        l2ss_autotest_id_files = self.list_github_files("l2ss-py-autotest", f"tests/cmr/l2ss-py/{self.env}")
+        print(l2ss_autotest_id_files)
+
+        l2ss_concept_ids = [path.split("/")[-1] for path in l2ss_autotest_id_files]
+        print(l2ss_concept_ids)
+
+        for concept_id in l2ss_concept_ids:
+            print(concept_id)
+
+            try:
+                url = cmr.queries.CollectionQuery(
+                        mode=mode).provider('POCLOUD').concept_id(concept_id)._build_url()
+
+                collections_query = self.session.get(url, headers=self.headers, params={
+                                                'page_size': 1}).json()['feed']['entry']
+
+                self.add_collections("", collections_query)
+            except Exception as ex:
+                print(ex)
+                print(concept_id)
+                pass
+
 
     def add_watches(self):
 
@@ -594,12 +615,6 @@ class HitideCollections:
 
 
     def run(self):
-
-        repo = "l2ss-py-autotest"
-        path = f"tests/cmr/l2ss-py/{self.env}"
-
-        files = self.list_github_files(repo, path)
-        print(files)
 
         self.add_watches()
         self.update_associations("PODAAC L2 Cloud Subsetter", "service")
