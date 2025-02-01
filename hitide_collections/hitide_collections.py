@@ -302,6 +302,29 @@ class HitideCollections:
                 self.add_collections("", collections_query)
 
 
+    def list_github_files(self, repo: str, path: str, branch: str = "main"):
+        """List all files in a GitHub repository directory.
+
+        Args:
+            repo (str): Repository name.
+            path (str): Path to the directory in the repo.
+            branch (str, optional): Branch name. Defaults to 'main'.
+
+        Returns:
+            list: A list of file URLs.
+        """
+        url = f"https://api.github.com/repos/podaac/{repo}/contents/{path}?ref={branch}"
+        headers = {"Accept": "application/vnd.github.v3+json"}
+        
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code == 200:
+            files = response.json()
+            return [file["download_url"] for file in files if file["type"] == "file"]
+        else:
+            raise Exception(f"Failed to fetch files: {response.status_code}, {response.text}")
+
+
     def add_configs(self):
 
         s3_url = f"s3://podaac-services-{self.env}-hitide/dataset-configs"
@@ -330,6 +353,23 @@ class HitideCollections:
                 print(ex)
                 print(short_name)
                 pass
+
+        # Add HiTIDE UI associations
+        for concept_id in self.hitide_associations_text:
+            url = cmr.queries.CollectionQuery(
+                mode=mode).provider('POCLOUD').concept_id(concept_id)._build_url()
+
+            try:
+                collections_query = self.session.get(url, headers=self.headers, params={
+                                                'page_size': 1}).json()['feed']['entry']
+
+                self.add_collections("", collections_query)
+            except Exception as ex:
+                print(ex)
+                print(concept_id)
+                pass
+
+        
     
 
     def add_watches(self):
@@ -552,6 +592,12 @@ class HitideCollections:
 
 
     def run(self):
+
+        repo = "l2ss-py-autotest"
+        path = f"tests/cmr/l2ss-py/{self.env}"
+
+        files = self.list_github_files(repo, path)
+        print(files)
 
         self.add_watches()
         self.update_associations("PODAAC L2 Cloud Subsetter", "service")
