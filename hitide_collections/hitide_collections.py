@@ -302,23 +302,14 @@ class HitideCollections:
                 self.add_collections("", collections_query)
 
 
-    def list_all_forge_tig_configs(self):
-        """
-        List all hitide forge-tig configuration files in the S3 directory".
+    def add_configs(self):
 
-        :return: List of file keys in the specified directory.
-        """
-        bucket_name = f"podaac-services-{self.env}-hitide"
-        prefix = "dataset-configs"
-
-        s3_client = boto3.client("s3")
-        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-        
-        if "Contents" in response:
-            return [obj["Key"] for obj in response["Contents"]]
-        else:
-            return []
-
+        s3_url = f"s3://podaac-services-{self.env}-hitide/dataset-configs"
+    
+        forge_tig_config_files = self.s3.list_s3_keys(s3_url)
+    
+        print(forge_tig_config_files)
+    
 
     def add_watches(self):
 
@@ -541,9 +532,8 @@ class HitideCollections:
 
     def run(self):
 
-        data_configs = self.list_all_forge_tig_configs()
-        print(data_configs)
         self.add_watches()
+        self.add_configs()
         self.update_associations("PODAAC L2 Cloud Subsetter", "service")
         self.update_associations("PODAAC Concise", "service")
         self.update_associations("PODAAC L2SS-py Concise Chain", "service")
