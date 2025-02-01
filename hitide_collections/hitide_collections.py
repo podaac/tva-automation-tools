@@ -311,6 +311,25 @@ class HitideCollections:
 
         short_names = [path.split("/")[1].rsplit(".", 1)[0] for path in forge_tig_config_files]
         print(short_names)
+
+        if self.env == "ops":
+            mode = cmr.queries.CMR_OPS
+        else:
+            mode = cmr.queries.CMR_UAT
+
+        for short_name in short_names:
+            url = cmr.queries.CollectionQuery(
+                mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
+
+            try:
+                collections_query = self.session.get(url, headers=self.headers, params={
+                                                'page_size': 1}).json()['feed']['entry']
+
+                self.add_collections("", collections_query)
+            except Exception as ex:
+                print(ex)
+                print(short_name)
+                pass
     
 
     def add_watches(self):
@@ -535,12 +554,12 @@ class HitideCollections:
     def run(self):
 
         self.add_watches()
-        self.add_configs()
         self.update_associations("PODAAC L2 Cloud Subsetter", "service")
         self.update_associations("PODAAC Concise", "service")
         self.update_associations("PODAAC L2SS-py Concise Chain", "service")
         self.update_associations("HiTIDE", "tool")
         self.add_cumulus_footprint_image()
+        self.add_configs()
         self.update_collections()
         self.write_worksheet_collection()
 
