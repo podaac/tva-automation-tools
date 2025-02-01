@@ -325,15 +325,36 @@ class HitideCollections:
             raise Exception(f"Failed to fetch files: {response.status_code}, {response.text}")
 
 
+    def add_concept_ids(self, concept_ids):
+
+        if self.env == "ops":
+            mode = cmr.queries.CMR_OPS
+        else:
+            mode = cmr.queries.CMR_UAT
+
+        for concept_id in concept_ids:
+            print(concept_id)
+
+            try:
+                url = cmr.queries.CollectionQuery(
+                        mode=mode).provider('POCLOUD').concept_id(concept_id)._build_url()
+
+                collections_query = self.session.get(url, headers=self.headers, params={
+                                                'page_size': 1}).json()['feed']['entry']
+
+                self.add_collections("", collections_query)
+            except Exception as ex:
+                print(ex)
+                print(concept_id)
+                pass
+    
+
     def add_configs(self):
 
         s3_url = f"s3://podaac-services-{self.env}-hitide/dataset-configs"
     
         forge_tig_config_files = self.s3.list_s3_keys(s3_url)
-        print(forge_tig_config_files)
-
         short_names = [path.split("/")[1].rsplit(".", 1)[0] for path in forge_tig_config_files]
-        print(short_names)
 
         if self.env == "ops":
             mode = cmr.queries.CMR_OPS
@@ -341,10 +362,10 @@ class HitideCollections:
             mode = cmr.queries.CMR_UAT
 
         for short_name in short_names:
-            url = cmr.queries.CollectionQuery(
-                mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
-
             try:
+                url = cmr.queries.CollectionQuery(
+                    mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
+
                 collections_query = self.session.get(url, headers=self.headers, params={
                                                 'page_size': 1}).json()['feed']['entry']
 
@@ -354,45 +375,18 @@ class HitideCollections:
                 print(short_name)
                 pass
 
-        # Add HiTIDE UI associations
-        for concept_id in self.hitide_associations_text:
-            print(concept_id)
-
-            try:
-                url = cmr.queries.CollectionQuery(
-                        mode=mode).provider('POCLOUD').concept_id(concept_id)._build_url()
-
-                collections_query = self.session.get(url, headers=self.headers, params={
-                                                'page_size': 1}).json()['feed']['entry']
-
-                self.add_collections("", collections_query)
-            except Exception as ex:
-                print(ex)
-                print(concept_id)
-                pass
+        # Add HiTIDE UI .txt associations
+        self.add_concept_ids(self.hitide_associations_text)
 
         # Add l2ss-py-autotest associations
         l2ss_autotest_id_files = self.list_github_files("l2ss-py-autotest", f"tests/cmr/l2ss-py/{self.env}")
-        print(l2ss_autotest_id_files)
-
         l2ss_concept_ids = [path.split("/")[-1] for path in l2ss_autotest_id_files]
-        print(l2ss_concept_ids)
+        self.add_concept_ids(l2ss_concept_ids)
 
-        for concept_id in l2ss_concept_ids:
-            print(concept_id)
-
-            try:
-                url = cmr.queries.CollectionQuery(
-                        mode=mode).provider('POCLOUD').concept_id(concept_id)._build_url()
-
-                collections_query = self.session.get(url, headers=self.headers, params={
-                                                'page_size': 1}).json()['feed']['entry']
-
-                self.add_collections("", collections_query)
-            except Exception as ex:
-                print(ex)
-                print(concept_id)
-                pass
+        # Add concise-autotest associations
+        concise_autotest_id_files = self.list_github_files("concise-autotest", f"tests/cmr/concise/{self.env}")
+        concise_concept_ids = [path.split("/")[-1] for path in concise_autotest_id_files]
+        self.add_concept_ids(concise_concept_ids)
 
 
     def add_watches(self):
