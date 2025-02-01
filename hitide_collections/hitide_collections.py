@@ -282,7 +282,6 @@ class HitideCollections:
             if workflow.get('image') or workflow.get('footprint')
         ]
 
-        print(cumulus_collections)
         print("Cumulus Configs Collection Count = " + str(len(cumulus_collections)))
 
         if self.env == "ops":
@@ -668,14 +667,14 @@ if __name__ == '__main__':
     status.append([])
     status.append(["Errors", "Collection", "Message", "Line Number"])
 
-    status_ws.update("A1", status)
+    status_ws.update(status, "A1")
 
     now = datetime.now(pytz.timezone('US/Pacific'))
     dt_string = now.strftime("%m/%d/%Y %I:%M:%S %p")
 
-    status_ws.update("B2", [[dt_string]], value_input_option='USER_ENTERED')
+    status_ws.update([[dt_string]], "B2", value_input_option='USER_ENTERED')
 
     if len(error_list) > 0:
-        status_ws.update("B5", error_list)
+        status_ws.update(error_list, "B5")
     else:
-        status_ws.update("B5", [["None"]])
+        status_ws.update([["None"]], "B5")
