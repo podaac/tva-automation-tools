@@ -356,6 +356,7 @@ class HitideCollections:
 
         # Add HiTIDE UI associations
         for concept_id in self.hitide_associations_text:
+            print(concept_id)
             url = cmr.queries.CollectionQuery(
                 mode=mode).provider('POCLOUD').concept_id(concept_id)._build_url()
 
