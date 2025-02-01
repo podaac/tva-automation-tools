@@ -246,7 +246,9 @@ class HitideCollections:
 
         hitide_url = f"https://raw.githubusercontent.com/podaac/hitide-ui/develop/cmr/{self.env}_associations.txt"
 
-        self.hitide_associations_text = self.session.get(hitide_url).text.split('\n')
+        id_list = self.session.get(hitide_url).text.split('\n')
+
+        self.hitide_associations_text = [id_ for id_ in id_list if id_ not in (None, "")]
 
 
     def has_l2ss_association(self, concept_id):
