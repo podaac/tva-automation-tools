@@ -346,6 +346,8 @@ class HitideCollections:
                     collections_query = self.session.get(url, headers=self.headers, params={
                                                     'page_size': 1}).json()['feed']['entry']
 
+                    print(f"DEBUG {len(collections_query)} collections_query collections via {source} in {self.env}")
+                    
                     self.add_collections("", collections_query)
             except Exception as ex:
                 print(ex)
