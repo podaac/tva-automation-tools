@@ -112,8 +112,6 @@ class HitideCollections:
             if collection[4] == "Coming Soon":
                 self.collections[id]['coming_soon'] = "X"
 
-            print(f"self.collections[{id}] = {self.collections[id]}")
-
 
     def update_associations(self, umm_name, umm_type):
 
@@ -336,6 +334,8 @@ class HitideCollections:
         else:
             mode = cmr.queries.CMR_UAT
 
+        print(f"Found {len(concept_ids)} concept_ids via {source} in {self.env}")
+
         for concept_id in concept_ids:
             try:
                 if concept_id not in self.collections:
@@ -365,6 +365,8 @@ class HitideCollections:
             mode = cmr.queries.CMR_OPS
         else:
             mode = cmr.queries.CMR_UAT
+
+        print(f"Found {len(short_names)} forge tig configs in {self.env}")
 
         for short_name in short_names:
             try:
