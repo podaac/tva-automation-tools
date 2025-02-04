@@ -294,7 +294,8 @@ class HitideCollections:
             mode = cmr.queries.CMR_UAT
 
         for short_name in cumulus_collections:
-            if not any(attributes.get("short_name") == short_name for attributes in self.collections.values()):
+            if not any(attributes.get("short_name") == short_name and attributes.get("provider") == "POCLOUD" 
+                      for attributes in self.collections.values()):
                 print(f"Adding {short_name} via Cumulus Config...")
                 url = cmr.queries.CollectionQuery(
                     mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
@@ -365,13 +366,16 @@ class HitideCollections:
 
         for short_name in short_names:
             try:
-                url = cmr.queries.CollectionQuery(
-                    mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
+                if not any(attributes.get("short_name") == short_name and attributes.get("provider") == "POCLOUD"
+                           for attributes in self.collections.values()):
+                    print(f"Adding {short_name} via forge tig configs...")
+                    url = cmr.queries.CollectionQuery(
+                        mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
 
-                collections_query = self.session.get(url, headers=self.headers, params={
-                                                'page_size': 1}).json()['feed']['entry']
+                    collections_query = self.session.get(url, headers=self.headers, params={
+                                                    'page_size': 1}).json()['feed']['entry']
 
-                self.add_collections("", collections_query)
+                    self.add_collections("", collections_query)
             except Exception as ex:
                 print(ex)
                 print(short_name)
