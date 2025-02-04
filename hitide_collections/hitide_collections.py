@@ -86,7 +86,7 @@ class HitideCollections:
 
     def add_collections(self, umm_name, collections_query):
 
-        collections = [(a.get('id'), a.get('short_name'), a.get("associations").get("variables") if a.get("associations") else None, a.get("watch_status"))
+        collections = [(a.get('id'), a.get('short_name'), a.get('data_center'), a.get("associations").get("variables") if a.get("associations") else None, a.get("watch_status"))
                         for a in collections_query]
         collections = sorted(collections, key=lambda tup: tup[1])
 
@@ -104,11 +104,15 @@ class HitideCollections:
             elif "HiTIDE" in umm_name:
                 self.collections[id]['hitide'] = "X"
 
-            if collection[2] is not None and len(collection[2]) > 0:
-                self.collections[id]['umm_v_count'] = len(collection[2])
+            self.collections[id]['provider'] = collection[2]
 
-            if collection[3] == "Coming Soon":
+            if collection[3] is not None and len(collection[3]) > 0:
+                self.collections[id]['umm_v_count'] = len(collection[3])
+
+            if collection[4] == "Coming Soon":
                 self.collections[id]['coming_soon'] = "X"
+
+            print(f"self.collections[{id}] = {self.collections[id]}")
 
 
     def update_associations(self, umm_name, umm_type):
