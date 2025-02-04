@@ -329,7 +329,7 @@ class HitideCollections:
             raise Exception(f"Failed to fetch files: {response.status_code}, {response.text}")
 
 
-    def add_concept_ids(self, concept_ids):
+    def add_concept_ids(self, concept_ids, source):
 
         if self.env == "ops":
             mode = cmr.queries.CMR_OPS
@@ -338,13 +338,15 @@ class HitideCollections:
 
         for concept_id in concept_ids:
             try:
-                url = cmr.queries.CollectionQuery(
-                        mode=mode).provider('POCLOUD').concept_id(concept_id)._build_url()
+                if concept_id not in self.collections:
+                    print(f"Adding {concept_id} via {source}...")
+                    url = cmr.queries.CollectionQuery(
+                            mode=mode).concept_id(concept_id)._build_url()
 
-                collections_query = self.session.get(url, headers=self.headers, params={
-                                                'page_size': 1}).json()['feed']['entry']
+                    collections_query = self.session.get(url, headers=self.headers, params={
+                                                    'page_size': 1}).json()['feed']['entry']
 
-                self.add_collections("", collections_query)
+                    self.add_collections("", collections_query)
             except Exception as ex:
                 print(ex)
                 print(concept_id)
@@ -382,17 +384,17 @@ class HitideCollections:
                 pass
 
         # Add collections from hitide-ui txt associations file
-        self.add_concept_ids(self.hitide_associations_text)
+        self.add_concept_ids(self.hitide_associations_text, "hitide-ui txt associations")
 
         # Add collections from l2ss-py-autotest txt associations files
         l2ss_autotest_id_files = self.list_github_files("l2ss-py-autotest", f"tests/cmr/l2ss-py/{self.env}")
         l2ss_concept_ids = [path.split("/")[-1] for path in l2ss_autotest_id_files]
-        self.add_concept_ids(l2ss_concept_ids)
+        self.add_concept_ids(l2ss_concept_ids, "l2ss-py-autotest txt associations")
 
         # Add collections from concise-autotest txt associations files
         concise_autotest_id_files = self.list_github_files("concise-autotest", f"tests/cmr/concise/{self.env}")
         concise_concept_ids = [path.split("/")[-1] for path in concise_autotest_id_files]
-        self.add_concept_ids(concise_concept_ids)
+        self.add_concept_ids(concise_concept_ids, "concise-autotest txt associations")
 
 
     def add_watches(self):
@@ -407,10 +409,10 @@ class HitideCollections:
         for row in watch_collections:
             short_name = row[0]
 
-            url = cmr.queries.CollectionQuery(
-                mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
-
             try:
+                url = cmr.queries.CollectionQuery(
+                    mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
+
                 collections_query = self.session.get(url, headers=self.headers, params={
                                                 'page_size': 1}).json()['feed']['entry']
 
@@ -422,6 +424,7 @@ class HitideCollections:
                 print(ex)
                 print(short_name)
                 pass
+
 
     def get_cumulus_api_workflow_choices(self):
         """Function to invoke cumulus api via aws lambda"""
@@ -474,6 +477,7 @@ class HitideCollections:
         }
 
         self.cumulus_configurations_from_api = formatted_data
+
 
     def umm_update_one_collection(self, item):
         
