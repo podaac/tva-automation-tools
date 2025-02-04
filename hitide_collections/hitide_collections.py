@@ -4,6 +4,7 @@ import json
 import os
 import requests
 import traceback
+import logging
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 
@@ -38,12 +39,17 @@ def read_csv_file(filename):
 
 class HitideCollections:
 
-    def __init__(self, logger, env, data_path):
-
-        self.logger = logger
-
-        self.env = env
-        self.data_path = data_path
+    def __init__(self, logger: logging.Logger, env: str, data_path: str):
+        """Initialize HitideCollections.
+        
+        Args:
+            logger: Logger instance for logging
+            env: Environment ('ops' or 'uat')
+            data_path: Path to data directory
+        """
+        self.logger: logging.Logger = logger
+        self.env: str = env
+        self.data_path: str = data_path
 
         self.collections = {}
 
@@ -59,7 +65,7 @@ class HitideCollections:
         token = self.bearer_token()
 
         if not token:
-            print("Could not get bearer token")
+            self.logger.error("Could not get bearer token")
             exit(1)
         
         self.headers = {'Authorization': f"Bearer {token}"}
@@ -284,7 +290,7 @@ class HitideCollections:
             if workflow.get('image') or workflow.get('footprint')
         ]
 
-        print("Cumulus Configs Collection Count = " + str(len(cumulus_collections)))
+        self.logger.info(f"Found {len(cumulus_collections)} Cumulus Configs in {self.env}")
 
         if self.env == "ops":
             mode = cmr.queries.CMR_OPS
@@ -294,7 +300,7 @@ class HitideCollections:
         for short_name in cumulus_collections:
             if not any(attributes.get("short_name") == short_name and attributes.get("provider") == "POCLOUD" 
                       for attributes in self.collections.values()):
-                print(f"Adding {short_name} via Cumulus Config in {self.env}...")
+                self.logger.info(f"Adding {short_name} via Cumulus Config in {self.env}...")
                 url = cmr.queries.CollectionQuery(
                     mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
 
@@ -337,12 +343,12 @@ class HitideCollections:
         else:
             mode = cmr.queries.CMR_UAT
 
-        print(f"Found {len(concept_ids)} concept_ids via {source} in {self.env}")
+        self.logger.info(f"Found {len(concept_ids)} concept_ids via {source} in {self.env}")
 
         for concept_id in concept_ids:
             try:
                 if concept_id not in self.collections:
-                    print(f"Adding {concept_id} via {source} in {self.env}...")
+                    self.logger.info(f"Adding {concept_id} via {source} in {self.env}...")
                     url = cmr.queries.CollectionQuery(
                             mode=mode).concept_id(concept_id)._build_url()
 
@@ -354,8 +360,8 @@ class HitideCollections:
                     else:
                         error_list.append([f"{concept_id} ({self.env.upper()})", f"Not found via {source}", "NA"])
             except Exception as ex:
-                print(ex)
-                print(concept_id)
+                self.logger.error(ex)
+                self.logger.error(concept_id)
                 pass
 
 
@@ -372,13 +378,13 @@ class HitideCollections:
         else:
             mode = cmr.queries.CMR_UAT
 
-        print(f"Found {len(short_names)} forge tig configs in {self.env}")
+        self.logger.info(f"Found {len(short_names)} forge tig configs in {self.env}")
 
         for short_name in short_names:
             try:
                 if not any(attributes.get("short_name") == short_name and attributes.get("provider") == "POCLOUD"
                            for attributes in self.collections.values()):
-                    print(f"Adding {short_name} via forge tig configs in {self.env}...")
+                    self.logger.info(f"Adding {short_name} via forge tig configs in {self.env}...")
                     url = cmr.queries.CollectionQuery(
                         mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
 
@@ -390,8 +396,8 @@ class HitideCollections:
                     else:
                         error_list.append([f"{short_name} ({self.env.upper()})", f"Not found via forge tig config", "NA"])
             except Exception as ex:
-                print(ex)
-                print(short_name)
+                self.logger.error(ex)
+                self.logger.error(short_name)
                 pass
 
         # Add collections from hitide-ui txt associations file
@@ -435,8 +441,8 @@ class HitideCollections:
                 else:
                     error_list.append([f"{short_name} ({self.env.upper()})", f"Not found via Watch List", "NA"])
             except Exception as ex:
-                print(ex)
-                print(short_name)
+                self.logger.error(ex)
+                self.logger.error(short_name)
                 pass
 
 
@@ -501,7 +507,7 @@ class HitideCollections:
 
             short_name = collection.get('short_name')
 
-            print(f"Updating {self.env} collection...{concept_id} ({short_name})")
+            self.logger.info(f"Updating {self.env} collection...{concept_id} ({short_name})")
 
             try:
                 collection_config = f"s3://podaac-services-{self.env}-hitide/dataset-configs/{short_name}.cfg"
@@ -559,7 +565,7 @@ class HitideCollections:
                     #TODO: Add column for FP Orbit?
                     orbit = last_granule.get('spatialExtent').get('horizontalSpatialDomain').get('orbit')
                     if orbit:
-                        print(f"Found orbit for {short_name}")
+                        self.logger.info(f"Found orbit for {short_name}")
 
                 collection['last_granule_date'] = last_granule.get('temporalExtent').get('rangeDateTime').get('endingDateTime')[:10]
 
@@ -584,7 +590,7 @@ class HitideCollections:
                     collection['umm_v_lon'] = "X"
 
         except Exception as e:
-            print("Error: " + str(e))
+            self.logger.error("Error: " + str(e))
 
             # Print the full traceback
             traceback.print_exc()
@@ -607,8 +613,8 @@ class HitideCollections:
                 tokens.append(x['access_token'])
 
         except Exception as ex:  # noqa E722
-            print(ex)
-            print(f"Error getting the {self.env} token - check user name and password")
+            self.logger.error(ex)
+            self.logger.error(f"Error getting the {self.env} token - check user name and password")
 
         # No tokens exist, try to create one
         if not tokens:
@@ -618,8 +624,8 @@ class HitideCollections:
                 response_content: dict = json.loads(resp.content)
                 tokens.append(response_content['access_token'])
             except Exception as ex:  # noqa E722
-                print(ex)
-                print(f"Error getting the {self.env} token - check user name and password")
+                self.logger.error(ex)
+                self.logger.error(f"Error getting the {self.env} token - check user name and password")
 
         # If still no token, then we can't do anything
         if not tokens:
