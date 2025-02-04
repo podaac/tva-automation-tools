@@ -294,7 +294,7 @@ class HitideCollections:
         for short_name in cumulus_collections:
             if not any(attributes.get("short_name") == short_name and attributes.get("provider") == "POCLOUD" 
                       for attributes in self.collections.values()):
-                print(f"Adding {short_name} via Cumulus Config...")
+                print(f"Adding {short_name} via Cumulus Config in {self.env}...")
                 url = cmr.queries.CollectionQuery(
                     mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
 
@@ -339,7 +339,7 @@ class HitideCollections:
         for concept_id in concept_ids:
             try:
                 if concept_id not in self.collections:
-                    print(f"Adding {concept_id} via {source}...")
+                    print(f"Adding {concept_id} via {source} in {self.env}...")
                     url = cmr.queries.CollectionQuery(
                             mode=mode).concept_id(concept_id)._build_url()
 
@@ -372,7 +372,7 @@ class HitideCollections:
             try:
                 if not any(attributes.get("short_name") == short_name and attributes.get("provider") == "POCLOUD"
                            for attributes in self.collections.values()):
-                    print(f"Adding {short_name} via forge tig configs...")
+                    print(f"Adding {short_name} via forge tig configs in {self.env}...")
                     url = cmr.queries.CollectionQuery(
                         mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
 
@@ -502,12 +502,8 @@ class HitideCollections:
                 if forge_tig_config.get('footprint'):
                     collection['footprint_config'] = "X"
 
-                if forge_tig_config.get('imgVariables'):
-                    collection['thumbnail_count'] = len(forge_tig_config.get('imgVariables'))
-                else:
-                    collection['thumbnail_count'] = 0
+                collection['thumbnail_count'] = len(forge_tig_config.get('imgVariables', []))
             except Exception as ex:
-                self.logger.error(ex)
                 pass
 
             cumulus_config = self.cumulus_configurations_from_api.get(short_name)
