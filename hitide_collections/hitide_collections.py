@@ -301,7 +301,10 @@ class HitideCollections:
                 collections_query = self.session.get(url, headers=self.headers, params={
                                                 'page_size': 1}).json()['feed']['entry']
 
-                self.add_collections("", collections_query)
+                if collections_query:
+                    self.add_collections("", collections_query)
+                else:
+                    error_list.append([f"{short_name} ({self.env.upper()})", "Not found via Cumulus Config", "NA"])
 
 
     def list_github_files(self, repo: str, path: str, branch: str = "main"):
@@ -346,14 +349,15 @@ class HitideCollections:
                     collections_query = self.session.get(url, headers=self.headers, params={
                                                     'page_size': 1}).json()['feed']['entry']
 
-                    print(f"DEBUG {len(collections_query)} collections_query collections via {source} in {self.env}")
-                    
-                    self.add_collections("", collections_query)
+                    if collections_query:
+                        self.add_collections("", collections_query)
+                    else:
+                        error_list.append([f"{concept_id} ({self.env.upper()})", f"Not found via {source}", "NA"])
             except Exception as ex:
                 print(ex)
                 print(concept_id)
                 pass
-    
+
 
     def add_configs(self):
 
@@ -381,24 +385,27 @@ class HitideCollections:
                     collections_query = self.session.get(url, headers=self.headers, params={
                                                     'page_size': 1}).json()['feed']['entry']
 
-                    self.add_collections("", collections_query)
+                    if collections_query:
+                        self.add_collections("", collections_query)
+                    else:
+                        error_list.append([f"{short_name} ({self.env.upper()})", f"Not found via forge tig config", "NA"])
             except Exception as ex:
                 print(ex)
                 print(short_name)
                 pass
 
         # Add collections from hitide-ui txt associations file
-        self.add_concept_ids(self.hitide_associations_text, "hitide-ui txt associations")
+        self.add_concept_ids(self.hitide_associations_text, "hitide-ui txt association")
 
         # Add collections from l2ss-py-autotest txt associations files
         l2ss_autotest_id_files = self.list_github_files("l2ss-py-autotest", f"tests/cmr/l2ss-py/{self.env}")
         l2ss_concept_ids = [path.split("/")[-1] for path in l2ss_autotest_id_files]
-        self.add_concept_ids(l2ss_concept_ids, "l2ss-py-autotest txt associations")
+        self.add_concept_ids(l2ss_concept_ids, "l2ss-py-autotest txt association")
 
         # Add collections from concise-autotest txt associations files
         concise_autotest_id_files = self.list_github_files("concise-autotest", f"tests/cmr/concise/{self.env}")
         concise_concept_ids = [path.split("/")[-1] for path in concise_autotest_id_files]
-        self.add_concept_ids(concise_concept_ids, "concise-autotest txt associations")
+        self.add_concept_ids(concise_concept_ids, "concise-autotest txt association")
 
 
     def add_watches(self):
@@ -423,7 +430,10 @@ class HitideCollections:
                 if len(row) > 1:
                     collections_query[0]['watch_status'] = row[1]
 
-                self.add_collections("", collections_query)
+                if collections_query:
+                    self.add_collections("", collections_query)
+                else:
+                    error_list.append([f"{short_name} ({self.env.upper()})", f"Not found via Watch List", "NA"])
             except Exception as ex:
                 print(ex)
                 print(short_name)
