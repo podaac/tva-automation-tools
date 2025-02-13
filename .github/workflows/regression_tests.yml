@@ -67,6 +67,8 @@ jobs:
           entrypoint: /bin/bash
           args: |-
             -c "
+            pwd
+            ls -alR
             # Install TIG
             pip install podaac-tig==0.13.0
             
