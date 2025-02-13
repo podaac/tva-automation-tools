@@ -170,6 +170,40 @@ def get_info(granule_json):
             'id': granule_json.get('meta').get('concept-id')}
 
 
+def download_file1(save_path, source_url, edl_token):
+    """
+    Download a file from a URL to a specified path, using EDL token authentication.
+    
+    Args:
+        save_path (str): Path where the file should be saved
+        source_url (str): URL of the file to download
+        edl_token (str): EDL bearer token for authentication
+    """
+    # Create session and set authorization header with token
+    session = requests.Session()
+    session.headers.update({'Authorization': f'Bearer {edl_token}'})
+
+    try:
+        # Stream the download to handle large files efficiently
+        response = session.get(source_url, stream=True)
+        response.raise_for_status()
+        
+        # Get the filename from the URL
+        filename = os.path.basename(source_url)
+        full_path = os.path.join(save_path, filename)
+        
+        # Write the file in chunks
+        with open(full_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+
+        print(f"Downloaded1 file to {full_path}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading1 file: {e}")
+        raise
+
+
 def download_file(save_path, source_url):
     """
     Download a file from a URL to a specified path, handling NASA Earthdata authentication.
@@ -244,7 +278,7 @@ def fill_regression(workdir, edl_token):
             filename = os.path.basename(info['href'])
             full_path = os.path.join(workdir_collection, filename)
             if not os.path.exists(full_path):
-                download_file(workdir_collection, info['href'])
+                download_file1(workdir_collection, info['href'], edl_token)
             else:
                 print(f"File {filename} already exists, skipping download")
 
