@@ -64,24 +64,24 @@ jobs:
       - name: Setup and Run TIG in Docker
         uses: docker://python:3.11-slim
         with:
-        entrypoint: /bin/bash
-        args: |-
-          -c "
-          # Install TIG
-          pip install podaac-tig==0.13.0
-          
-          # Change to workspace directory
-          cd /github/workspace
+          entrypoint: /bin/bash
+          args: |-
+            -c "
+            # Install TIG
+            pip install podaac-tig==0.13.0
+            
+            # Change to workspace directory
+            cd /github/workspace
 
-          ls -alR
-          
-          # Run TIG commands with access to workspace files
-          tig -h
-          #tig \
-          #  --input_file /github/workspace/input.nc \
-          #  --output_dir /github/workspace/output \
-          #  --config_file /github/workspace/config.json
-          
-          # Create any additional files if needed
-          touch /github/workspace/tig_complete.txt
-          "
+            ls -alR
+            
+            # Run TIG commands with access to workspace files
+            tig -h
+            #tig \
+            #  --input_file /github/workspace/input.nc \
+            #  --output_dir /github/workspace/output \
+            #  --config_file /github/workspace/config.json
+            
+            # Create any additional files if needed
+            touch /github/workspace/tig_complete.txt
+            "
