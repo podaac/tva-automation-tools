@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "regression_tests"
+version = "0.1.0"
+description = ""
+authors = ["James Wood <james.f.wood@jpl.nasa.gov>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+gspread = "^6.0.2"
+pytz = "^2025.1"
+python-cmr = "^0.13.0"
+retrying = "^1.3.4"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.1.0"
+flake8 = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -10,3 +10,9 @@
 **/*.pfx
 launchpad_token*
 passphrase
+
+# Working directories
+**/workdir
+
+# Log files
+log.txt
