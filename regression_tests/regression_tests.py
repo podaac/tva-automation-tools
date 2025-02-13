@@ -28,11 +28,11 @@ class RetryError(Exception):
 
 # Retry decorator to handle exceptions and implement backoff
 @retry(wait_exponential_multiplier=1000, wait_exponential_max=30000, stop_max_attempt_number=7, retry_on_exception=lambda ex: isinstance(ex, RetryError))
-def update_sheet(worksheet, cell, data):
+def update_sheet(worksheet, data, cell):
     try:
          
         # Update the data in the worksheet
-        worksheet.update(cell, data)  # Update cell A1 with your data
+        worksheet.update(data, cell)  # Update cell A1 with your data
         
     except gspread.exceptions.GSpreadException as e:
         print(f"Error: {e}")
@@ -269,7 +269,7 @@ def fill_regression(workdir, edl_token):
     regression_sheet = workbook.worksheet("Regression Tests")
 
     try:
-        update_sheet(regression_sheet, "B1", rows)
+        update_sheet(regression_sheet, rows,  "B1")
     except RetryError:
         print("Update failed after multiple retries. You may want to handle this error further.")
 
