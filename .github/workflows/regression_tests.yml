@@ -52,6 +52,6 @@ jobs:
         env:
           CMR_USER: ${{ secrets.CMR_USER }}
           CMR_PASS: ${{ secrets.CMR_PASS }}
-          SPREADSHEET_ID: ${{ secrets.HITIDE_GRANULES_SHEET_ID }}
+          SPREADSHEET_ID: ${{ secrets.HITIDE_AWS_SHEET_ID }}
         run: |
           poetry run python regression_tests.py
