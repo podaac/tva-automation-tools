@@ -119,3 +119,14 @@ jobs:
 
             ls -alR
             "
+
+      #########################################################################
+      # Update Sheet with Results
+      #########################################################################
+      - name: Run Update Sheet with Results
+        env:
+          SPREADSHEET_ID: ${{ secrets.HITIDE_AWS_SHEET_ID }}
+        run: |
+          poetry run python update_regression_results.py
+          pwd
+          ls -alR

@@ -19,8 +19,6 @@ DATASET_CONFIG_URL = "https://hitide.podaac.earthdatacloud.nasa.gov/dataset-conf
 
 workbook = gc.open_by_key(spreadsheet_id)
 
-now = datetime.now(pytz.timezone('US/Pacific'))
-
 
 # Define a custom exception for retries
 class RetryError(Exception):
@@ -43,8 +41,7 @@ def get_collections():
 
     collection_list = []
 
-    collections_workbook = gc.open_by_key(spreadsheet_id)
-    collections_ws = collections_workbook.worksheet("Regression Tests")
+    collections_ws = workbook.worksheet("Regression Tests")
     collection_table = collections_ws.get_all_values()
 
     for row in collection_table[1:]:
@@ -320,7 +317,7 @@ def main(args=None):
     logger.info(f"Started regression tests: "                                 # pylint: disable=W1203
                 f"{datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z')}")
 
-    edl_token = bearer_token2('ops', logger)
+    edl_token = bearer_token('ops', logger)
 
   #  run_tig_command("", "", "", "")
 
