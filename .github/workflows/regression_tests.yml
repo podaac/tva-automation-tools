@@ -59,10 +59,20 @@ jobs:
           ls -alR
 
       #########################################################################
+      # Checkout TIG Configuration Repository
+      #########################################################################
+      - name: Checkout TIG Configuration
+        uses: actions/checkout@v4
+        with:
+          repository: podaac/forge-tig-configuration
+          path: forge-tig-configuration
+          token: ${{ secrets.GH_READ_TOKEN }}
+
+      #########################################################################
       # Run TIG in container
       #########################################################################
       - name: Setup and Run TIG in Docker
-        uses: docker://python:3.11-slim
+        uses: docker://python:3.10-slim       # Shoud match the lambda docker image version in the tig repo
         with:
           entrypoint: /bin/bash
           args: |-
@@ -73,17 +83,9 @@ jobs:
             pip install podaac-tig==0.13.0
             
             # Change to workspace directory
-            cd /github/workspace
+            cd regression_tests
+
+            python run_regression.py --workdir workdir
 
             ls -alR
-            
-            # Run TIG commands with access to workspace files
-            tig -h
-            #tig \
-            #  --input_file /github/workspace/input.nc \
-            #  --output_dir /github/workspace/output \
-            #  --config_file /github/workspace/config.json
-            
-            # Create any additional files if needed
-            touch /github/workspace/tig_complete.txt
             "
