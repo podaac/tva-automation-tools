@@ -79,6 +79,7 @@ jobs:
             -c "
             pwd
             ls -alR
+
             # Install TIG
             pip install podaac-tig==0.13.0
             
@@ -102,10 +103,9 @@ jobs:
             pwd
             ls -alR
             
-            # Install Python 3.11
-            apt-get update
-            apt-get install -y python3.11
-                        
+            # Install Python 3
+            apt-get update && apt-get install -y python3 wget && apt-get clean
+
             # Change to workspace directory
             cd regression_tests
 
@@ -115,7 +115,7 @@ jobs:
             # Run Footprint CLI
             java -cp footprint_0.12.0.jar FootprintCLI
 
-            python run_forge_regression.py --workdir workdir
+            python3 run_forge_regression.py --workdir workdir
 
             ls -alR
             "
