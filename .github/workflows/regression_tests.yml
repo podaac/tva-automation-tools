@@ -89,3 +89,33 @@ jobs:
 
             ls -alR
             "
+
+      #########################################################################
+      # Run Footprint in container
+      #########################################################################
+      - name: Setup and Run Footprint in Docker
+        uses: docker://openjdk:11-slim
+        with:
+          entrypoint: /bin/bash
+          args: |-
+            -c "
+            pwd
+            ls -alR
+            
+            # Install Python 3.11
+            apt-get update
+            apt-get install -y python3.11
+                        
+            # Change to workspace directory
+            cd regression_tests
+
+            # Download Footprint jar
+            wget https://github.com/podaac/forge/releases/download/0.12.0/footprint_0.12.0.jar
+            
+            # Run Footprint CLI
+            java -cp footprint_0.12.0.jar FootprintCLI
+
+            python run_regression.py --workdir workdir
+
+            ls -alR
+            "
