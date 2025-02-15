@@ -1,6 +1,8 @@
 import os
 import logging
 from typing import Callable, List
+from concurrent.futures import ThreadPoolExecutor
+
 
 def process_workdir(workdir: str, palette_dir: str, processors: List[Callable]) -> None:
     """
@@ -15,12 +17,13 @@ def process_workdir(workdir: str, palette_dir: str, processors: List[Callable]) 
         logging.error(f"Working directory {workdir} does not exist")
         return
 
-    # Process each collection directory
+    # Process each collection directory in parallel
     # Sort directories alphabetically
-    for item in sorted(os.listdir(workdir)):
-        collection_dir = os.path.join(workdir, item)
-        if os.path.isdir(collection_dir):
-            process_collection_dir(collection_dir, palette_dir, processors)
+    collection_dirs = [os.path.join(workdir, item) for item in sorted(os.listdir(workdir)) 
+                      if os.path.isdir(os.path.join(workdir, item))]
+    
+    with ThreadPoolExecutor() as executor:
+        executor.map(lambda d: process_collection_dir(d, palette_dir, processors), collection_dirs)
 
 
 def process_collection_dir(collection_dir: str, palette_dir: str, processors: List[Callable]) -> None:

@@ -2,6 +2,7 @@ import argparse
 import logging
 import subprocess
 import os
+import json
 from typing import Tuple
 from regression_base import process_workdir
 
@@ -56,6 +57,21 @@ def process_granule_dir_tig(granule_dir: str, config_file: str, palette_dir: str
         config_file: Path to config file
         palette_dir: Directory containing palette files
     """
+    # First check if we should run TIG based on config
+    try:
+        with open(config_file) as f:
+            config = json.load(f)
+            if "imgVariables" not in config or not config["imgVariables"]:
+                print(f"Skipping TIG processing for {granule_dir} - no image variables configured for this collection")
+                # Create skip file indicating why TIG was skipped
+                skip_file = os.path.join(granule_dir, 'tig_skip.txt')
+                with open(skip_file, 'w') as f:
+                    f.write("No image variables configured for this collection")
+                return
+    except (json.JSONDecodeError, FileNotFoundError) as e:
+        logging.error(f"Error reading config file {config_file}: {str(e)}")
+        return
+    
     # Find the .nc file in the granule directory
     nc_files = [f for f in os.listdir(granule_dir) if f.endswith('.nc')]
     if not nc_files:

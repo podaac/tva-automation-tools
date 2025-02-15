@@ -118,42 +118,6 @@ def bearer_token(env: str, logger) -> str:
         logger.error(f"Error getting the token (status code {resp.status_code}): {e}", exc_info=True)
 
 
-def bearer_token2(env, logger):
-    tokens = []
-    headers: dict = {'Accept': 'application/json'}
-    url: str = f"https://{'uat.' if env == 'uat' else ''}urs.earthdata.nasa.gov/api/users"
-
-    # First just try to get a token that already exists
-    try:
-        resp = requests.get(url + "/tokens", headers=headers,
-                                   auth=requests.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
-        response_content = json.loads(resp.content)
-
-        for x in response_content:
-            tokens.append(x['access_token'])
-
-    except Exception as ex:  # noqa E722
-        logger.error(ex)
-        logger.error("Error getting the token - check user name and password")
-
-    # No tokens exist, try to create one
-    if not tokens:
-        try:
-            resp = requests.post(url + "/token", headers=headers,
-                                        auth=requests.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS']))
-            response_content: dict = json.loads(resp.content)
-            tokens.append(response_content['access_token'])
-        except Exception as ex:  # noqa E722
-            logger.error(ex)
-            logger.error("Error getting the token - check user name and password")
-
-    # If still no token, then we can't do anything
-    if not tokens:
-        return None
-
-    return next(iter(tokens))
-
-
 def get_info(granule_json):
 
     related_urls = granule_json.get('umm').get('RelatedUrls')

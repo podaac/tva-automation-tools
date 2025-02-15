@@ -59,9 +59,17 @@ def process_granule_dir_forge(granule_dir: str, config_file: str, palette_dir: O
             config = json.load(f)
             if "footprint" not in config or not config["footprint"]:
                 print(f"Skipping Forge processing for {granule_dir} - no footprint configuration for this collection")
+                # Create skip file indicating why Forge was skipped
+                skip_file = os.path.join(granule_dir, 'forge_skip.txt')
+                with open(skip_file, 'w') as f:
+                    f.write("No footprint configuration for this collection")
                 return
             if config.get("footprinter") == "forge-py":
                 print(f"Skipping Forge processing for {granule_dir} - config specifies forge-py footprinter")
+                # Create skip file indicating why Forge was skipped
+                skip_file = os.path.join(granule_dir, 'forge_skip.txt')
+                with open(skip_file, 'w') as f:
+                    f.write("Config specifies forge-py footprinter")
                 return
     except (json.JSONDecodeError, FileNotFoundError) as e:
         logging.error(f"Error reading config file {config_file}: {str(e)}")

@@ -77,9 +77,6 @@ jobs:
           entrypoint: /bin/bash
           args: |-
             -c "
-            pwd
-            ls -alR
-
             # Install TIG
             pip install podaac-tig==0.13.0
             
@@ -87,7 +84,7 @@ jobs:
             cd regression_tests
 
             python run_tig_regression.py --workdir workdir
-
+            pwd
             ls -alR
             "
 
@@ -100,9 +97,6 @@ jobs:
           entrypoint: /bin/bash
           args: |-
             -c "
-            pwd
-            ls -alR
-            
             # Install Python 3
             apt-get update && apt-get install -y python3 wget && apt-get clean
 
@@ -110,13 +104,13 @@ jobs:
             cd regression_tests
 
             # Download Footprint jar
-            wget https://github.com/podaac/forge/releases/download/0.12.0/footprint_0.12.0.jar
+            wget -q https://github.com/podaac/forge/releases/download/0.12.0/footprint_0.12.0.jar
             
             # Run Footprint CLI
             java -cp footprint_0.12.0.jar FootprintCLI
 
             python3 run_forge_regression.py --workdir workdir
-
+            pwd
             ls -alR
             "
 
