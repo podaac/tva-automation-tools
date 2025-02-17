@@ -102,6 +102,32 @@ def process_granule(short_name: str, granule_id: str) -> dict:
     }
 
 
+def insert_value_into_row(row: list, column_name: str, header_row: list, value: str) -> None:
+    """
+    Insert value into a specific column of a collection table row.
+    
+    Args:
+        row (list): A single row from the collection table containing collection data
+        column_name (str): Name of the column to insert value into
+        header_row (list): The header row containing column names
+        value (str): The value to insert into the specified column
+    """
+    logger = logging.getLogger("regression_tests")
+    
+    # Find the column index
+    col_index = None
+    for i, header in enumerate(header_row):
+        if header == column_name:
+            col_index = i
+            break
+            
+    if col_index is not None:
+        row[col_index] = value
+        logger.info(f"Updated {column_name} with value {value} for collection {row[0]}")
+    else:
+        logger.error(f"Could not find '{column_name}' column in collection table")
+
+
 def main(args=None):
  
     logger = create_logger()
@@ -111,34 +137,19 @@ def main(args=None):
 
     collection_table = get_regression_sheet_table()
 
-    for row in collection_table[1:]:
+    for row in collection_table:
         print(row)
 
+    header_row = collection_table[0]
+    
     for row in collection_table[1:]:
-        short_name = row[0]
-        granule_id = row[1]
+        short_name, granule_id = row[0], row[1]
         logger.info(f"Processing collection with short_name: {short_name}, granule_id: {granule_id}")
 
         granule_data = process_granule(short_name, granule_id)
-        print(granule_data)
-
-        # Find the "Image Count" column index
-        header_row = collection_table[0]
-        image_count_col = None
-        for i, header in enumerate(header_row):
-            if header == "Image Count":
-                image_count_col = i
-                break
-                
-        if image_count_col is not None:
-            # Update the image count in the collection table
-            for i, row in enumerate(collection_table[1:], start=1):
-                if row[0] == short_name and row[1] == granule_id:
-                    collection_table[i][image_count_col] = str(granule_data['image_count'])
-                    logger.info(f"Updated image count {granule_data['image_count']} for {short_name}")
-                    break
-        else:
-            logger.error("Could not find 'Image Count' column in collection table")
+        logger.debug(f"Granule data: {granule_data}")
+        
+        insert_value_into_row(row, "Image Count", header_row, str(granule_data['image_count']))
 
     # Update the entire worksheet with the modified collection table
     worksheet = workbook.worksheet("Regression Tests")
