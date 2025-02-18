@@ -37,17 +37,12 @@ def update_sheet(worksheet, data, cell):
         raise RetryError(f"Failed to update. Retrying...")
 
 
-def get_collections():
-
-    collection_list = []
+def get_regression_sheet_table():
 
     collections_ws = workbook.worksheet("Regression Tests")
     collection_table = collections_ws.get_all_values()
 
-    for row in collection_table[1:]:
-        collection_list.append(row[0])
-
-    return collection_list
+    return collection_table
 
 
 def get_collection_config(short_name):
@@ -69,6 +64,36 @@ def save_config(dir):
 
     with open(os.path.join(dir, short_name + '.cfg'), 'w') as f:
         json.dump(config, f, indent=4)
+
+
+def get_granule(granule_id, edl_token):
+    """
+    Get a specific granule from CMR by granule ID.
+    
+    Args:
+        granule_id (str): The ID of the granule to retrieve
+        edl_token (str): EDL bearer token for authentication
+        
+    Returns:
+        dict: The granule metadata from CMR
+        
+    Raises:
+        Exception: If no granule is found with the given ID
+    """
+    mode = cmr.queries.CMR_OPS
+    granule_url = cmr.queries.GranuleQuery(
+                    mode=mode).provider('POCLOUD').granule_ur(granule_id).format('umm_json')._build_url()
+    
+    print(granule_url)
+    headers = {"Authorization": f"Bearer {edl_token}"}
+
+    granule = requests.get(granule_url, headers=headers).json()['items']
+
+    if len(granule) != 1:
+        print(f"No granule found with ID {granule_id}")
+        raise Exception(f"No granule found with ID {granule_id}")
+    
+    return granule[0]
 
 
 def get_last_granule(short_name, edl_token):
@@ -166,27 +191,37 @@ def download_file(save_path, source_url, edl_token):
 
 
 def fill_regression(workdir, edl_token):
-    collection_list = get_collections()
+    collection_table = get_regression_sheet_table()
 
-    print(collection_list)
-    print(len(collection_list))
+    print(collection_table)
+    print(len(collection_table))
 
     header = ['Granule ID']
+    header.append('Fixed Granule')
     header.append('Data URL')
     header.append('Config Image Count')
     rows = [header]
 
-    for short_name in collection_list:
-
+    # Process each row in collection table, skipping header row
+    for collection_row in collection_table[1:]:
         row = []
 
         try:
-            granule = get_last_granule(short_name, edl_token)
+            short_name = collection_row[0]
+            is_fixed_granule = collection_row[2]
+
+            if is_fixed_granule == 'X':
+                granule_id = collection_row[1]
+                granule = get_granule(granule_id, edl_token)
+            else:
+                granule = get_last_granule(short_name, edl_token)
+
             info = get_info(granule)
 
             id = info['id']
             
             row.append(id)
+            row.append(is_fixed_granule)
             row.append(info['href'])
 
             print("Collection: " + short_name)
