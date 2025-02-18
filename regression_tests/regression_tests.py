@@ -171,9 +171,9 @@ def fill_regression(workdir, edl_token):
     print(collection_list)
     print(len(collection_list))
 
-    header = ['ID']
+    header = ['Granule ID']
     header.append('Data URL')
-    header.append('Expected Image Count')
+    header.append('Config Image Count')
     rows = [header]
 
     for short_name in collection_list:

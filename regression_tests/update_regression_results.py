@@ -51,6 +51,74 @@ def create_logger():
     return logger
 
 
+def check_tig_pass_fail(workdir: str, short_name: str, granule_id: str) -> str:
+    """
+    Check if TIG processing passed or failed for a specific granule.
+    
+    Args:
+        workdir (str): The base working directory path
+        short_name (str): The collection identifier
+        granule_id (str): The granule identifier
+    
+    Returns:
+        str: 'PASS' if successful, 'FAIL' if failed, 'SKIP' if skipped, or 'N/A' if no results found
+    """
+    # Construct path to granule directory
+    collection_dir = os.path.join(workdir, short_name)
+    granule_dir = os.path.join(collection_dir, granule_id)
+    
+    # Check for skip file
+    skip_file = os.path.join(granule_dir, 'tig_skip.txt')
+    if os.path.exists(skip_file):
+        return 'SKIP'
+        
+    # Check for success file
+    success_file = os.path.join(granule_dir, 'tig_successful.txt')
+    if os.path.exists(success_file):
+        return 'PASS'
+        
+    # Check for failure file
+    fail_file = os.path.join(granule_dir, 'tig_failed.txt')
+    if os.path.exists(fail_file):
+        return 'FAIL'
+        
+    return 'N/A'
+
+
+def check_forge_pass_fail(workdir: str, short_name: str, granule_id: str) -> str:
+    """
+    Check if Forge processing passed or failed for a specific granule.
+    
+    Args:
+        workdir (str): The base working directory path
+        short_name (str): The collection identifier
+        granule_id (str): The granule identifier
+    
+    Returns:
+        str: 'PASS' if successful, 'FAIL' if failed, 'SKIP' if skipped, or 'N/A' if no results found
+    """
+    # Construct path to granule directory
+    collection_dir = os.path.join(workdir, short_name)
+    granule_dir = os.path.join(collection_dir, granule_id)
+    
+    # Check for skip file
+    skip_file = os.path.join(granule_dir, 'forge_skip.txt')
+    if os.path.exists(skip_file):
+        return 'SKIP'
+        
+    # Check for success file
+    success_file = os.path.join(granule_dir, 'forge_successful.txt')
+    if os.path.exists(success_file):
+        return 'PASS'
+        
+    # Check for failure file
+    fail_file = os.path.join(granule_dir, 'forge_failed.txt')
+    if os.path.exists(fail_file):
+        return 'FAIL'
+        
+    return 'N/A'
+
+
 def get_image_count(workdir: str, short_name: str, granule_id: str) -> int:
     """
     Retrieve the image count for a specific granule given its collection short name and granule ID.
@@ -95,10 +163,20 @@ def process_granule(short_name: str, granule_id: str) -> dict:
     image_count = get_image_count('workdir', short_name, granule_id)
     logger.info(f"Found {image_count} images for granule {granule_id}")
     
+    # Get Forge pass/fail status
+    forge_status = check_forge_pass_fail('workdir', short_name, granule_id)
+    logger.info(f"Forge status for granule {granule_id}: {forge_status}")
+
+    # Get TIG pass/fail status
+    tig_status = check_tig_pass_fail('workdir', short_name, granule_id)
+    logger.info(f"TIG status for granule {granule_id}: {tig_status}")
+
     logger.info(f"Granule {granule_id} processed successfully.")
     
     return {
-        'image_count': image_count
+        'image_count': image_count,
+        'forge_status': forge_status,
+        'tig_status': tig_status
     }
 
 
@@ -150,11 +228,12 @@ def main(args=None):
         logger.debug(f"Granule data: {granule_data}")
         
         insert_value_into_row(row, "Image Count", header_row, str(granule_data['image_count']))
+        insert_value_into_row(row, "Forge Status", header_row, granule_data['forge_status'])
+        insert_value_into_row(row, "TIG Status", header_row, granule_data['tig_status'])
 
     # Update the entire worksheet with the modified collection table
     worksheet = workbook.worksheet("Regression Tests")
-    update_sheet(worksheet, collection_table, 'D5')
-
+    update_sheet(worksheet, collection_table, 'A1')
 
     logger.info(f"Finished all collections: "                                 # pylint: disable=W1203
                 f"{datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z')}")
