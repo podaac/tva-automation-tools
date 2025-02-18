@@ -10,7 +10,7 @@ jobs:
   build:
     name: Run Regression Tests
     # The type of runner that the job will run on
-    runs-on: ubuntu-22.04-arm64
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: regression_tests
