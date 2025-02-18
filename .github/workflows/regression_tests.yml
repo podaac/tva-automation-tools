@@ -10,7 +10,7 @@ jobs:
   build:
     name: Run Regression Tests
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04-arm64
     defaults:
       run:
         working-directory: regression_tests
@@ -74,6 +74,7 @@ jobs:
       - name: Setup and Run TIG in Docker
         uses: docker://python:3.10-slim       # Shoud match the lambda docker image version in the tig repo
         with:
+          platform: linux/arm64
           entrypoint: /bin/bash
           args: |-
             -c "
@@ -94,6 +95,7 @@ jobs:
       - name: Setup and Run forge-py in Docker
         uses: docker://python:3.11-slim       # Should match the lambda docker image version in the forge-py repo
         with:
+          platform: linux/arm64
           entrypoint: /bin/bash
           args: |-
             -c "
@@ -109,11 +111,12 @@ jobs:
             "
 
       #########################################################################
-      # Run Footprint in container
+      # Run forge in container
       #########################################################################
       - name: Setup and Run forge in Docker
-        uses: docker://openjdk:11-slim
+        uses: docker://mcr.microsoft.com/openjdk/jdk:11-ubuntu
         with:
+          platform: linux/arm64
           entrypoint: /bin/bash
           args: |-
             -c "
