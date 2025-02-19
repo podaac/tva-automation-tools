@@ -68,14 +68,14 @@ def process_granule_dir_forge_py(granule_dir: str, config_file: str, palette_dir
             if "footprint" not in config or not config["footprint"]:
                 print(f"Skipping forge-py processing for {granule_dir} - no footprint configuration for this collection")
                 # Create skip file indicating why forge-py was skipped
-                skip_file = os.path.join(granule_dir, 'forge_py_skip.txt')
+                skip_file = os.path.join(granule_dir, 'forge-py_skip.txt')
                 with open(skip_file, 'w') as f:
                     f.write("No footprint configuration for this collection")
                 return
             if config.get("footprinter") != "forge-py":
                 print(f"Skipping forge-py processing for {granule_dir} - config specifies another footprinter")
                 # Create skip file indicating why forge-py was skipped
-                skip_file = os.path.join(granule_dir, 'forge_py_skip.txt')
+                skip_file = os.path.join(granule_dir, 'forge-py_skip.txt')
                 with open(skip_file, 'w') as f:
                     f.write("Config specifies another footprinter")
                 return
@@ -94,7 +94,7 @@ def process_granule_dir_forge_py(granule_dir: str, config_file: str, palette_dir
     os.makedirs(output_dir, exist_ok=True)
 
     # Check if forge-py has already been run successfully
-    success_file = os.path.join(output_dir, 'forge_py_successful.txt')
+    success_file = os.path.join(output_dir, 'forge-py_successful.txt')
     if os.path.exists(success_file):
         print(f"Skipping forge-py processing for {granule_dir} - already completed successfully")
         return
@@ -110,7 +110,7 @@ def process_granule_dir_forge_py(granule_dir: str, config_file: str, palette_dir
             f.write(forge_py_output)
     else:
         # Failure case - create failure file with output
-        failed_file = os.path.join(output_dir, 'forge_py_failed.txt')
+        failed_file = os.path.join(output_dir, 'forge-py_failed.txt')
         with open(failed_file, 'w') as f:
             f.write(forge_py_output)
 
