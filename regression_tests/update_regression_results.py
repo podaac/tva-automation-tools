@@ -74,9 +74,9 @@ def check_tool_pass_fail(workdir: str, short_name: str, granule_id: str, tool: s
     file_tool = tool.replace('-', '_')
     
     # Check for skip file
-    skip_file = os.path.join(output_dir, f'{file_tool}_skip.txt')
+    skip_file = os.path.join(granule_dir, f'{file_tool}_skip.txt')
     if os.path.exists(skip_file):
-        return ''
+        return '-'
         
     # Check for success file
     success_file = os.path.join(output_dir, f'{file_tool}_successful.txt')
