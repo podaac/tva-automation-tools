@@ -4,13 +4,14 @@ from typing import Callable, List
 from concurrent.futures import ThreadPoolExecutor
 
 
-def process_workdir(workdir: str, palette_dir: str, processors: List[Callable]) -> None:
+def process_workdir(workdir: str, palette_dir: str, output_dir_name: str, processors: List[Callable]) -> None:
     """
     Process the entire workdir containing collection directories
     
     Args:
         workdir: Path to working directory
         palette_dir: Directory containing palette files
+        output_dir_name: Name of output directory for results
         processors: List of processing functions to run on each granule
     """
     if not os.path.exists(workdir):
@@ -23,16 +24,17 @@ def process_workdir(workdir: str, palette_dir: str, processors: List[Callable]) 
                       if os.path.isdir(os.path.join(workdir, item))]
     
     with ThreadPoolExecutor() as executor:
-        executor.map(lambda d: process_collection_dir(d, palette_dir, processors), collection_dirs)
+        executor.map(lambda d: process_collection_dir(d, palette_dir, output_dir_name, processors), collection_dirs)
 
 
-def process_collection_dir(collection_dir: str, palette_dir: str, processors: List[Callable]) -> None:
+def process_collection_dir(collection_dir: str, palette_dir: str, output_dir_name: str, processors: List[Callable]) -> None:
     """
     Process a single collection directory
     
     Args:
         collection_dir: Path to collection directory
         palette_dir: Directory containing palette files
+        output_dir_name: Name of output directory for results
         processors: List of processing functions to run on each granule
     """
     collection_name = os.path.basename(collection_dir)
@@ -50,6 +52,6 @@ def process_collection_dir(collection_dir: str, palette_dir: str, processors: Li
             
             # Run each processor function
             for process_func in processors:
-                process_func(item_path, config_file, palette_dir)
+                process_func(item_path, config_file, palette_dir, output_dir_name)
             
             print() 

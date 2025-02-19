@@ -52,7 +52,7 @@ def run_forge_py_process(input_file: str, output_dir: str, config_file: str) -> 
         return output, e.returncode
 
 
-def process_granule_dir_forge_py(granule_dir: str, config_file: str, palette_dir: Optional[str] = None) -> None:
+def process_granule_dir_forge_py(granule_dir: str, config_file: str, palette_dir: Optional[str] = None, output_dir_name: str = 'output') -> None:
     """
     Process a single granule directory for forge-py
     
@@ -88,29 +88,29 @@ def process_granule_dir_forge_py(granule_dir: str, config_file: str, palette_dir
     if not nc_files:
         logging.warning(f"No .nc or .h5 file found in {granule_dir}")
         return
-        
+
     input_file = os.path.join(granule_dir, nc_files[0])
-    output_dir = os.path.join(granule_dir, 'output')
+    output_dir = os.path.join(granule_dir, output_dir_name)
     os.makedirs(output_dir, exist_ok=True)
-    
+
     # Check if forge-py has already been run successfully
-    success_file = os.path.join(granule_dir, 'forge_py_successful.txt')
+    success_file = os.path.join(output_dir, 'forge_py_successful.txt')
     if os.path.exists(success_file):
         print(f"Skipping forge-py processing for {granule_dir} - already completed successfully")
         return
-        
+
     # Run forge-py and save output
     forge_py_output, return_code = run_forge_py_process(input_file, output_dir, config_file)
     print(f"forge_py_output: {forge_py_output}")
     print(f"Return code: {return_code}")
-    
+
     if return_code == 0:
         # Success case - write output to success file
         with open(success_file, 'w') as f:
             f.write(forge_py_output)
     else:
         # Failure case - create failure file with output
-        failed_file = os.path.join(granule_dir, 'forge_py_failed.txt')
+        failed_file = os.path.join(output_dir, 'forge_py_failed.txt')
         with open(failed_file, 'w') as f:
             f.write(forge_py_output)
 
@@ -120,9 +120,10 @@ def main():
     
     parser = argparse.ArgumentParser(description='Process forge-py regression tests')
     parser.add_argument('--workdir', default='workdir', help='Working directory path (default: workdir)')
+    parser.add_argument('--output_dir_name', '-od', required=True, help='Name of output directory for Forge-py results')
     args = parser.parse_args()
 
-    process_workdir(args.workdir, None, [process_granule_dir_forge_py])
+    process_workdir(args.workdir, None, args.output_dir_name, [process_granule_dir_forge_py])
 
 if __name__ == "__main__":
     main() 

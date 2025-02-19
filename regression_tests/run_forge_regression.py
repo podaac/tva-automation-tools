@@ -44,7 +44,7 @@ def run_forge_process(input_file: str, config_file: str) -> Tuple[str, int]:
         return output, e.returncode
 
 
-def process_granule_dir_forge(granule_dir: str, config_file: str, palette_dir: Optional[str] = None) -> None:
+def process_granule_dir_forge(granule_dir: str, config_file: str, palette_dir: Optional[str] = None, output_dir_name: str = 'output') -> None:
     """
     Process a single granule directory for Forge
     
@@ -74,9 +74,11 @@ def process_granule_dir_forge(granule_dir: str, config_file: str, palette_dir: O
     except (json.JSONDecodeError, FileNotFoundError) as e:
         logging.error(f"Error reading config file {config_file}: {str(e)}")
         return
-
     # Check if Forge has already been run successfully
-    forge_success_file = os.path.join(granule_dir, 'forge_successful.txt')
+    output_dir = os.path.join(granule_dir, output_dir_name)
+    os.makedirs(output_dir, exist_ok=True)
+    
+    forge_success_file = os.path.join(output_dir, 'forge_successful.txt')
     if os.path.exists(forge_success_file):
         print(f"Skipping Forge processing for {granule_dir} - already completed successfully")
         return
@@ -88,8 +90,6 @@ def process_granule_dir_forge(granule_dir: str, config_file: str, palette_dir: O
         return
         
     input_file = os.path.join(granule_dir, nc_files[0])
-    output_dir = os.path.join(granule_dir, 'output')
-    os.makedirs(output_dir, exist_ok=True)
 
     # Run Forge and save output
     forge_output, return_code = run_forge_process(input_file, config_file)
@@ -111,7 +111,7 @@ def process_granule_dir_forge(granule_dir: str, config_file: str, palette_dir: O
             os.rename(wkt_file, os.path.join(output_dir, os.path.basename(wkt_file)))
     else:
         # Failure case - create failure file with output and delete wkt file
-        failed_file = os.path.join(granule_dir, 'forge_failed.txt')
+        failed_file = os.path.join(output_dir, 'forge_failed.txt')
         with open(failed_file, 'w') as f:
             f.write(forge_output)
         if wkt_file:
@@ -123,9 +123,10 @@ def main():
     
     parser = argparse.ArgumentParser(description='Process Forge regression tests')
     parser.add_argument('--workdir', default='workdir', help='Working directory path (default: workdir)')
+    parser.add_argument('--output_dir_name', '-od', required=True, help='Name of output directory for Forge results')
     args = parser.parse_args()
 
-    process_workdir(args.workdir, None, [process_granule_dir_forge])
+    process_workdir(args.workdir, None, args.output_dir_name, [process_granule_dir_forge])
 
 if __name__ == "__main__":
     main() 

@@ -48,7 +48,7 @@ def run_tig_process(input_file: str, output_dir: str, config_file: str, palette_
         return output, e.returncode
 
 
-def process_granule_dir_tig(granule_dir: str, config_file: str, palette_dir: str) -> None:
+def process_granule_dir_tig(granule_dir: str, config_file: str, palette_dir: str, output_dir_name: str) -> None:
     """
     Process a single granule directory for TIG
     
@@ -79,11 +79,11 @@ def process_granule_dir_tig(granule_dir: str, config_file: str, palette_dir: str
         return
         
     input_file = os.path.join(granule_dir, nc_files[0])
-    output_dir = os.path.join(granule_dir, 'output')
+    output_dir = os.path.join(granule_dir, output_dir_name)
     os.makedirs(output_dir, exist_ok=True)
     
     # Check if TIG has already been run successfully
-    success_file = os.path.join(granule_dir, 'tig_successful.txt')
+    success_file = os.path.join(output_dir, 'tig_successful.txt')
     if os.path.exists(success_file):
         print(f"Skipping TIG processing for {granule_dir} - already completed successfully")
         return
@@ -99,20 +99,20 @@ def process_granule_dir_tig(granule_dir: str, config_file: str, palette_dir: str
             f.write(tig_output)
     else:
         # Failure case - create failure file with output
-        failed_file = os.path.join(granule_dir, 'tig_failed.txt')
+        failed_file = os.path.join(output_dir, 'tig_failed.txt')
         with open(failed_file, 'w') as f:
             f.write(tig_output)
 
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    
     parser = argparse.ArgumentParser(description='Process TIG regression tests')
     parser.add_argument('--workdir', default='workdir', help='Working directory path (default: workdir)')
+    parser.add_argument('--output_dir_name', '-od', required=True, help='Name of output directory for TIG results')
     args = parser.parse_args()
     
     palette_dir = "../forge-tig-configuration/palettes"  # Update this path as needed
-    process_workdir(args.workdir, palette_dir, [process_granule_dir_tig])
+    process_workdir(args.workdir, palette_dir, args.output_dir_name, [process_granule_dir_tig])
 
 if __name__ == "__main__":
-    main() 
+    main()

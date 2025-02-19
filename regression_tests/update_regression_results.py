@@ -50,7 +50,8 @@ def create_logger():
     logger.addHandler(logging.StreamHandler(sys.stdout))
     return logger
 
-def check_tool_pass_fail(workdir: str, short_name: str, granule_id: str, tool: str) -> str:
+
+def check_tool_pass_fail(workdir: str, short_name: str, granule_id: str, tool: str, output_dir_name: str) -> str:
     """
     Check if a tool's processing passed or failed for a specific granule.
     
@@ -59,6 +60,7 @@ def check_tool_pass_fail(workdir: str, short_name: str, granule_id: str, tool: s
         short_name (str): The collection identifier
         granule_id (str): The granule identifier
         tool (str): The tool name (e.g. 'forge', 'tig', 'forge-py')
+        output_dir_name (str): Name of output directory to check
     
     Returns:
         str: 'PASS' if successful, 'FAIL' if failed, 'SKIP' if skipped, or 'N/A' if no results found
@@ -66,26 +68,58 @@ def check_tool_pass_fail(workdir: str, short_name: str, granule_id: str, tool: s
     # Construct path to granule directory
     collection_dir = os.path.join(workdir, short_name)
     granule_dir = os.path.join(collection_dir, granule_id)
+    output_dir = os.path.join(granule_dir, output_dir_name)
     
     # Convert forge-py to forge_py for filenames
     file_tool = tool.replace('-', '_')
     
     # Check for skip file
-    skip_file = os.path.join(granule_dir, f'{file_tool}_skip.txt')
+    skip_file = os.path.join(output_dir, f'{file_tool}_skip.txt')
     if os.path.exists(skip_file):
         return ''
         
     # Check for success file
-    success_file = os.path.join(granule_dir, f'{file_tool}_successful.txt')
+    success_file = os.path.join(output_dir, f'{file_tool}_successful.txt')
     if os.path.exists(success_file):
         return 'PASS'
         
     # Check for failure file
-    fail_file = os.path.join(granule_dir, f'{file_tool}_failed.txt')
+    fail_file = os.path.join(output_dir, f'{file_tool}_failed.txt')
     if os.path.exists(fail_file):
         return 'FAIL'
         
     return ''
+
+
+def get_all_image_counts(workdir: str, short_name: str, granule_id: str) -> dict:
+    """
+    Get image counts for all TIG output directories for a specific granule.
+    
+    Args:
+        workdir (str): The base working directory path
+        short_name (str): The collection identifier
+        granule_id (str): The granule identifier
+        
+    Returns:
+        dict: Dictionary mapping output directory names to their image counts
+    """
+    # Construct path to granule directory
+    collection_dir = os.path.join(workdir, short_name)
+    granule_dir = os.path.join(collection_dir, granule_id)
+    
+    # Initialize results dictionary
+    image_counts = {}
+    
+    # Get all directories in granule dir that start with 'tig'
+    for dirname in os.listdir(granule_dir):
+        if dirname.startswith('tig'):
+            output_dir = os.path.join(granule_dir, dirname)
+            if os.path.isdir(output_dir):
+                # Count .png files in this output directory
+                png_files = [f for f in os.listdir(output_dir) if f.endswith('.png')]
+                image_counts[dirname] = len(png_files)
+                
+    return image_counts
 
 
 def get_image_count(workdir: str, short_name: str, granule_id: str) -> int:
@@ -129,25 +163,25 @@ def process_granule(short_name: str, granule_id: str) -> dict:
     logger.info(f"Processing granule: {granule_id} from collection: {short_name}")
     
     # Get the image count for this granule
-    image_count = get_image_count('workdir', short_name, granule_id)
-    logger.info(f"Found {image_count} images for granule {granule_id}")
+    image_counts = get_all_image_counts('workdir', short_name, granule_id)
+    logger.info(f"Found {image_counts} images for granule {granule_id}")
     
     # Get Forge pass/fail status
-    forge_status = check_tool_pass_fail('workdir', short_name, granule_id, 'forge')
+    forge_status = check_tool_pass_fail('workdir', short_name, granule_id, 'forge', 'forge_0.12.0')
     logger.info(f"Forge status for granule {granule_id}: {forge_status}")
 
     # Get TIG pass/fail status
-    tig_status = check_tool_pass_fail('workdir', short_name, granule_id, 'tig')
+    tig_status = check_tool_pass_fail('workdir', short_name, granule_id, 'tig', 'tig_0.13.0')
     logger.info(f"TIG status for granule {granule_id}: {tig_status}")
 
     # Get forge-py pass/fail status
-    forge_py_status = check_tool_pass_fail('workdir', short_name, granule_id, 'forge-py')
+    forge_py_status = check_tool_pass_fail('workdir', short_name, granule_id, 'forge-py', 'forge_py_0.4.0')
     logger.info(f"Forge-py status for granule {granule_id}: {forge_py_status}")
 
     logger.info(f"Granule {granule_id} processed successfully.")
     
     return {
-        'image_count': image_count,
+        'image_counts': image_counts,
         'forge_status': forge_status,
         'tig_status': tig_status,
         'forge_py_status': forge_py_status
@@ -201,7 +235,7 @@ def main(args=None):
         granule_data = process_granule(short_name, granule_id)
         logger.debug(f"Granule data: {granule_data}")
         
-        insert_value_into_row(row, "Image Count", header_row, str(granule_data['image_count']))
+        insert_value_into_row(row, "Image Count (tig 0.13.0)", header_row, str(granule_data['image_counts']['tig_0.13.0']))
 
         insert_value_into_row(row, "Forge Status", header_row, granule_data['forge_status'])
         insert_value_into_row(row, "TIG Status", header_row, granule_data['tig_status'])
