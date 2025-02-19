@@ -57,6 +57,7 @@ jobs:
           poetry run python regression_tests.py
           pwd
           ls -alR
+          du -h -d 3 workdir
 
       #########################################################################
       # Checkout TIG Configuration Repository
@@ -88,6 +89,7 @@ jobs:
             python run_tig_regression.py --workdir workdir -od tig_0.13.0
             pwd
             ls -alR
+            du -h -d 3 workdir
             "
 
       #########################################################################
@@ -117,6 +119,7 @@ jobs:
             python run_tig_regression.py --workdir workdir -od tig_0.13.1rc1
             pwd
             ls -alR
+            du -h -d 3 workdir
             "
 
       #########################################################################
@@ -139,6 +142,7 @@ jobs:
             python run_forge_py_regression.py --workdir workdir -od forge_py_0.4.0
             pwd
             ls -alR
+            du -h -d 3 workdir
             "
 
       #########################################################################
@@ -167,6 +171,7 @@ jobs:
             python3 run_forge_regression.py --workdir workdir -od forge_0.12.0
             pwd
             ls -alR
+            du -h -d 3 workdir
             "
 
       #########################################################################
@@ -179,3 +184,4 @@ jobs:
           poetry run python update_regression_results.py
           pwd
           ls -alR
+          du -h -d 3 workdir
