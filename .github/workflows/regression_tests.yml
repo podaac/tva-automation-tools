@@ -102,7 +102,7 @@ jobs:
             -c "
             arch
             # Get latest RC version from GitHub releases
-            TIG_VERSION=$(curl -s https://api.github.com/repos/podaac/tig/releases | grep tag_name | grep rc | head -n1 | cut -d'"' -f4)
+            TIG_VERSION=$(curl -s https://api.github.com/repos/podaac/tig/releases | grep tag_name | grep rc | head -n1 | cut -d'\"' -f4)
             
             # Install TIG
             pip install --index-url https://test.pypi.org/simple/ podaac-tig==${TIG_VERSION}
