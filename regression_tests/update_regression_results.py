@@ -227,15 +227,20 @@ def main(args=None):
         print(row)
 
     header_row = collection_table[0]
-    
+
     for row in collection_table[1:]:
         short_name, granule_id = row[0], row[1]
+
+        if not granule_id:
+            logger.info(f"Skipping collection {short_name} - no granule ID provided")
+            continue
+
         logger.info(f"Processing collection with short_name: {short_name}, granule_id: {granule_id}")
 
         granule_data = process_granule(short_name, granule_id)
         logger.debug(f"Granule data: {granule_data}")
-        
-        insert_value_into_row(row, "Image Count (tig 0.13.0)", header_row, str(granule_data['image_counts']['tig_0.13.0']))
+
+        insert_value_into_row(row, "Image Count (tig 0.13.0)", header_row, str(granule_data.get('image_counts', {}).get('tig_0.13.0', 'NA')))
 
         insert_value_into_row(row, "Forge Status", header_row, granule_data['forge_status'])
         insert_value_into_row(row, "TIG Status", header_row, granule_data['tig_status'])
