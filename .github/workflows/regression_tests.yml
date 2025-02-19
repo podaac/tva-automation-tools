@@ -102,18 +102,19 @@ jobs:
             -c "
             arch
             # Install curl
-            apt-get update && apt-get install -y curl && apt-get clean
+            #apt-get update && apt-get install -y curl && apt-get clean
 
             # Get latest RC version from GitHub releases
-            TIG_VERSION=$(curl -s https://api.github.com/repos/podaac/tig/releases | grep tag_name | grep rc | head -n1 | cut -d'"' -f4)
-            
+            #TIG_VERSION=$(curl -s https://api.github.com/repos/podaac/tig/releases | grep tag_name | grep rc | head -n1 | cut -d'"' -f4)
+            TIG_VERSION=0.13.1rc1
+
             # Install TIG
             pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-tig==${TIG_VERSION}
-            
+
             # Change to workspace directory
             cd regression_tests
 
-            python run_tig_regression.py --workdir workdir -od tig_latest_rc
+            python run_tig_regression.py --workdir workdir -od tig_0.13.1rc1
             pwd
             ls -alR
             "
