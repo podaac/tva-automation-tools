@@ -253,10 +253,8 @@ def fill_regression(workdir, edl_token):
                 with open(config_path) as f:
                     forge_tig_config = json.loads(f.read())
 
-          #      if forge_tig_config.get('footprint'):
-          #          collection['footprint_config'] = "X"
-
-                thumbnail_count = len(forge_tig_config.get('imgVariables', []))
+                img_vars = forge_tig_config.get('imgVariables', [])
+                thumbnail_count = '-' if not img_vars else len(img_vars)
                 row.append(thumbnail_count)
             except Exception as ex:
                 pass

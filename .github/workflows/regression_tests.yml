@@ -148,7 +148,7 @@ jobs:
       #########################################################################
       # Run forge in container
       #########################################################################
-      - name: Setup and Run forge in Docker
+      - name: Setup and Run forge 0.12.0 in Docker
         uses: docker://mcr.microsoft.com/openjdk/jdk:11-ubuntu
         with:
           platform: linux/arm64
@@ -163,12 +163,35 @@ jobs:
             cd regression_tests
 
             # Download Footprint jar
-            curl -sLO https://github.com/podaac/forge/releases/download/0.12.0/footprint_0.12.0.jar
-            
-            # Run Footprint CLI
-            java -cp footprint_0.12.0.jar FootprintCLI
+            curl -sL https://github.com/podaac/forge/releases/download/0.12.0/footprint_0.12.0.jar -o footprint.jar
 
             python3 run_forge_regression.py --workdir workdir -od forge_0.12.0
+            pwd
+            ls -alR
+            du -h -d 3 workdir
+            "
+
+      #########################################################################
+      # Run forge (Cumulus OPS Version) in container
+      #########################################################################
+      - name: Setup and Run forge 0.11.0 in Docker
+        uses: docker://mcr.microsoft.com/openjdk/jdk:11-ubuntu
+        with:
+          platform: linux/arm64
+          entrypoint: /bin/bash
+          args: |-
+            -c "
+            arch
+            # Install Python 3
+            apt-get update && apt-get install -y python3 curl && apt-get clean
+
+            # Change to workspace directory
+            cd regression_tests
+
+            # Download Footprint jar
+            curl -sL https://github.com/podaac/forge/releases/download/0.11.0/footprint_0.11.0.jar -o footprint.jar
+
+            python3 run_forge_regression.py --workdir workdir -od forge_0.11.0
             pwd
             ls -alR
             du -h -d 3 workdir

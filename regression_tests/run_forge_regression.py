@@ -20,7 +20,7 @@ def run_forge_process(input_file: str, config_file: str) -> Tuple[str, int]:
     try:
         cmd = [
             'java',
-            '-cp', 'footprint_0.12.0.jar',
+            '-cp', 'footprint.jar',
             'FootprintCLI',
             input_file,
             config_file

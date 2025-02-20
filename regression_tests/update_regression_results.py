@@ -252,10 +252,11 @@ def main(args=None):
         granule_data = process_granule(short_name, granule_id)
         logger.debug(f"Granule data: {granule_data}")
 
-        insert_value_into_row(row, "Image Count (tig 0.13.0)", header_row, str(granule_data.get('image_counts', {}).get('tig_0.13.0', '-')))
-        insert_value_into_row(row, "Forge Status (forge 0.12.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.12.0', '-'))
-        insert_value_into_row(row, "TIG Status (tig 0.13.0)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.0', '-'))
-        insert_value_into_row(row, "Forge-py Status (forge-py 0.4.0)", header_row, granule_data.get('forge_py_status', {}).get('forge-py_0.4.0', '-'))
+        insert_value_into_row(row, "Image Count (0.13.0)", header_row, str(granule_data.get('image_counts', {}).get('tig_0.13.0', '-')))
+        insert_value_into_row(row, "Forge Status (0.11.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.11.0', '-'))
+        insert_value_into_row(row, "Forge Status (0.12.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.12.0', '-'))
+        insert_value_into_row(row, "TIG Status (0.13.0)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.0', '-'))
+        insert_value_into_row(row, "Forge-py Status (0.4.0)", header_row, granule_data.get('forge_py_status', {}).get('forge-py_0.4.0', '-'))
 
     # Update the entire worksheet with the modified collection table
     worksheet = workbook.worksheet("Regression Tests")
