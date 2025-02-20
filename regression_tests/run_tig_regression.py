@@ -30,10 +30,6 @@ def run_tig_process(input_file: str, output_dir: str, config_file: str, palette_
         
         # Print the command being executed
         print("\nExecuting TIG command:")
-        print(f"Input file: {input_file}")
-        print(f"Output directory: {output_dir}")
-        print(f"Config file: {config_file}")
-        print(f"Palette directory: {palette_dir}")
         print(" ".join(cmd))
         print()
         result = subprocess.run(cmd,

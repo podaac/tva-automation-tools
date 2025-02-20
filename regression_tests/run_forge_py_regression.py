@@ -24,19 +24,15 @@ def run_forge_py_process(input_file: str, output_dir: str, config_file: str) -> 
         
         cmd = [
             'forge-py',
-            '--config', config_file,
-            '--granule', input_file,
-            '--output_file', output_file,
+            '-c', config_file,
+            '-g', input_file,
+            '-o', output_file,
             '--log-file', log_file,
             '--log-level', 'DEBUG'
         ]
-        
+
         # Print the command being executed
         print("\nExecuting forge-py command:")
-        print(f"Input file: {input_file}")
-        print(f"Output file: {output_file}")
-        print(f"Config file: {config_file}")
-        print(f"Log file: {log_file}")
         print(" ".join(cmd))
         print()
         

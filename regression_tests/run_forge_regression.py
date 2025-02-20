@@ -28,8 +28,6 @@ def run_forge_process(input_file: str, config_file: str) -> Tuple[str, int]:
         
         # Print the command being executed
         print("\nExecuting Forge command:")
-        print(f"Input file: {input_file}")
-        print(f"Config file: {config_file}")
         print(" ".join(cmd))
         print()
         result = subprocess.run(cmd,
