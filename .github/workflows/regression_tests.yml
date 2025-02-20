@@ -158,7 +158,7 @@ jobs:
             # Download Footprint jar
             curl -sL https://github.com/podaac/forge/releases/download/0.12.1-rc.1/footprint_0.12.1-rc.1.jar -o footprint.jar
 
-            python3 run_forge_regression.py --workdir workdir -od 0.12.1-rc.1
+            python3 run_forge_regression.py --workdir workdir -od forge_0.12.1-rc.1
             "
 
       #########################################################################
