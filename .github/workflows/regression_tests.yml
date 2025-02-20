@@ -93,7 +93,7 @@ jobs:
             "
 
       #########################################################################
-      # Run TIG UAT in container
+      # Run TIG in container
       #########################################################################
       - name: Setup and Run Latest RC TIG in Docker
         uses: docker://python:3.10-slim       # Shoud match the lambda docker image version in the tig repo
@@ -103,12 +103,6 @@ jobs:
           args: |-
             -c "
             arch
-            # Install curl
-            #apt-get update && apt-get install -y curl && apt-get clean
-
-            # Get latest RC version from GitHub releases
-            #TIG_VERSION=$(curl -s https://api.github.com/repos/podaac/tig/releases | grep tag_name | grep rc | head -n1 | cut -d'"' -f4)
-
             # Install TIG
             pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-tig==0.13.1rc1
 
@@ -142,6 +136,29 @@ jobs:
             pwd
             ls -alR
             du -h -d 3 workdir
+            "
+
+      #########################################################################
+      # Run forge in container
+      #########################################################################
+      - name: Setup and Run forge 0.12.1-rc.1 in Docker
+        uses: docker://mcr.microsoft.com/openjdk/jdk:11-ubuntu
+        with:
+          platform: linux/arm64
+          entrypoint: /bin/bash
+          args: |-
+            -c "
+            arch
+            # Install Python 3
+            apt-get update && apt-get install -y python3 curl && apt-get clean
+
+            # Change to workspace directory
+            cd regression_tests
+
+            # Download Footprint jar
+            curl -sL https://github.com/podaac/forge/releases/download/0.12.1-rc.1/footprint_0.12.1-rc.1.jar -o footprint.jar
+
+            python3 run_forge_regression.py --workdir workdir -od 0.12.1-rc.1
             "
 
       #########################################################################
@@ -204,6 +221,12 @@ jobs:
           SPREADSHEET_ID: ${{ secrets.HITIDE_AWS_SHEET_ID }}
         run: |
           poetry run python update_regression_results.py
+
+      #########################################################################
+      # Get disk usage of workdir and its subdirectories
+      #########################################################################
+      - name: Get Disk Usage
+        run: |
           pwd
           ls -alR
           du -h -d 3 workdir
