@@ -108,10 +108,9 @@ jobs:
 
             # Get latest RC version from GitHub releases
             #TIG_VERSION=$(curl -s https://api.github.com/repos/podaac/tig/releases | grep tag_name | grep rc | head -n1 | cut -d'"' -f4)
-            TIG_VERSION=0.13.1rc1
 
             # Install TIG
-            pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-tig==${TIG_VERSION}
+            pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-tig==0.13.1rc1
 
             # Change to workspace directory
             cd regression_tests
