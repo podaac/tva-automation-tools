@@ -82,8 +82,8 @@ def get_granule(granule_id, edl_token):
     """
     mode = cmr.queries.CMR_OPS
     granule_url = cmr.queries.GranuleQuery(
-                    mode=mode).provider('POCLOUD').granule_ur(granule_id).format('umm_json')._build_url()
-    
+                    mode=mode).provider('POCLOUD').concept_id(granule_id).format('umm_json')._build_url()
+
     print(granule_url)
     headers = {"Authorization": f"Bearer {edl_token}"}
 

@@ -228,5 +228,4 @@ jobs:
       - name: Get Disk Usage
         run: |
           pwd
-          ls -alR
           du -h -d 3 workdir
