@@ -145,6 +145,12 @@ def bearer_token(env: str, logger) -> str:
 
 def get_info(granule_json):
 
+    # Get granule ID from metadata
+    granule_id = granule_json.get('meta').get('concept-id')
+
+    # Get granule end date
+    date = granule_json.get('umm').get('TemporalExtent').get('RangeDateTime').get('EndingDateTime')[:10]
+
     related_urls = granule_json.get('umm').get('RelatedUrls')
 
     granule_url = None
@@ -153,7 +159,8 @@ def get_info(granule_json):
             granule_url = x.get('URL')
 
     return { 'href': granule_url,
-            'id': granule_json.get('meta').get('concept-id')}
+            'id': granule_id,
+            'date': date}
 
 
 def download_file(save_path, source_url, edl_token):
@@ -198,6 +205,7 @@ def fill_regression(workdir, edl_token):
 
     header = ['Granule ID']
     header.append('Lock Granule')
+    header.append('Granule Date')
     header.append('Data URL')
     header.append('Config Image Count')
     rows = [header]
@@ -219,9 +227,10 @@ def fill_regression(workdir, edl_token):
             info = get_info(granule)
 
             id = info['id']
-            
+
             row.append(id)
             row.append(is_lock_granule)
+            row.append(info['date'])
             row.append(info['href'])
 
             print("Collection: " + short_name)

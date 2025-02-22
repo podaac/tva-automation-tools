@@ -67,7 +67,7 @@ def get_errors(workdir: str, short_name: str, granule_id: str) -> str:
     collection_dir = os.path.join(workdir, short_name)
     granule_dir = os.path.join(collection_dir, granule_id)
 
-    error_messages = []
+    error_messages: list[str] = []
 
     # Find all output directories for each tool
     for dirname in os.listdir(granule_dir):
@@ -79,6 +79,10 @@ def get_errors(workdir: str, short_name: str, granule_id: str) -> str:
                 if os.path.exists(fail_file):
                     with open(fail_file, 'r') as f:
                         error_messages.append(f"{dirname}:\n{f.read()}")
+
+    # Strip trailing newline from last error message if there are any errors
+    if error_messages:
+        error_messages[-1] = error_messages[-1].rstrip()
 
     return '\n'.join(error_messages)
 
