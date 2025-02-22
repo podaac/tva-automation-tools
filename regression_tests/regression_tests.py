@@ -197,7 +197,7 @@ def fill_regression(workdir, edl_token):
     print(len(collection_table))
 
     header = ['Granule ID']
-    header.append('Fixed Granule')
+    header.append('Lock Granule')
     header.append('Data URL')
     header.append('Config Image Count')
     rows = [header]
@@ -208,9 +208,9 @@ def fill_regression(workdir, edl_token):
 
         try:
             short_name = collection_row[0]
-            is_fixed_granule = collection_row[2]
+            is_lock_granule = collection_row[2]
 
-            if is_fixed_granule == 'X':
+            if is_lock_granule == 'X':
                 granule_id = collection_row[1]
                 granule = get_granule(granule_id, edl_token)
             else:
@@ -221,7 +221,7 @@ def fill_regression(workdir, edl_token):
             id = info['id']
             
             row.append(id)
-            row.append(is_fixed_granule)
+            row.append(is_lock_granule)
             row.append(info['href'])
 
             print("Collection: " + short_name)
@@ -273,29 +273,6 @@ def fill_regression(workdir, edl_token):
         print("Update failed after multiple retries. You may want to handle this error further.")
 
 
-def run_tig(granule_path, output_dir, config_file, palette_dir):
-    """
-    Run the tig CLI command on a granule file
-    """
-    try:
-        cmd = [
-            'tig',
-            '--input_file', granule_path,
-            '--output_dir', output_dir,
-            '--config_file', config_file,
-            '--palette_dir', palette_dir
-        ]
-        
-        result = subprocess.run(cmd, 
-                              capture_output=True, 
-                              text=True, 
-                              check=True)
-        return result.stdout
-    except subprocess.CalledProcessError as e:
-        print(f"Error running tig command: {e.stderr}")
-        raise
-
-
 def create_logger():
     """Return configured logger from parsed cli args."""
 
@@ -316,20 +293,11 @@ def main(args=None):
 
     edl_token = bearer_token('ops', logger)
 
-  #  run_tig_command("", "", "", "")
-
     # Create workdir subdirectory if it doesn't exist
     workdir = "workdir"
     if not os.path.exists(workdir):
         os.makedirs(workdir)
 
-    # go through collection names
-
-    # if ongoing, then use the latest granule, otherwise use one of the last 100 granules randomly
-
-    # for each short name
-
-       # 
     fill_regression(workdir, edl_token)
 
     logger.info(f"Finished all collections: "                                 # pylint: disable=W1203

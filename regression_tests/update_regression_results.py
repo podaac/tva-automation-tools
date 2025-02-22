@@ -51,6 +51,38 @@ def create_logger():
     return logger
 
 
+def get_errors(workdir: str, short_name: str, granule_id: str) -> str:
+    """
+    Get error messages from failed runs across all tools and versions.
+
+    Args:
+        workdir (str): The base working directory path
+        short_name (str): The collection identifier
+        granule_id (str): The granule identifier
+
+    Returns:
+        str: Combined error messages from all failed runs
+    """
+    # Construct path to granule directory
+    collection_dir = os.path.join(workdir, short_name)
+    granule_dir = os.path.join(collection_dir, granule_id)
+
+    error_messages = []
+
+    # Find all output directories for each tool
+    for dirname in os.listdir(granule_dir):
+        if dirname.startswith(('tig_', 'forge_', 'forge-py_')):
+            output_dir = os.path.join(granule_dir, dirname)
+            if os.path.isdir(output_dir):
+                # Check for failure file
+                fail_file = os.path.join(output_dir, f"{dirname.split('_')[0]}_failed.txt")
+                if os.path.exists(fail_file):
+                    with open(fail_file, 'r') as f:
+                        error_messages.append(f"{dirname}:\n{f.read()}\n\n")
+
+    return '\n'.join(error_messages)
+
+
 def check_tool_pass_fail(workdir: str, short_name: str, granule_id: str, tool: str) -> dict:
     """
     Check if a tool's processing passed or failed for a specific granule across all output directories.
@@ -190,13 +222,16 @@ def process_granule(short_name: str, granule_id: str) -> dict:
     forge_py_status = check_tool_pass_fail('workdir', short_name, granule_id, 'forge-py')
     logger.info(f"Forge-py status for granule {granule_id}: {forge_py_status}")
 
+    errors = get_errors('workdir', short_name, granule_id)
+
     logger.info(f"Granule {granule_id} processed successfully.")
 
     return {
         'image_counts': image_counts,
         'forge_status': forge_status,
         'tig_status': tig_status,
-        'forge_py_status': forge_py_status
+        'forge-py_status': forge_py_status,
+        'errors': errors
     }
 
 
@@ -265,6 +300,9 @@ def main(args=None):
 
         # Forge-py columns
         insert_value_into_row(row, "Forge-py Status (0.4.0)", header_row, granule_data.get('forge_py_status', {}).get('forge-py_0.4.0', '-'))
+
+        # Errors
+        insert_value_into_row(row, "Errors", header_row, granule_data.get('errors', ''))
 
     # Update the entire worksheet with the modified collection table
     worksheet = workbook.worksheet("Regression Tests")
