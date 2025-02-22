@@ -78,10 +78,7 @@ def get_errors(workdir: str, short_name: str, granule_id: str) -> str:
                 fail_file = os.path.join(output_dir, f"{dirname.split('_')[0]}_failed.txt")
                 if os.path.exists(fail_file):
                     with open(fail_file, 'r') as f:
-                        error_messages.append(f"{dirname}:\n{f.read()}\n")
-
-    if error_messages:
-        error_messages[-1] = error_messages[-1].rstrip()
+                        error_messages.append(f"{dirname}:\n{f.read()}")
 
     return '\n'.join(error_messages)
 
@@ -233,7 +230,7 @@ def process_granule(short_name: str, granule_id: str) -> dict:
         'image_counts': image_counts,
         'forge_status': forge_status,
         'tig_status': tig_status,
-        'forge-py_status': forge_py_status,
+        'forge_py_status': forge_py_status,
         'errors': errors
     }
 

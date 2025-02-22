@@ -72,7 +72,7 @@ jobs:
       #########################################################################
       # Run TIG in container
       #########################################################################
-      - name: Setup and Run TIG in Docker
+      - name: Setup and Run TIG 0.13.0 in Docker
         uses: docker://python:3.10-slim       # Shoud match the lambda docker image version in the tig repo
         with:
           platform: linux/arm64
@@ -95,7 +95,7 @@ jobs:
       #########################################################################
       # Run TIG in container
       #########################################################################
-      - name: Setup and Run Latest RC TIG in Docker
+      - name: Setup and Run TIG 0.13.1rc1 in Docker
         uses: docker://python:3.10-slim       # Shoud match the lambda docker image version in the tig repo
         with:
           platform: linux/arm64
@@ -118,7 +118,7 @@ jobs:
       #########################################################################
       # Run forge-py in container
       #########################################################################
-      - name: Setup and Run forge-py in Docker
+      - name: Setup and Run forge-py 0.4.0 in Docker
         uses: docker://python:3.11-slim       # Should match the lambda docker image version in the forge-py repo
         with:
           platform: linux/arm64
