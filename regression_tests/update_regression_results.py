@@ -78,7 +78,10 @@ def get_errors(workdir: str, short_name: str, granule_id: str) -> str:
                 fail_file = os.path.join(output_dir, f"{dirname.split('_')[0]}_failed.txt")
                 if os.path.exists(fail_file):
                     with open(fail_file, 'r') as f:
-                        error_messages.append(f"{dirname}:\n{f.read()}\n\n")
+                        error_messages.append(f"{dirname}:\n{f.read()}\n")
+
+    if error_messages:
+        error_messages[-1] = error_messages[-1].rstrip()
 
     return '\n'.join(error_messages)
 
@@ -301,8 +304,15 @@ def main(args=None):
         # Forge-py columns
         insert_value_into_row(row, "Forge-py Status (0.4.0)", header_row, granule_data.get('forge_py_status', {}).get('forge-py_0.4.0', '-'))
 
-        # Errors
-        insert_value_into_row(row, "Errors", header_row, granule_data.get('errors', ''))
+        # Get errors
+        errors = granule_data.get('errors', '')
+        
+        # Insert errors into row
+        insert_value_into_row(row, "Errors", header_row, errors)
+        
+        # If errors has text, set Lock Granule column to X
+        if errors:
+            insert_value_into_row(row, "Lock Granule", header_row, "X")
 
     # Update the entire worksheet with the modified collection table
     worksheet = workbook.worksheet("Regression Tests")

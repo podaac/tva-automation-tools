@@ -89,12 +89,13 @@ def process_granule_dir_tig(granule_dir: str, config_file: str, palette_dir: str
     print(f"tig_output: {tig_output}")
     print(f"Return code: {return_code}")
     
-    if return_code == 0:
+    # Success requires both return code 0 and empty output
+    if return_code == 0 and not tig_output.strip():
         # Success case - write output to success file
         with open(success_file, 'w') as f:
             f.write(tig_output)
     else:
-        # Failure case - create failure file with output
+        # Any output or non-zero return code indicates failure
         failed_file = os.path.join(output_dir, 'tig_failed.txt')
         with open(failed_file, 'w') as f:
             f.write(tig_output)
