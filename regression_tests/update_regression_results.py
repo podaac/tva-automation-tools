@@ -315,6 +315,10 @@ def main(args=None):
         if errors:
             insert_value_into_row(row, "Lock Granule", header_row, "X")
 
+        now = datetime.now(pytz.timezone('US/Pacific'))
+        dt_string = now.strftime("%m/%d/%Y %H:%M:%S")
+        insert_value_into_row(row, "Updated", header_row, dt_string)
+
     # Update the entire worksheet with the modified collection table
     worksheet = workbook.worksheet("Regression Tests")
     update_sheet(worksheet, collection_table, 'A1')

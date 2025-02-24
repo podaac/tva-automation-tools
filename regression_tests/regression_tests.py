@@ -3,7 +3,6 @@ import cmr
 import pytz
 from datetime import datetime
 import gspread
-import subprocess
 import requests
 import json
 import logging
@@ -196,6 +195,25 @@ def download_file(save_path, source_url, edl_token):
         print(f"Error downloading file: {e}")
         raise
 
+def needs_update(row: list) -> bool:
+    """
+    Check if a granule needs to be updated in the regression tests.
+    
+    Args:
+        row (list): A single row from the regression test table
+        
+    Returns:
+        bool: True if granule needs update, False if already updated
+    """
+    # Check columns 3 through 14 for empty values
+    for idx in range(3, 15):  # range(3,15) covers indices 3-14 inclusive
+        if idx < len(row) and not row[idx]:
+            return True
+            
+    # All columns have values
+    return False
+
+
 
 def fill_regression(workdir, edl_token):
     collection_table = get_regression_sheet_table()
@@ -219,6 +237,11 @@ def fill_regression(workdir, edl_token):
             is_lock_granule = collection_row[2]
 
             if is_lock_granule == 'X':
+                if not needs_update(collection_row):
+                    print(f"Granule {collection_row[1]} already updated, skipping")
+                    row = collection_row[1:]
+                    continue
+
                 granule_id = collection_row[1]
                 granule = get_granule(granule_id, edl_token)
             else:
