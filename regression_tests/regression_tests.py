@@ -236,12 +236,12 @@ def fill_regression(workdir, edl_token):
             short_name = collection_row[0]
             is_lock_granule = collection_row[2]
 
-            if is_lock_granule == 'X':
-                if not needs_update(collection_row):
-                    print(f"Granule {collection_row[1]} already updated, skipping")
-                    row = collection_row[1:]
-                    continue
+            if not needs_update(collection_row):
+                print(f"Granule {collection_row[1]} already updated, skipping")
+                row = collection_row[1:]
+                continue
 
+            if is_lock_granule == 'X':
                 granule_id = collection_row[1]
                 granule = get_granule(granule_id, edl_token)
             else:
