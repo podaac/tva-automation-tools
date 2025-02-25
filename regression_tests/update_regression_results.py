@@ -288,6 +288,12 @@ def main(args=None):
 
         logger.info(f"Processing collection with short_name: {short_name}, granule_id: {granule_id}")
 
+        # Check if directory exists for this collection
+        collection_dir = f"workdir/{short_name}/{granule_id}"
+        if not os.path.exists(collection_dir):
+            logger.info(f"Directory {collection_dir} does not exist, skipping and not updating collection {short_name}")
+            continue
+
         granule_data = process_granule(short_name, granule_id)
         logger.debug(f"Granule data: {granule_data}")
 
