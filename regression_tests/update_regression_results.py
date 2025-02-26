@@ -305,7 +305,6 @@ def main(args=None):
 
         # Forge columns
         insert_value_into_row(row, "Forge Status (0.11.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.11.0', '-'))
-        insert_value_into_row(row, "Forge Status (0.12.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.12.0', '-'))
         insert_value_into_row(row, "Forge Status (0.12.1-rc.1)", header_row, granule_data.get('forge_status', {}).get('forge_0.12.1-rc.1', '-'))
 
         # Forge-py columns
