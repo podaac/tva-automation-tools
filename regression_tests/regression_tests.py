@@ -205,8 +205,8 @@ def needs_update(row: list) -> bool:
     Returns:
         bool: True if granule needs update, False if already updated
     """
-    # Check columns 3 through 14 for empty values
-    for idx in range(3, 15):  # range(3,15) covers indices 3-14 inclusive
+    # Check columns 3 through 13 for empty values
+    for idx in range(3, 14):  # range(3,14) covers indices 3-13 inclusive
         if idx < len(row) and not row[idx]:
             return True
             
