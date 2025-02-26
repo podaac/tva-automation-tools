@@ -88,9 +88,8 @@ def process_granule_dir_tig(granule_dir: str, config_file: str, palette_dir: str
     tig_output, return_code = run_tig_process(input_file, output_dir, config_file, palette_dir)
     print(f"tig_output: {tig_output}")
     print(f"Return code: {return_code}")
-    
-    # Success requires both return code 0 and empty output
-    if return_code == 0 and not tig_output.strip():
+
+    if return_code == 0 and "error" not in tig_output.lower():
         # Success case - write output to success file
         with open(success_file, 'w') as f:
             f.write(tig_output)

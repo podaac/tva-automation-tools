@@ -101,7 +101,7 @@ def process_granule_dir_forge(granule_dir: str, config_file: str, palette_dir: O
             wkt_file = os.path.join(granule_dir, f)
             break
 
-    if return_code == 0 and "Error" not in forge_output:
+    if return_code == 0 and "error" not in forge_output.lower():
         # Success case - create success file with output and move wkt file
         with open(forge_success_file, 'w') as f:
             f.write(forge_output)
