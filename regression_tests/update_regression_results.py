@@ -239,6 +239,24 @@ def process_granule(short_name: str, granule_id: str) -> dict:
     }
 
 
+def get_value(row: list, column_name: str, header_row: list) -> str:
+    """
+    Get the value from a row for a specific column name.
+    
+    Args:
+        row (list): The row to get the value from
+        column_name (str): Name of the column to find
+        header_row (list): The header row containing column names
+        
+    Returns:
+        str: Value from the row at the found column index, or empty string if column not found
+    """
+    for i, header in enumerate(header_row):
+        if header == column_name:
+            return row[i] if i < len(row) else ""
+    return ""
+
+
 def insert_value_into_row(row: list, column_name: str, header_row: list, value: str) -> None:
     """
     Insert value into a specific column of a collection table row.
@@ -298,10 +316,22 @@ def main(args=None):
         logger.debug(f"Granule data: {granule_data}")
 
         # TIG columns
-        insert_value_into_row(row, "Image Count (0.13.0)", header_row, str(granule_data.get('image_counts', {}).get('tig_0.13.0', '-')))
-        insert_value_into_row(row, "Image Count (0.13.1rc1)", header_row, str(granule_data.get('image_counts', {}).get('tig_0.13.1rc1', '-')))
-        insert_value_into_row(row, "TIG Status (0.13.0)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.0', '-'))
-        insert_value_into_row(row, "TIG Status (0.13.1rc1)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.1rc1', '-'))
+        config_image_count = get_value(row, "Config Image Count", header_row)
+        image_counts = granule_data.get('image_counts', {})
+        tig_0_13_0_count = image_counts.get('tig_0.13.0', '-')
+        tig_0_13_1rc1_count = image_counts.get('tig_0.13.1rc1', '-')
+        insert_value_into_row(row, "Image Count (0.13.0)", header_row, str(tig_0_13_0_count))
+        insert_value_into_row(row, "Image Count (0.13.1rc1)", header_row, str(tig_0_13_1rc1_count))
+
+        if config_image_count != tig_0_13_0_count:
+            insert_value_into_row(row, "TIG Status (0.13.0)", header_row, "FAIL")
+        else:
+            insert_value_into_row(row, "TIG Status (0.13.0)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.0', '-'))
+        
+        if config_image_count != tig_0_13_1rc1_count:
+            insert_value_into_row(row, "TIG Status (0.13.1rc1)", header_row, "FAIL")
+        else:
+            insert_value_into_row(row, "TIG Status (0.13.1rc1)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.1rc1', '-'))
 
         # Forge columns
         insert_value_into_row(row, "Forge Status (0.11.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.11.0', '-'))
