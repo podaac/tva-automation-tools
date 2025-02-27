@@ -325,12 +325,12 @@ def main(args=None):
 
         logger.info(f"Config image count: {config_image_count}, Tig 0.13.0 count: {tig_0_13_0_count}, Tig 0.13.1rc1 count: {tig_0_13_1rc1_count}")
 
-        if config_image_count != tig_0_13_0_count:
+        if config_image_count != '-' and tig_0_13_0_count != '-' and int(config_image_count) != int(tig_0_13_0_count):
             insert_value_into_row(row, "TIG Status (0.13.0)", header_row, "FAIL")
         else:
             insert_value_into_row(row, "TIG Status (0.13.0)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.0', '-'))
 
-        if config_image_count != tig_0_13_1rc1_count:
+        if config_image_count != '-' and tig_0_13_1rc1_count != '-' and int(config_image_count) != int(tig_0_13_1rc1_count):
             insert_value_into_row(row, "TIG Status (0.13.1rc1)", header_row, "FAIL")
         else:
             insert_value_into_row(row, "TIG Status (0.13.1rc1)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.1rc1', '-'))
