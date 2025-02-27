@@ -81,13 +81,13 @@ def process_granule_dir_forge(granule_dir: str, config_file: str, palette_dir: O
         print(f"Skipping Forge processing for {granule_dir} - already completed successfully")
         return
 
-    # Find the .nc and .h5 files in the granule directory
-    nc_files = [f for f in os.listdir(granule_dir) if f.endswith('.nc') or f.endswith('.h5')]
-    if not nc_files:
-        logging.warning(f"No .nc or .h5 file found in {granule_dir}")
+    # Find the first data file in the granule directory that does not end in .txt and is not a directory
+    data_files = [f for f in os.listdir(granule_dir) if not f.endswith('.txt') and not os.path.isdir(os.path.join(granule_dir, f))]
+    if not data_files:
+        logging.warning(f"No data files found in {granule_dir}")
         return
-        
-    input_file = os.path.join(granule_dir, nc_files[0])
+
+    input_file = os.path.join(granule_dir, data_files[0])
 
     # Run Forge and save output
     forge_output, return_code = run_forge_process(input_file, config_file)
