@@ -571,6 +571,7 @@ class HitideCollections:
 
                 var_names = [var['name'] for var in variables] if variables is not None else []
 
+# TODO: Add check to make sure UMM-V has the config vars that we should generate thumbnails for
                 if 'thumbnail_count' in collection:
                     collection['last_granule_thumbnail_count'] = sum(   any(name.replace('/', '.') in url.get('url') for name in var_names) and
                                                                         url.get('mimeType') == "image/png" and
