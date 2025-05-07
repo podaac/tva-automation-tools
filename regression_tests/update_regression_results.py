@@ -319,21 +319,21 @@ def main(args=None):
         config_image_count = get_value(row, "Config Image Count", header_row)
         image_counts = granule_data.get('image_counts', {})
         tig_0_13_0_count = image_counts.get('tig_0.13.0', '-')
-        tig_0_13_1rc1_count = image_counts.get('tig_0.13.1rc1', '-')
+        tig_0_13_2rc1_count = image_counts.get('tig_0.13.2rc1', '-')
         insert_value_into_row(row, "Image Count (0.13.0)", header_row, str(tig_0_13_0_count))
-        insert_value_into_row(row, "Image Count (0.13.1rc1)", header_row, str(tig_0_13_1rc1_count))
+        insert_value_into_row(row, "Image Count (0.13.2rc1)", header_row, str(tig_0_13_2rc1_count))
 
-        logger.info(f"Config image count: {config_image_count}, Tig 0.13.0 count: {tig_0_13_0_count}, Tig 0.13.1rc1 count: {tig_0_13_1rc1_count}")
+        logger.info(f"Config image count: {config_image_count}, Tig 0.13.0 count: {tig_0_13_0_count}, Tig 0.13.2rc1 count: {tig_0_13_2rc1_count}")
 
         if config_image_count != '-' and tig_0_13_0_count != '-' and int(config_image_count) != int(tig_0_13_0_count):
             insert_value_into_row(row, "TIG Status (0.13.0)", header_row, "FAIL")
         else:
             insert_value_into_row(row, "TIG Status (0.13.0)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.0', '-'))
 
-        if config_image_count != '-' and tig_0_13_1rc1_count != '-' and int(config_image_count) != int(tig_0_13_1rc1_count):
-            insert_value_into_row(row, "TIG Status (0.13.1rc1)", header_row, "FAIL")
+        if config_image_count != '-' and tig_0_13_2rc1_count != '-' and int(config_image_count) != int(tig_0_13_2rc1_count):
+            insert_value_into_row(row, "TIG Status (0.13.2rc1)", header_row, "FAIL")
         else:
-            insert_value_into_row(row, "TIG Status (0.13.1rc1)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.1rc1', '-'))
+            insert_value_into_row(row, "TIG Status (0.13.2rc1)", header_row, granule_data.get('tig_status', {}).get('tig_0.13.2rc1', '-'))
 
         # Forge columns
         insert_value_into_row(row, "Forge Status (0.11.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.11.0', '-'))
