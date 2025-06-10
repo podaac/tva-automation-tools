@@ -450,7 +450,7 @@ class HitideCollections:
         """Function to invoke cumulus api via aws lambda"""
 
         prefix = f"podaac-{self.env}-cumulus"
-        profile = f"ngap-cumulus-{self.env}"
+        profile = f"cumulus-{self.env}"
         session = boto3.Session(profile_name=profile)
         client = session.client('lambda')
 
