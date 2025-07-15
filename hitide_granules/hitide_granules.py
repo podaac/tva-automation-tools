@@ -217,13 +217,14 @@ def get_total_area_km2(rectangles):
     for rect in rectangles:
         poly = box_to_polygon(rect["WestBoundingCoordinate"], rect["EastBoundingCoordinate"], rect["SouthBoundingCoordinate"], rect["NorthBoundingCoordinate"])
         area, _ = geod.geometry_area_perimeter(poly)
+        print(f"Area: {area}")
         total_area += abs(area)
 
     # Convert to square kilometers
     total_area_km2 = total_area / 1e6
 
-    if total_area_km2 > 100000000:
-        print(f"Total area: {total_area_km2:,.0f} km²")
+    #if total_area_km2 > 100000000:
+    print(f"Total area: {total_area_km2:,.0f} km²")
 
     return total_area_km2
 
@@ -259,6 +260,7 @@ def update_monthly_counts(backfiller, row_index, month):
     if month in backfiller.monthly_results:
         result = backfiller.monthly_results[month]
 
+        print(row)
         global_bbox_count = get_count_global_bbox(result['granules'])
         row.append(len(result['granules']))
         row.append(result['needs_image'])
