@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 import random
 import gspread
 
-from shapely.geometry import Polygon
+from shapely.geometry import box
 from pyproj import Geod
 
 import uuid
@@ -201,21 +201,14 @@ def get_total_area_km2(rectangles):
     Returns:
         float: Total area in square kilometers
     """
-        
-    # Convert bounding boxes to polygons
-    def box_to_polygon(west, east, south, north):
-        return Polygon([
-            (west, south),
-            (east, south),
-            (east, north),
-            (west, north),
-            (west, south)
-        ])
-
+    
     # Calculate geodetic area
     total_area = 0
     for rect in rectangles:
-        poly = box_to_polygon(rect["WestBoundingCoordinate"], rect["EastBoundingCoordinate"], rect["SouthBoundingCoordinate"], rect["NorthBoundingCoordinate"])
+        # Use Shapely's box function which handles antimeridian crossing properly
+        poly = box(rect["WestBoundingCoordinate"], rect["SouthBoundingCoordinate"], 
+                   rect["EastBoundingCoordinate"], rect["NorthBoundingCoordinate"])
+        
         area, _ = geod.geometry_area_perimeter(poly)
         print(f"Rectangle: {rect}, Area: {area}")
         total_area += abs(area)
@@ -229,7 +222,7 @@ def get_total_area_km2(rectangles):
     return total_area_km2
 
 
-def get_count_global_bbox(row, granules):
+def get_count_global_bbox(granules):
     """Count granules that have bounding boxes larger than 249,000,000 km².
     
     Args:
@@ -244,10 +237,6 @@ def get_count_global_bbox(row, granules):
         geom = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']
 
         if 'BoundingRectangles' in geom:
-            print("Found BoundingRectangles")
-            print(geom.get('BoundingRectangles'))
-            print("Granule")
-            print(granule)
             if get_total_area_km2(geom.get('BoundingRectangles')) > 249000000:
                 count += 1
 
@@ -261,7 +250,7 @@ def update_monthly_counts(backfiller, row_index, month):
     if month in backfiller.monthly_results:
         result = backfiller.monthly_results[month]
 
-        global_bbox_count = get_count_global_bbox(row, result['granules'])
+        global_bbox_count = get_count_global_bbox(result['granules'])
         row.append(len(result['granules']))
         row.append(result['needs_image'])
         row.append(result['needs_footprint'])
