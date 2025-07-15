@@ -26,6 +26,6 @@ with open('collection_statistics.csv', mode='r') as file:
     data = list(reader)
 
 # Write CSV data into the Google Sheet
-worksheet.update('A1', data)
+worksheet.update(data, 'A1')
 
 print(f"CSV data has been written to the Google Sheets in worksheet '{worksheet_name}'.")

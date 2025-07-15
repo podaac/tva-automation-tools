@@ -77,7 +77,7 @@ def update_sheet(worksheet, cell, data):
     try:
          
         # Update the data in the worksheet
-        worksheet.update(cell, data)  # Update cell A1 with your data
+        worksheet.update(data, cell)  # Update cell A1 with your data
         
     except gspread.exceptions.GSpreadException as e:
         print(f"Error: {e}")
@@ -229,7 +229,7 @@ def get_total_area_km2(rectangles):
     return total_area_km2
 
 
-def get_count_global_bbox(granules):
+def get_count_global_bbox(row, granules):
     """Count granules that have bounding boxes larger than 249,000,000 km².
     
     Args:
@@ -241,10 +241,18 @@ def get_count_global_bbox(granules):
 
     count = 0
     for granule in granules:
-        print(granule)
+
+        if row[0] == 'ALTIKA_SARAL_L2_OST_XOGDR':
+            print("Granule")
+            print(granule)
+
         try:
+            if row[0] == 'ALTIKA_SARAL_L2_OST_XOGDR':
+                print("Trying to get rects for " + row[0])
             rects = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['BoundingRectangles']
 
+            print("Rects")
+            print(rects)
             for rect in rects:
                 if get_total_area_km2(rect) > 249000000:
                     count += 1
@@ -261,8 +269,7 @@ def update_monthly_counts(backfiller, row_index, month):
     if month in backfiller.monthly_results:
         result = backfiller.monthly_results[month]
 
-        print(row)
-        global_bbox_count = get_count_global_bbox(result['granules'])
+        global_bbox_count = get_count_global_bbox(row, result['granules'])
         row.append(len(result['granules']))
         row.append(result['needs_image'])
         row.append(result['needs_footprint'])
