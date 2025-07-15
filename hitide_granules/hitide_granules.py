@@ -8,12 +8,19 @@ from dateutil.relativedelta import relativedelta
 import random
 import gspread
 
+from shapely.geometry import Polygon
+from pyproj import Geod
+
 import uuid
 from retrying import retry
 
 from podaac.hitide_backfill_tool.args import parse_args
 from podaac.hitide_backfill_tool.s3_reader import S3Reader
 from podaac.hitide_backfill_tool.cli import *
+
+
+# Define the WGS84 ellipsoid
+geod = Geod(ellps="WGS84")
 
 gc = gspread.service_account()
 
@@ -183,6 +190,66 @@ def gen_date_array(start_time, end_time):
     
     return date_array
 
+def get_total_area_km2(rectangles):
+    """Calculate total area in square kilometers for a list of bounding box rectangles.
+    
+    Args:
+        rectangles (list): List of dictionaries containing bounding box coordinates with keys:
+            WestBoundingCoordinate, EastBoundingCoordinate, SouthBoundingCoordinate, NorthBoundingCoordinate
+            
+    Returns:
+        float: Total area in square kilometers
+    """
+        
+    # Convert bounding boxes to polygons
+    def box_to_polygon(west, east, south, north):
+        return Polygon([
+            (west, south),
+            (east, south),
+            (east, north),
+            (west, north),
+            (west, south)
+        ])
+
+    # Calculate geodetic area
+    total_area = 0
+    for rect in rectangles:
+        poly = box_to_polygon(rect["WestBoundingCoordinate"], rect["EastBoundingCoordinate"], rect["SouthBoundingCoordinate"], rect["NorthBoundingCoordinate"])
+        area, _ = geod.geometry_area_perimeter(poly)
+        total_area += abs(area)
+
+    # Convert to square kilometers
+    total_area_km2 = total_area / 1e6
+
+    if total_area_km2 > 100000000:
+        print(f"Total area: {total_area_km2:,.0f} km²")
+
+    return total_area_km2
+
+
+def get_count_global_bbox(granules):
+    """Count granules that have bounding boxes larger than 249,000,000 km².
+    
+    Args:
+        granules (list): List of granule metadata dictionaries containing UMM spatial extent info
+        
+    Returns:
+        int: Count of granules with bounding boxes exceeding the area threshold
+    """
+
+    count = 0
+    for granule in granules:
+        try:
+            rects = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['BoundingRectangles']
+
+            for rect in rects:
+                if get_total_area_km2(rect) > 249000000:
+                    count += 1
+        except:
+            pass
+
+    return count
+
 
 def update_monthly_counts(backfiller, row_index, month):
 
@@ -191,11 +258,12 @@ def update_monthly_counts(backfiller, row_index, month):
     if month in backfiller.monthly_results:
         result = backfiller.monthly_results[month]
 
+        global_bbox_count = get_count_global_bbox(result['granules'])
         row.append(len(result['granules']))
         row.append(result['needs_image'])
         row.append(result['needs_footprint'])
+        row.append(global_bbox_count)
         row.append(result['both_footprint_and_bbox'])
-        row.append(result['needs_dmrpp'])
     else:
         row.append(0)
         row.append(0)
@@ -257,10 +325,10 @@ def fill_monthly_counts(args):
     header = ['Collection Name']
     header.append('Date')
     header.append('Granules')
-    header.append('Need Image')
-    header.append('Need Footprint')
+    header.append('No Image')
+    header.append('No Footprint')
+    header.append('Global BBox')
     header.append('Both FP & BBox')
-    header.append('Need DMRPP')
     header.append('Updated')
 
     rows = [header]
