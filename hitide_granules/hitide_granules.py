@@ -190,6 +190,7 @@ def gen_date_array(start_time, end_time):
     
     return date_array
 
+
 def get_total_area_km2(rectangles):
     """Calculate total area in square kilometers for a list of bounding box rectangles.
     
@@ -434,7 +435,7 @@ def clear_current_month_counts():
     for index, row in enumerate(all_rows):
 
         if row[1] == current_month:
-            new_row = [row[0], row[1], "", "", "", "", ""]
+            new_row = [row[0], row[1], "", "", "", "", "", ""]
             update_sheet(monthly_counts_sheet, "A" + str(index + 1), [new_row])
 
 
