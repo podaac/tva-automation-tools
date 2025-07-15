@@ -246,18 +246,15 @@ def get_count_global_bbox(row, granules):
             print("Granule")
             print(granule)
 
-        try:
-            if row[0] == 'ALTIKA_SARAL_L2_OST_XOGDR':
-                print("Trying to get rects for " + row[0])
-            rects = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['BoundingRectangles']
+        if row[0] == 'ALTIKA_SARAL_L2_OST_XOGDR':
+            print("Trying to get rects for " + row[0])
+        geom = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']
 
-            print("Rects")
-            print(rects)
-            for rect in rects:
-                if get_total_area_km2(rect) > 249000000:
-                    count += 1
-        except:
-            pass
+        if 'BoundingRectangles' in geom:
+            print("Found BoundingRectangles")
+            print(geom.get('BoundingRectangles'))
+            if get_total_area_km2(geom.get('BoundingRectangles')) > 249000000:
+                count += 1
 
     return count
 
