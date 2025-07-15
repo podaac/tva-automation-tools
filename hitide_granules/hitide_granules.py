@@ -217,14 +217,14 @@ def get_total_area_km2(rectangles):
     for rect in rectangles:
         poly = box_to_polygon(rect["WestBoundingCoordinate"], rect["EastBoundingCoordinate"], rect["SouthBoundingCoordinate"], rect["NorthBoundingCoordinate"])
         area, _ = geod.geometry_area_perimeter(poly)
-        print(f"Area: {area}")
+        print(f"Rectangle: {rect}, Area: {area}")
         total_area += abs(area)
 
     # Convert to square kilometers
     total_area_km2 = total_area / 1e6
 
     #if total_area_km2 > 100000000:
-    print(f"Total area: {total_area_km2:,.0f} km²")
+    print(f"Rectangles: {rectangles}, Total area: {total_area_km2:,.0f} km²")
 
     return total_area_km2
 
@@ -241,18 +241,13 @@ def get_count_global_bbox(row, granules):
 
     count = 0
     for granule in granules:
-
-        if row[0] == 'ALTIKA_SARAL_L2_OST_XOGDR':
-            print("Granule")
-            print(granule)
-
-        if row[0] == 'ALTIKA_SARAL_L2_OST_XOGDR':
-            print("Trying to get rects for " + row[0])
         geom = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']
 
         if 'BoundingRectangles' in geom:
             print("Found BoundingRectangles")
             print(geom.get('BoundingRectangles'))
+            print("Granule")
+            print(granule)
             if get_total_area_km2(geom.get('BoundingRectangles')) > 249000000:
                 count += 1
 
