@@ -241,6 +241,7 @@ def get_count_global_bbox(granules):
 
     count = 0
     for granule in granules:
+        print(granule)
         try:
             rects = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']['BoundingRectangles']
 
