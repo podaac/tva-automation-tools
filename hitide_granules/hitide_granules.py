@@ -8,9 +8,6 @@ from dateutil.relativedelta import relativedelta
 import random
 import gspread
 
-from shapely.geometry import box
-from pyproj import Geod
-
 import uuid
 from retrying import retry
 
@@ -18,9 +15,6 @@ from podaac.hitide_backfill_tool.args import parse_args
 from podaac.hitide_backfill_tool.s3_reader import S3Reader
 from podaac.hitide_backfill_tool.cli import *
 
-
-# Define the WGS84 ellipsoid
-geod = Geod(ellps="WGS84")
 
 gc = gspread.service_account()
 
@@ -224,17 +218,30 @@ def get_total_area_km2(rectangles):
         if west == east or south == north:
             continue
 
+        # Calculate longitude span, handling antimeridian crossing
         if west > east:
-            # Crosses the antimeridian
-            poly1 = box(west, south, 180, north)
-            poly2 = box(-180, south, east, north)
-            poly = poly1.union(poly2)
+            # Crosses antimeridian
+            lon_span = (180 - west) + (east - (-180))
         else:
-            poly = box(west, south, east, north)
+            # Normal case
+            lon_span = east - west
 
-        area, _ = geod.geometry_area_perimeter(poly)
+        # Calculate latitude span
+        lat_span = north - south
+
+        # Calculate area using spherical approximation
+        # Earth's radius in meters
+        earth_radius = 6371000
+        
+        # Convert to radians
+        lat_span_rad = abs(lat_span) * (3.14159 / 180)
+        lon_span_rad = lon_span * (3.14159 / 180)
+        
+        # Area = R² * lat_span_rad * lon_span_rad
+        area = earth_radius**2 * lat_span_rad * lon_span_rad
+        
         print(f"Rectangle: {rect}, Area: {area:.2f} m²")
-        total_area += abs(area)
+        total_area += area
 
     # Convert to square kilometers
     total_area_km2 = total_area / 1e6
