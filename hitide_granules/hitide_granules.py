@@ -212,23 +212,23 @@ def get_total_area_km2(rectangles):
         print(f"west: {west}, east: {east}, south: {south}, north: {north}")
 
         if west == -180 and east == 180:
-            # Full global width — split into two halves to avoid 360° wraparound bug
-            poly1 = box(-180, south, 0, north)
-            poly2 = box(0, south, 180, north)
-            poly = poly1.union(poly2)
-            print(f"Full global width case: {rect}")
+            # Full global width case — use pyproj directly
+            lons = [-180, -180, 180, 180, -180]
+            lats = [south, north, north, south, south]
+            area, _ = geod.polygon_area_perimeter(lons, lats)
+            print(f"Full global width case: {rect}, Area: {area}")
         elif west > east:
-            # Crosses antimeridian - create two polygons and union them
+            # Crosses antimeridian — split into two boxes
             poly1 = box(west, south, 180, north)
             poly2 = box(-180, south, east, north)
             poly = poly1.union(poly2)
-            print(f"Antimeridian crossing case: {rect}")
+            area, _ = geod.geometry_area_perimeter(poly)
+            print(f"Antimeridian crossing case: {rect}, Area: {area}")
         else:
-            # Normal case
+            # Normal box
             poly = box(west, south, east, north)
-
-        area, _ = geod.geometry_area_perimeter(poly)
-        print(f"Rectangle: {rect}, Area: {area}")
+            area, _ = geod.geometry_area_perimeter(poly)
+            print(f"Normal case: {rect}, Area: {area}")
 
         total_area += abs(area)
 
