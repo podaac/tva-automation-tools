@@ -213,7 +213,10 @@ def get_total_area_km2(rectangles):
 
         # Fix for full-world-width rectangle edge case
         if west == -180 and east == 180:
-            east = 179.999999
+            west += 0.01
+            east -= 0.01
+
+        print(f"new west: {west}, new east: {east}, south: {south}, north: {north}")
 
         if west > east:
             # Crosses antimeridian - create two polygons and union them
