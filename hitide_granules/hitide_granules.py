@@ -7,7 +7,8 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import random
 import gspread
-import math
+from shapely.geometry import Polygon
+from pyproj import Geod
 import uuid
 from retrying import retry
 
@@ -15,6 +16,7 @@ from podaac.hitide_backfill_tool.args import parse_args
 from podaac.hitide_backfill_tool.s3_reader import S3Reader
 from podaac.hitide_backfill_tool.cli import *
 
+geod = Geod(ellps="WGS84")
 
 gc = gspread.service_account()
 
@@ -185,46 +187,56 @@ def gen_date_array(start_time, end_time):
     return date_array
 
 
-def normalize_lon(lon):
-    """Normalize longitude to the range [-180, 180].
-    
-    Args:
-        lon (float): Longitude coordinate in degrees
-        
-    Returns:
-        float: Normalized longitude in the range [-180, 180]
-    """
-    return ((lon + 180) % 360) - 180
-
-
 def get_total_area_km2(rectangles):
-    """Calculate total area in square kilometers for a list of bounding box rectangles.
+    """Calculate the total geodetic area in square kilometers for a list of lat/lon rectangles.
     
     Args:
-        rectangles (list): List of dictionaries containing bounding box coordinates with keys:
-            WestBoundingCoordinate, EastBoundingCoordinate, SouthBoundingCoordinate, NorthBoundingCoordinate
-            
-    Returns:
-        float: Total area in square kilometers
-    """
-    earth_radius = 6371000  # meters
-    total_area = 0
+        rectangles (list of dict): Each dict should have 'west', 'east', 'south', 'north' keys in degrees.
 
+    Returns:
+        float: Total area in square kilometers.
+    """
+    def normalize_lon(lon):
+        return ((lon + 180) % 360) - 180
+
+    def box_to_polygons(west, east, south, north):
+        west = normalize_lon(west)
+        east = normalize_lon(east)
+
+        if (east - west) % 360 == 0:
+            # Full-globe span
+            mid = (west + 180) % 360 - 180
+            return [
+                Polygon([(west, south), (mid, south), (mid, north), (west, north), (west, south)]),
+                Polygon([(mid, south), (east, south), (east, north), (mid, north), (mid, south)])
+            ]
+        elif east < west:
+            # Antimeridian-crossing
+            return [
+                Polygon([(west, south), (180, south), (180, north), (west, north), (west, south)]),
+                Polygon([(-180, south), (east, south), (east, north), (-180, north), (-180, south)])
+            ]
+        else:
+            # Normal box
+            return [Polygon([
+                (west, south),
+                (east, south),
+                (east, north),
+                (west, north),
+                (west, south)
+            ])]
+
+    total_area = 0
     for rect in rectangles:
-        west = normalize_lon(rect["WestBoundingCoordinate"])
-        east = normalize_lon(rect["EastBoundingCoordinate"])
+        west = rect["WestBoundingCoordinate"]
+        east = rect["EastBoundingCoordinate"]
         south = rect["SouthBoundingCoordinate"]
         north = rect["NorthBoundingCoordinate"]
 
-        # Skip degenerate rectangles
-        if west == east or south == north:
-            continue
-
-        lon_span = (180 - west) + (east + 180) if west > east else east - west
-        lat_span = math.radians(north) - math.radians(south)
-
-        area = 2 * math.pi * earth_radius**2 * math.sin(lat_span / 2) * (lon_span / 360)
-        total_area += area
+        polys = box_to_polygons(west, east, south, north)
+        for poly in polys:
+            area, _ = geod.geometry_area_perimeter(poly)
+            total_area += abs(area)
 
     # Convert to square kilometers
     total_area_km2 = total_area / 1e6
