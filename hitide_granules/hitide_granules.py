@@ -10,6 +10,8 @@ import gspread
 
 from shapely.geometry import box
 from pyproj import Geod
+from math import isclose
+
 import uuid
 from retrying import retry
 
@@ -204,6 +206,9 @@ def get_total_area_km2(rectangles):
     def normalize_lon(lon):
         return ((lon + 180) % 360) - 180
 
+    def is_global_lon_span(west, east):
+        return isclose(west, -180, abs_tol=1e-6) and isclose(east, 180, abs_tol=1e-6)
+
     total_area = 0
     for rect in rectangles:
         west = normalize_lon(rect["WestBoundingCoordinate"])
@@ -211,7 +216,9 @@ def get_total_area_km2(rectangles):
         south = rect["SouthBoundingCoordinate"]
         north = rect["NorthBoundingCoordinate"]
 
-        if west == -180 and east == 180:
+        print(f"west: {west}, east: {east}, south: {south}, north: {north}")
+
+        if is_global_lon_span(west, east):
             # Special case: full longitude span
             lat_fraction = (north - south) / 180.0
             area = EARTH_AREA_KM2 * lat_fraction
