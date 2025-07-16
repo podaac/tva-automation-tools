@@ -7,7 +7,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import random
 import gspread
-
+import math
 import uuid
 from retrying import retry
 
@@ -196,6 +196,7 @@ def normalize_lon(lon):
     """
     return ((lon + 180) % 360) - 180
 
+
 def get_total_area_km2(rectangles):
     """Calculate total area in square kilometers for a list of bounding box rectangles.
     
@@ -206,6 +207,7 @@ def get_total_area_km2(rectangles):
     Returns:
         float: Total area in square kilometers
     """
+    earth_radius = 6371000  # meters
     total_area = 0
 
     for rect in rectangles:
@@ -218,29 +220,10 @@ def get_total_area_km2(rectangles):
         if west == east or south == north:
             continue
 
-        # Calculate longitude span, handling antimeridian crossing
-        if west > east:
-            # Crosses antimeridian
-            lon_span = (180 - west) + (east - (-180))
-        else:
-            # Normal case
-            lon_span = east - west
+        lon_span = (180 - west) + (east + 180) if west > east else east - west
+        lat_span = math.radians(north) - math.radians(south)
 
-        # Calculate latitude span
-        lat_span = north - south
-
-        # Calculate area using spherical approximation
-        # Earth's radius in meters
-        earth_radius = 6371000
-        
-        # Convert to radians
-        lat_span_rad = abs(lat_span) * (3.14159 / 180)
-        lon_span_rad = lon_span * (3.14159 / 180)
-        
-        # Area = R² * lat_span_rad * lon_span_rad
-        area = earth_radius**2 * lat_span_rad * lon_span_rad
-        
-        print(f"Rectangle: {rect}, Area: {area:.2f} m²")
+        area = 2 * math.pi * earth_radius**2 * math.sin(lat_span / 2) * (lon_span / 360)
         total_area += area
 
     # Convert to square kilometers
