@@ -8,8 +8,8 @@ from dateutil.relativedelta import relativedelta
 import random
 import gspread
 
+from shapely.geometry import box
 from pyproj import Geod
-
 import uuid
 from retrying import retry
 
@@ -20,6 +20,7 @@ from podaac.hitide_backfill_tool.cli import *
 
 # Define the WGS84 ellipsoid
 geod = Geod(ellps="WGS84")
+EARTH_AREA_KM2 = 510_065_622  # WGS84 ellipsoid surface area
 
 gc = gspread.service_account()
 
@@ -200,24 +201,34 @@ def get_total_area_km2(rectangles):
     Returns:
         float: Total area in square kilometers
     """
-    total_area = 0
+    def normalize_lon(lon):
+        return ((lon + 180) % 360) - 180
 
+    total_area = 0
     for rect in rectangles:
-        west = rect["WestBoundingCoordinate"]
-        east = rect["EastBoundingCoordinate"]
+        west = normalize_lon(rect["WestBoundingCoordinate"])
+        east = normalize_lon(rect["EastBoundingCoordinate"])
         south = rect["SouthBoundingCoordinate"]
         north = rect["NorthBoundingCoordinate"]
 
-        # Handle antimeridian wrap
-        if west > east:
-            east += 360  # Normalize to unwrap
+        if west == -180 and east == 180:
+            # Special case: full longitude span
+            lat_fraction = (north - south) / 180.0
+            area = EARTH_AREA_KM2 * lat_fraction
+            print(f"Rectangle: {rect}, Area (estimated): {area}")
+        else:
+            if west > east:
+                # Crosses antimeridian - create two polygons and union them
+                poly1 = box(west, south, 180, north)
+                poly2 = box(-180, south, east, north)
+                poly = poly1.union(poly2)
+            else:
+                # Normal case
+                poly = box(west, south, east, north)
 
-        # Create polygon ring
-        lons = [west, west, east, east, west]
-        lats = [south, north, north, south, south]
+            area, _ = geod.geometry_area_perimeter(poly)
+            print(f"Rectangle: {rect}, Area: {area}")
 
-        area, _ = geod.polygon_area_perimeter(lons, lats)
-        print(f"Rectangle: {rect}, Area: {area:.2f} m²")
         total_area += abs(area)
 
     # Convert to square kilometers
