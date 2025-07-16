@@ -191,6 +191,17 @@ def gen_date_array(start_time, end_time):
     return date_array
 
 
+def normalize_lon(lon):
+    """Normalize longitude to the range [-180, 180].
+    
+    Args:
+        lon (float): Longitude coordinate in degrees
+        
+    Returns:
+        float: Normalized longitude in the range [-180, 180]
+    """
+    return ((lon + 180) % 360) - 180
+
 def get_total_area_km2(rectangles):
     """Calculate total area in square kilometers for a list of bounding box rectangles.
     
@@ -201,22 +212,32 @@ def get_total_area_km2(rectangles):
     Returns:
         float: Total area in square kilometers
     """
-    
-    # Calculate geodetic area
     total_area = 0
+
     for rect in rectangles:
-        # Use Shapely's box function which handles antimeridian crossing properly
-        poly = box(rect["WestBoundingCoordinate"], rect["SouthBoundingCoordinate"], 
-                   rect["EastBoundingCoordinate"], rect["NorthBoundingCoordinate"])
-        
+        west = normalize_lon(rect["WestBoundingCoordinate"])
+        east = normalize_lon(rect["EastBoundingCoordinate"])
+        south = rect["SouthBoundingCoordinate"]
+        north = rect["NorthBoundingCoordinate"]
+
+        # Skip degenerate rectangles
+        if west == east or south == north:
+            continue
+
+        if west > east:
+            # Crosses the antimeridian
+            poly1 = box(west, south, 180, north)
+            poly2 = box(-180, south, east, north)
+            poly = poly1.union(poly2)
+        else:
+            poly = box(west, south, east, north)
+
         area, _ = geod.geometry_area_perimeter(poly)
-        print(f"Rectangle: {rect}, Area: {area}")
+        print(f"Rectangle: {rect}, Area: {area:.2f} m²")
         total_area += abs(area)
 
     # Convert to square kilometers
     total_area_km2 = total_area / 1e6
-
-    #if total_area_km2 > 100000000:
     print(f"Rectangles: {rectangles}, Total area: {total_area_km2:,.0f} km²")
 
     return total_area_km2
