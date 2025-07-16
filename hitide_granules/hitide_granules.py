@@ -8,8 +8,8 @@ from dateutil.relativedelta import relativedelta
 import random
 import gspread
 
-from shapely.geometry import box
 from pyproj import Geod
+
 import uuid
 from retrying import retry
 
@@ -200,31 +200,24 @@ def get_total_area_km2(rectangles):
     Returns:
         float: Total area in square kilometers
     """
-    def normalize_lon(lon):
-        return ((lon + 180) % 360) - 180
-
-    # Calculate geodetic area
     total_area = 0
-    epsilon = 1e-8  # tiny nudge to avoid same longitude wrap value, e.g. 180 == -180
 
     for rect in rectangles:
-        west = normalize_lon(rect["WestBoundingCoordinate"])
-        east = normalize_lon(rect["EastBoundingCoordinate"]) - epsilon  # always nudge
+        west = rect["WestBoundingCoordinate"]
+        east = rect["EastBoundingCoordinate"]
         south = rect["SouthBoundingCoordinate"]
         north = rect["NorthBoundingCoordinate"]
 
-        # Handle antimeridian crossing by normalizing coordinates
+        # Handle antimeridian wrap
         if west > east:
-            # Crosses antimeridian - create two polygons and union them
-            poly1 = box(west, south, 180, north)
-            poly2 = box(-180, south, east, north)
-            poly = poly1.union(poly2)
-        else:
-            # Normal case
-            poly = box(west, south, east, north)
-        
-        area, _ = geod.geometry_area_perimeter(poly)
-        print(f"Rectangle: {rect}, Area: {area}")
+            east += 360  # Normalize to unwrap
+
+        # Create polygon ring
+        lons = [west, west, east, east, west]
+        lats = [south, north, north, south, south]
+
+        area, _ = geod.polygon_area_perimeter(lons, lats)
+        print(f"Rectangle: {rect}, Area: {area:.2f} m²")
         total_area += abs(area)
 
     # Convert to square kilometers
