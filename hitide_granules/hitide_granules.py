@@ -7,7 +7,8 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import random
 import gspread
-from shapely.geometry import Polygon
+
+from shapely.geometry import box
 from pyproj import Geod
 import uuid
 from retrying import retry
@@ -16,6 +17,8 @@ from podaac.hitide_backfill_tool.args import parse_args
 from podaac.hitide_backfill_tool.s3_reader import S3Reader
 from podaac.hitide_backfill_tool.cli import *
 
+
+# Define the WGS84 ellipsoid
 geod = Geod(ellps="WGS84")
 
 gc = gspread.service_account()
@@ -188,55 +191,39 @@ def gen_date_array(start_time, end_time):
 
 
 def get_total_area_km2(rectangles):
-    """Calculate the total geodetic area in square kilometers for a list of lat/lon rectangles.
+    """Calculate total area in square kilometers for a list of bounding box rectangles.
     
     Args:
-        rectangles (list of dict): Each dict should have 'west', 'east', 'south', 'north' keys in degrees.
+        rectangles (list): List of dictionaries containing bounding box coordinates with keys:
+            WestBoundingCoordinate, EastBoundingCoordinate, SouthBoundingCoordinate, NorthBoundingCoordinate
 
     Returns:
-        float: Total area in square kilometers.
+        float: Total area in square kilometers
     """
     def normalize_lon(lon):
         return ((lon + 180) % 360) - 180
 
-    def box_to_polygons(west, east, south, north):
-        west = normalize_lon(west)
-        east = normalize_lon(east)
-
-        if (east - west) % 360 == 0:
-            # Full-globe span
-            mid = (west + 180) % 360 - 180
-            return [
-                Polygon([(west, south), (mid, south), (mid, north), (west, north), (west, south)]),
-                Polygon([(mid, south), (east, south), (east, north), (mid, north), (mid, south)])
-            ]
-        elif east < west:
-            # Antimeridian-crossing
-            return [
-                Polygon([(west, south), (180, south), (180, north), (west, north), (west, south)]),
-                Polygon([(-180, south), (east, south), (east, north), (-180, north), (-180, south)])
-            ]
-        else:
-            # Normal box
-            return [Polygon([
-                (west, south),
-                (east, south),
-                (east, north),
-                (west, north),
-                (west, south)
-            ])]
-
+    # Calculate geodetic area
     total_area = 0
     for rect in rectangles:
-        west = rect["WestBoundingCoordinate"]
-        east = rect["EastBoundingCoordinate"]
+        west = normalize_lon(rect["WestBoundingCoordinate"])
+        east = normalize_lon(rect["EastBoundingCoordinate"])
         south = rect["SouthBoundingCoordinate"]
         north = rect["NorthBoundingCoordinate"]
-
-        polys = box_to_polygons(west, east, south, north)
-        for poly in polys:
-            area, _ = geod.geometry_area_perimeter(poly)
-            total_area += abs(area)
+        
+        # Handle antimeridian crossing by normalizing coordinates
+        if west > east:
+            # Crosses antimeridian - create two polygons and union them
+            poly1 = box(west, south, 180, north)
+            poly2 = box(-180, south, east, north)
+            poly = poly1.union(poly2)
+        else:
+            # Normal case
+            poly = box(west, south, east, north)
+        
+        area, _ = geod.geometry_area_perimeter(poly)
+        print(f"Rectangle: {rect}, Area: {area}")
+        total_area += abs(area)
 
     # Convert to square kilometers
     total_area_km2 = total_area / 1e6
