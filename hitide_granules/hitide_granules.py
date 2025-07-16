@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 import random
 import gspread
 
-from shapely.geometry import box
+from shapely.geometry import box, Polygon
 from pyproj import Geod
 import uuid
 from retrying import retry
@@ -211,8 +211,18 @@ def get_total_area_km2(rectangles):
         south = rect["SouthBoundingCoordinate"]
         north = rect["NorthBoundingCoordinate"]
         
-        # Handle antimeridian crossing by normalizing coordinates
-        if west > east:
+         # If full 360° longitude span (i.e., covers the globe)
+        if (east - west) % 360 == 0:
+            # Build a polygon around the full latitude range
+            coords = [
+                (-180, south),
+                (-180, north),
+                (180, north),
+                (180, south),
+                (-180, south),
+            ]
+            poly = Polygon(coords)
+        elif west > east:
             # Crosses antimeridian - create two polygons and union them
             poly1 = box(west, south, 180, north)
             poly2 = box(-180, south, east, north)
