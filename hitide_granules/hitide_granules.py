@@ -9,9 +9,6 @@ import random
 import gspread
 import math
 
-from shapely.geometry import box
-from pyproj import Geod
-
 import uuid
 from retrying import retry
 
@@ -20,10 +17,8 @@ from podaac.hitide_backfill_tool.s3_reader import S3Reader
 from podaac.hitide_backfill_tool.cli import *
 
 
-# Define the WGS84 ellipsoid
-geod = Geod(ellps="WGS84")
-
 gc = gspread.service_account()
+EARTH_RADIUS_KM = 6371
 
 lock = Lock()
 
@@ -192,64 +187,14 @@ def gen_date_array(start_time, end_time):
     return date_array
 
 
-def get_total_area_km2(rectangles):
-    """Calculate total area in square kilometers for a list of bounding box rectangles.
-    
+def calculate_earth_rectangle_area(rectangles):
+    """
+    Calculates the area of the Earth covered by a list of bounding box rectangles.
+
     Args:
         rectangles (list): List of dictionaries containing bounding box coordinates with keys:
-            WestBoundingCoordinate, EastBoundingCoordinate, SouthBoundingCoordinate, NorthBoundingCoordinate
-
-    Returns:
-        float: Total area in square kilometers
-    """
-    total_area = 0
-
-    for rect in rectangles:
-        west = rect["WestBoundingCoordinate"]
-        east = rect["EastBoundingCoordinate"]
-        south = rect["SouthBoundingCoordinate"]
-        north = rect["NorthBoundingCoordinate"]
-
-        print(f"west: {west}, east: {east}, south: {south}, north: {north}")
-
-        if west == -180 and east == 180:
-            # Full global width case — use pyproj directly
-            lons = [-180, -180, 180, 180, -180]
-            lats = [south, north, north, south, south]
-            area, _ = geod.polygon_area_perimeter(lons, lats)
-            print(f"Full global width case: {rect}, Area: {area}")
-        elif west > east:
-            # Crosses antimeridian — split into two boxes
-            poly1 = box(west, south, 180, north)
-            poly2 = box(-180, south, east, north)
-            poly = poly1.union(poly2)
-            area, _ = geod.geometry_area_perimeter(poly)
-            print(f"Antimeridian crossing case: {rect}, Area: {area}")
-        else:
-            # Normal box
-            poly = box(west, south, east, north)
-            area, _ = geod.geometry_area_perimeter(poly)
-            print(f"Normal case: {rect}, Area: {area}")
-
-        total_area += abs(area)
-
-    # Convert to square kilometers
-    total_area_km2 = total_area / 1e6
-    print(f"Rectangles: {rectangles}, Total area: {total_area_km2:,.0f} km²")
-
-    return total_area_km2
-
-
-def calculate_earth_rectangle_area(rectangles, earth_radius_km=6371):
-    """
-    Calculates the area of the Earth covered by a list of rectangles.
-
-    Args:
-        rectangles (list of tuples): A list of rectangles, where each rectangle
-                                     is a tuple (west_lon, east_lon, south_lat, north_lat).
-                                     Longitudes and latitudes are in degrees.
-        earth_radius_km (float): The radius of the Earth in kilometers.
-                                 Defaults to 6371 km.
+            WestBoundingCoordinate, EastBoundingCoordinate, SouthBoundingCoordinate, NorthBoundingCoordinate.
+            Longitudes and latitudes are in degrees.
 
     Returns:
         float: The total area of the Earth covered by the rectangles in square kilometers.
@@ -257,23 +202,17 @@ def calculate_earth_rectangle_area(rectangles, earth_radius_km=6371):
     total_area_sq_km = 0.0
 
     for rect in rectangles:
-        west = rect["WestBoundingCoordinate"]
-        east = rect["EastBoundingCoordinate"]
-        south = rect["SouthBoundingCoordinate"]
-        north = rect["NorthBoundingCoordinate"]
-
         # Convert degrees to radians
-        south_lat_rad = math.radians(south)
-        north_lat_rad = math.radians(north)
-        west_lon_rad = math.radians(west)
-        east_lon_rad = math.radians(east)
+        south_lat_rad = math.radians(rect.get("SouthBoundingCoordinate"))
+        north_lat_rad = math.radians(rect.get("NorthBoundingCoordinate")) 
+        west_lon_rad = math.radians(rect.get("WestBoundingCoordinate"))
+        east_lon_rad = math.radians(rect.get("EastBoundingCoordinate"))
 
         # Calculate the area using the formula for a latitude/longitude grid
         # This formula is accurate for rectangles defined by constant latitude and longitude lines
-        area_of_band = 2 * math.pi * earth_radius_km**2 * (math.sin(north_lat_rad) - math.sin(south_lat_rad))
+        area_of_band = 2 * math.pi * EARTH_RADIUS_KM**2 * (math.sin(north_lat_rad) - math.sin(south_lat_rad))
         area_of_rectangle = area_of_band * (east_lon_rad - west_lon_rad) / (2 * math.pi)
-        
-        print(f"Rectangle: {rect}, Area: {area_of_rectangle}")
+
         total_area_sq_km += area_of_rectangle
 
     print(f"Rectangles: {rectangles}, Total area: {total_area_sq_km:,.0f} km²")
