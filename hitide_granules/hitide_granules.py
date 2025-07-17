@@ -7,6 +7,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import random
 import gspread
+import math
 
 from shapely.geometry import box
 from pyproj import Geod
@@ -239,6 +240,44 @@ def get_total_area_km2(rectangles):
     return total_area_km2
 
 
+def calculate_earth_rectangle_area(rectangles, earth_radius_km=6371):
+    """
+    Calculates the area of the Earth covered by a list of rectangles.
+
+    Args:
+        rectangles (list of tuples): A list of rectangles, where each rectangle
+                                     is a tuple (west_lon, east_lon, south_lat, north_lat).
+                                     Longitudes and latitudes are in degrees.
+        earth_radius_km (float): The radius of the Earth in kilometers.
+                                 Defaults to 6371 km.
+
+    Returns:
+        float: The total area of the Earth covered by the rectangles in square kilometers.
+    """
+    total_area_sq_km = 0.0
+
+    for rect in rectangles:
+        west = rect["WestBoundingCoordinate"]
+        east = rect["EastBoundingCoordinate"]
+        south = rect["SouthBoundingCoordinate"]
+        north = rect["NorthBoundingCoordinate"]
+
+        # Convert degrees to radians
+        south_lat_rad = math.radians(south)
+        north_lat_rad = math.radians(north)
+        west_lon_rad = math.radians(west)
+        east_lon_rad = math.radians(east)
+
+        # Calculate the area using the formula for a latitude/longitude grid
+        # This formula is accurate for rectangles defined by constant latitude and longitude lines
+        area_of_band = 2 * math.pi * earth_radius_km**2 * (math.sin(north_lat_rad) - math.sin(south_lat_rad))
+        area_of_rectangle = area_of_band * (east_lon_rad - west_lon_rad) / (2 * math.pi)
+        
+        total_area_sq_km += area_of_rectangle
+
+    return total_area_sq_km
+
+
 def get_count_global_bbox(granules):
     """Count granules that have bounding boxes larger than 249,000,000 km².
     
@@ -254,7 +293,7 @@ def get_count_global_bbox(granules):
         geom = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']
 
         if 'BoundingRectangles' in geom:
-            if get_total_area_km2(geom.get('BoundingRectangles')) > 249000000:
+            if calculate_earth_rectangle_area(geom.get('BoundingRectangles')) > 249000000:
                 count += 1
 
     return count
