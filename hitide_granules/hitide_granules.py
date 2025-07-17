@@ -273,7 +273,10 @@ def calculate_earth_rectangle_area(rectangles, earth_radius_km=6371):
         area_of_band = 2 * math.pi * earth_radius_km**2 * (math.sin(north_lat_rad) - math.sin(south_lat_rad))
         area_of_rectangle = area_of_band * (east_lon_rad - west_lon_rad) / (2 * math.pi)
         
+        print(f"Rectangle: {rect}, Area: {area_of_rectangle}")
         total_area_sq_km += area_of_rectangle
+
+    print(f"Rectangles: {rectangles}, Total area: {total_area_sq_km:,.0f} km²")
 
     return total_area_sq_km
 
