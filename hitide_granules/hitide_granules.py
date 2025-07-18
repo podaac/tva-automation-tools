@@ -235,7 +235,7 @@ def get_count_global_bbox(granules):
         geom = granule['umm']['SpatialExtent']['HorizontalSpatialDomain']['Geometry']
 
         if 'BoundingRectangles' in geom:
-            if calculate_earth_rectangle_area(geom.get('BoundingRectangles')) > 249000000:
+            if calculate_earth_rectangle_area(geom.get('BoundingRectangles')) > 249_000_000:
                 count += 1
 
     return count
