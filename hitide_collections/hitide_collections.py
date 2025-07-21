@@ -327,6 +327,9 @@ class HitideCollections:
         url = f"https://api.github.com/repos/podaac/{repo}/contents/{path}?ref={branch}"
         headers = {"Accept": "application/vnd.github.v3+json"}
         
+        github_token = os.environ.get("GITHUB_TOKEN")
+        if github_token:
+            headers["Authorization"] = f"Bearer {github_token}"
         response = requests.get(url, headers=headers)
         
         if response.status_code == 200:

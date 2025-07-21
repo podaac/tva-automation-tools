@@ -71,6 +71,7 @@ jobs:
         env:
           CMR_USER: ${{ secrets.CMR_USER }}
           CMR_PASS: ${{ secrets.CMR_PASS }}
+          GITHUB_TOKEN: ${{ secrets.GH_READ_TOKEN }}
           AWS_DEFAULT_REGION: us-west-2
           SPREADSHEET_ID: ${{ secrets.HITIDE_COLLECTIONS_SHEET_ID }}
         run: |
