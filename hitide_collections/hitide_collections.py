@@ -325,13 +325,12 @@ class HitideCollections:
             list: A list of file URLs.
         """
         url = f"https://api.github.com/repos/podaac/{repo}/contents/{path}?ref={branch}"
-        headers = {"Accept": "application/vnd.github.v3+json"}
-        
-        github_token = os.environ.get("GITHUB_TOKEN")
-        if github_token:
-            headers["Authorization"] = f"Bearer {github_token}"
+        headers = {
+            "Accept": "application/vnd.github.v3+json",
+            "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"
+        }
         response = requests.get(url, headers=headers)
-        
+
         if response.status_code == 200:
             files = response.json()
             return [file["download_url"] for file in files if file["type"] == "file"]
