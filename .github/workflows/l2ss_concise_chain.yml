@@ -19,11 +19,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v3.0.0
+        uses: abatilo/actions-poetry@v4
         with:
-          poetry-version: 1.8.3
+          poetry-version: 2.1.4
 
       #########################################################################
       # Install & Pylint & Flake
@@ -33,12 +33,34 @@ jobs:
           poetry install
 
       #########################################################################
+      # Get AWS Lambda Token
+      #########################################################################
+      - name: Get Lauchpad Token
+        id: launchpad_token_generator
+        if: |
+          github.ref == 'refs/heads/main'    ||
+          startsWith(github.ref, 'refs/heads/release')
+        run: |
+          OUTPUT_FILE=result.json
+
+          PAYLOAD=$(echo '{"client_id": "TvaAutomationToolsL2SSConciseChainGithubAction", "minimum_alive_secs": 300}' | base64)
+
+          aws lambda invoke \
+            --function-name ${{ env.venue }}-launchpad_token_dispenser \
+            --payload "$PAYLOAD" \
+            $OUTPUT_FILE > /dev/null 2>&1
+
+          RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE")
+          echo "::add-mask::$RESULT"
+          echo "result=$RESULT" >> $GITHUB_OUTPUT
+
+      #########################################################################
       # L2SS Concise Chain Automation Sync
       #########################################################################
       - name: L2SS Concise Chain Automation Sync
         working-directory: l2ss_concise_chain
         env:
-          UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
-          OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+          UAT_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.result }}
+          OPS_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.result }}
         run: |
           poetry run python l2ss_concise_chain.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
