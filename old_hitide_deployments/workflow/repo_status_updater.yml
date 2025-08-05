@@ -18,11 +18,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
         with:
-          poetry-version: 1.8.3
+          poetry-version: 2.1.4
 
       #########################################################################
       # Install & Run Pylint & Flake
@@ -34,9 +34,9 @@ jobs:
     #      poetry run flake8 .
 
       #########################################################################
-      # Setup Token for GSpread
+      # Setup Google Token for GSpread
       #########################################################################
-      - name: Setup Token
+      - name: Setup Google Token
         env:
           GOOGLE_TOKEN: ${{ secrets.GOOGLE_TOKEN }}
         run: |
@@ -44,12 +44,34 @@ jobs:
           echo "$GOOGLE_TOKEN" > ~/.config/gspread/service_account.json
 
       #########################################################################
+      # Get AWS Lambda Token
+      #########################################################################
+      - name: Get Lauchpad Token
+        id: launchpad_token_generator
+        if: |
+          github.ref == 'refs/heads/main'    ||
+          startsWith(github.ref, 'refs/heads/release')
+        run: |
+          OUTPUT_FILE=result.json
+
+          PAYLOAD=$(echo '{"client_id": "TvaAutomationToolsGithubAction", "minimum_alive_secs": 300}' | base64)
+
+          aws lambda invoke \
+            --function-name ${{ env.venue }}-launchpad_token_dispenser \
+            --payload "$PAYLOAD" \
+            $OUTPUT_FILE > /dev/null 2>&1
+
+          RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE")
+          echo "::add-mask::$RESULT"
+          echo "result=$RESULT" >> $GITHUB_OUTPUT
+
+      #########################################################################
       # Start the Repo Status Updater
       #########################################################################
       - name: Generate Repos
         env:
-          UAT_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_UAT }}
-          OPS_TOKEN_TEMP: ${{ secrets.LAUNCHPAD_TOKEN_OPS }}
+          UAT_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.result }}
+          OPS_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.result }}
           GITHUB_TOKEN_TEMP: ${{ secrets.GH_READ_TOKEN }}
           GITHUB_JPL_TOKEN_TEMP: "No_Token"
 
