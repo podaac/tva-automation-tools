@@ -43,7 +43,9 @@ jobs:
           github.ref == 'refs/heads/main'    ||
           startsWith(github.ref, 'refs/heads/release')
         run: |
-          # Configure and get UAT token
+          set -euo pipefail
+
+          echo "=== Getting UAT Launchpad Token ==="
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_UAT }}
           aws configure set region us-west-2
@@ -51,28 +53,56 @@ jobs:
           OUTPUT_FILE_UAT=result_uat.json
           PAYLOAD=$(echo '{"client_id": "UmmVAutoSyncGithubAction", "minimum_alive_secs": 600}' | base64)
 
+          echo "Invoking UAT Lambda..."
           aws lambda invoke \
             --function-name uat-launchpad_token_dispenser \
             --payload "$PAYLOAD" \
-            $OUTPUT_FILE_UAT > /dev/null 2>&1
+            "$OUTPUT_FILE_UAT"
 
-          UAT_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_UAT")
+          echo "UAT Lambda response:"
+          cat "$OUTPUT_FILE_UAT"
+
+          if ! UAT_RESULT=$(jq -r '.sm_token // empty' < "$OUTPUT_FILE_UAT"); then
+            echo "ERROR: Failed to parse UAT sm_token from response."
+            exit 1
+          fi
+
+          if [[ -z "$UAT_RESULT" ]]; then
+            echo "ERROR: UAT sm_token is empty."
+            exit 1
+          fi
+
+          echo "UAT token preview: ${UAT_RESULT:0:4}...[REDACTED]"
           echo "::add-mask::$UAT_RESULT"
           echo "uat_result=$UAT_RESULT" >> $GITHUB_OUTPUT
 
-          # Configure and get OPS token
+          echo "=== Getting OPS Launchpad Token ==="
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}
           aws configure set region us-west-2
 
           OUTPUT_FILE_OPS=result_ops.json
 
+          echo "Invoking OPS Lambda..."
           aws lambda invoke \
             --function-name ops-launchpad_token_dispenser \
             --payload "$PAYLOAD" \
-            $OUTPUT_FILE_OPS > /dev/null 2>&1
+            "$OUTPUT_FILE_OPS"
 
-          OPS_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_OPS")
+          echo "OPS Lambda response:"
+          cat "$OUTPUT_FILE_OPS"
+
+          if ! OPS_RESULT=$(jq -r '.sm_token // empty' < "$OUTPUT_FILE_OPS"); then
+            echo "ERROR: Failed to parse OPS sm_token from response."
+            exit 1
+          fi
+
+          if [[ -z "$OPS_RESULT" ]]; then
+            echo "ERROR: OPS sm_token is empty."
+            exit 1
+          fi
+
+          echo "OPS token preview: ${OPS_RESULT:0:4}...[REDACTED]"
           echo "::add-mask::$OPS_RESULT"
           echo "ops_result=$OPS_RESULT" >> $GITHUB_OUTPUT
 
