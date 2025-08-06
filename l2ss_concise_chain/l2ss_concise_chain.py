@@ -65,8 +65,8 @@ if __name__ == '__main__':
 
     args = parse_args()
 
-    ops_headers = {'Authorization': args.ops_token}
-    uat_headers = {'Authorization': args.uat_token}
+    ops_headers = {'Accept': 'application/json', 'Authorization': args.ops_token}
+    uat_headers = {'Accept': 'application/json', 'Authorization': args.uat_token}
 
     uat_l2ss_service_concept_id = cmr.queries.ServiceQuery(mode=cmr.queries.CMR_UAT).provider('POCLOUD').name('PODAAC L2 Cloud Subsetter').get()[0].get('concept_id')
     uat_l2ss_collections = create_assoc.current_association(uat_l2ss_service_concept_id, "https://cmr.uat.earthdata.nasa.gov", uat_headers)

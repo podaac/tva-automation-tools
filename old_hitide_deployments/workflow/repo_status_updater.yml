@@ -44,34 +44,53 @@ jobs:
           echo "$GOOGLE_TOKEN" > ~/.config/gspread/service_account.json
 
       #########################################################################
-      # Get AWS Lambda Token
+      # Get AWS Lambda Tokens
       #########################################################################
-      - name: Get Lauchpad Token
+      - name: Get Launchpad Tokens
         id: launchpad_token_generator
         if: |
           github.ref == 'refs/heads/main'    ||
           startsWith(github.ref, 'refs/heads/release')
         run: |
-          OUTPUT_FILE=result.json
+          # Configure and get UAT token
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_UAT }}
+          aws configure set region us-west-2
 
-          PAYLOAD=$(echo '{"client_id": "TvaAutomationToolsRepoStatusUpdaterGithubAction", "minimum_alive_secs": 300}' | base64)
+          OUTPUT_FILE_UAT=result_uat.json
+          PAYLOAD=$(echo '{"client_id": "RepoStatusGithubAction", "minimum_alive_secs": 3600}' | base64)
 
           aws lambda invoke \
-            --function-name ${{ env.venue }}-launchpad_token_dispenser \
+            --function-name uat-launchpad_token_dispenser \
             --payload "$PAYLOAD" \
-            $OUTPUT_FILE > /dev/null 2>&1
+            $OUTPUT_FILE_UAT > /dev/null 2>&1
 
-          RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE")
-          echo "::add-mask::$RESULT"
-          echo "result=$RESULT" >> $GITHUB_OUTPUT
+          UAT_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_UAT")
+          echo "::add-mask::$UAT_RESULT"
+          echo "uat_result=$UAT_RESULT" >> $GITHUB_OUTPUT
+
+          # Configure and get OPS token
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}
+
+          OUTPUT_FILE_OPS=result_ops.json
+
+          aws lambda invoke \
+            --function-name ops-launchpad_token_dispenser \
+            --payload "$PAYLOAD" \
+            $OUTPUT_FILE_OPS > /dev/null 2>&1
+
+          OPS_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_OPS")
+          echo "::add-mask::$OPS_RESULT"
+          echo "ops_result=$OPS_RESULT" >> $GITHUB_OUTPUT
 
       #########################################################################
       # Start the Repo Status Updater
       #########################################################################
       - name: Generate Repos
         env:
-          UAT_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.result }}
-          OPS_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.result }}
+          UAT_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.uat_result }}
+          OPS_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.ops_result }}
           GITHUB_TOKEN_TEMP: ${{ secrets.GH_READ_TOKEN }}
           GITHUB_JPL_TOKEN_TEMP: "No_Token"
 

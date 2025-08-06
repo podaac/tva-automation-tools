@@ -47,7 +47,7 @@ jobs:
           aws configure set region us-west-2
 
           OUTPUT_FILE_UAT=result_uat.json
-          PAYLOAD=$(echo '{"client_id": "TvaAutomationToolsL2SSConciseChainGithubAction", "minimum_alive_secs": 3600}' | base64)
+          PAYLOAD=$(echo '{"client_id": "L2SSConciseChainGithubAction", "minimum_alive_secs": 3600}' | base64)
 
           aws lambda invoke \
             --function-name uat-launchpad_token_dispenser \
@@ -61,7 +61,6 @@ jobs:
           # Configure and get OPS token
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}
-          aws configure set region us-west-2
 
           OUTPUT_FILE_OPS=result_ops.json
 
