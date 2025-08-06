@@ -56,6 +56,9 @@ jobs:
             --payload "$PAYLOAD" \
             $OUTPUT_FILE_UAT > /dev/null 2>&1
 
+          echo "UAT Lambda response:"
+          cat "$OUTPUT_FILE_UAT"
+
           UAT_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_UAT")
           echo "::add-mask::$UAT_RESULT"
           echo "uat_result=$UAT_RESULT" >> $GITHUB_OUTPUT
@@ -70,6 +73,9 @@ jobs:
             --function-name ops-launchpad_token_dispenser \
             --payload "$PAYLOAD" \
             $OUTPUT_FILE_OPS > /dev/null 2>&1
+
+          echo "OPS Lambda response:"
+          cat "$OUTPUT_FILE_OPS"
 
           OPS_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_OPS")
           echo "::add-mask::$OPS_RESULT"
