@@ -231,8 +231,8 @@ if __name__ == '__main__':
 
     _args = parse_arguments()
 
-    ops_headers = {'Authorization': _args.ops_token}
-    uat_headers = {'Authorization': _args.uat_token}
+    ops_headers = {'Authorization': f'Bearer {_args.ops_token}'}
+    uat_headers = {'Authorization': f'Bearer {_args.uat_token}'}
 
     get_l2ss_associations('uat', "PODAAC L2 Cloud Subsetter", uat_headers)
 
