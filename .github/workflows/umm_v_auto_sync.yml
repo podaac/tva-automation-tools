@@ -35,9 +35,9 @@ jobs:
 #          poetry run flake8 umm_v_auto/podaac/
 
       #########################################################################
-      # Configure AWS credentials UAT
+      # Configure AWS credentials (UAT)
       #########################################################################
-      - name: Configure AWS credentials UAT
+      - name: Configure AWS credentials (UAT)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}
@@ -67,9 +67,9 @@ jobs:
           echo "result=$RESULT" >> $GITHUB_OUTPUT
 
       #########################################################################
-      # Configure AWS credentials OPS
+      # Configure AWS credentials (OPS)
       #########################################################################
-      - name: Configure AWS credentials OPS
+      - name: Configure AWS credentials (OPS)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}
