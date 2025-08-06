@@ -87,7 +87,7 @@ jobs:
         run: |
           OUTPUT_FILE=result.json
 
-          PAYLOAD=$(echo '{"client_id": "TvaAutomationToolsUmmVAutoSyncGithubAction", "minimum_alive_secs": 300}' | base64)
+          PAYLOAD=$(echo '{"client_id": "TvaAutomationToolsUmmVAutoSyncGithubAction", "minimum_alive_secs": 3600}' | base64)
 
           aws lambda invoke \
             --function-name ops-launchpad_token_dispenser \
