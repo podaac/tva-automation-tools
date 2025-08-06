@@ -47,7 +47,7 @@ jobs:
           aws configure set region us-west-2
 
           OUTPUT_FILE_UAT=result_uat.json
-          PAYLOAD=$(echo '{"client_id": "L2SSConciseChainGithubAction", "minimum_alive_secs": 3600}' | base64)
+          PAYLOAD=$(echo '{"client_id": "L2SSConciseChainGithubAction", "minimum_alive_secs": 900}' | base64)
 
           aws lambda invoke \
             --function-name uat-launchpad_token_dispenser \
