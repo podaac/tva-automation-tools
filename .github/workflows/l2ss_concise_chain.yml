@@ -54,8 +54,11 @@ jobs:
             --payload "$PAYLOAD" \
             $OUTPUT_FILE_UAT > /dev/null 2>&1
 
-          echo "UAT Lambda response:"
-          cat "$OUTPUT_FILE_UAT"
+          if jq -e 'has("errorMessage")' "$OUTPUT_FILE_UAT" > /dev/null; then
+            echo "Error detected in UAT Lambda response:"
+            cat "$OUTPUT_FILE_UAT"
+            exit 1
+          fi
 
           UAT_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_UAT")
           echo "::add-mask::$UAT_RESULT"
@@ -72,8 +75,11 @@ jobs:
             --payload "$PAYLOAD" \
             $OUTPUT_FILE_OPS > /dev/null 2>&1
 
-          echo "OPS Lambda response:"
-          cat "$OUTPUT_FILE_OPS"
+          if jq -e 'has("errorMessage")' "$OUTPUT_FILE_OPS" > /dev/null; then
+            echo "Error detected in OPS Lambda response:"
+            cat "$OUTPUT_FILE_OPS"
+            exit 1
+          fi
 
           OPS_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_OPS")
           echo "::add-mask::$OPS_RESULT"
