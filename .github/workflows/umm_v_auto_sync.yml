@@ -35,10 +35,52 @@ jobs:
 #          poetry run flake8 umm_v_auto/podaac/
 
       #########################################################################
-      # Get AWS Lambda Token
+      # Configure AWS credentials UAT
       #########################################################################
-      - name: Get Lauchpad Token
-        id: launchpad_token_generator
+      - name: Configure AWS credentials UAT
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_UAT }}
+          aws-region: us-west-2
+
+      #########################################################################
+      # Get AWS Lambda Token (UAT)
+      #########################################################################
+      - name: Get Lauchpad Token (UAT)
+        id: launchpad_token_generator_uat
+        if: |
+          github.ref == 'refs/heads/main'    ||
+          startsWith(github.ref, 'refs/heads/release')
+        run: |
+          OUTPUT_FILE=result.json
+
+          PAYLOAD=$(echo '{"client_id": "TvaAutomationToolsUmmVAutoSyncGithubAction", "minimum_alive_secs": 3600}' | base64)
+
+          aws lambda invoke \
+            --function-name uat-launchpad_token_dispenser \
+            --payload "$PAYLOAD" \
+            $OUTPUT_FILE > /dev/null 2>&1
+
+          RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE")
+          echo "::add-mask::$RESULT"
+          echo "result=$RESULT" >> $GITHUB_OUTPUT
+
+      #########################################################################
+      # Configure AWS credentials OPS
+      #########################################################################
+      - name: Configure AWS credentials OPS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}
+          aws-region: us-west-2
+
+      #########################################################################
+      # Get AWS Lambda Token (OPS)
+      #########################################################################
+      - name: Get Lauchpad Token (OPS)
+        id: launchpad_token_generator_ops
         if: |
           github.ref == 'refs/heads/main'    ||
           startsWith(github.ref, 'refs/heads/release')
@@ -48,7 +90,7 @@ jobs:
           PAYLOAD=$(echo '{"client_id": "TvaAutomationToolsUmmVAutoSyncGithubAction", "minimum_alive_secs": 300}' | base64)
 
           aws lambda invoke \
-            --function-name ${{ env.venue }}-launchpad_token_dispenser \
+            --function-name ops-launchpad_token_dispenser \
             --payload "$PAYLOAD" \
             $OUTPUT_FILE > /dev/null 2>&1
 
@@ -62,7 +104,7 @@ jobs:
       - name: UMM V Auto Sync
         working-directory: umm_v_auto
         env:
-          UAT_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.result }}
-          OPS_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.result }}
+          UAT_TOKEN_TEMP: ${{ steps.launchpad_token_generator_uat.outputs.result }}
+          OPS_TOKEN_TEMP: ${{ steps.launchpad_token_generator_ops.outputs.result }}
         run: |
           poetry run python umm_v_auto_sync.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP
