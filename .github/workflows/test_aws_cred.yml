@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        env: [SERVICES_OPS, SERVICES_UAT, SERVICES_SIT, CUMULUS_OPS, CUMULUS_UAT, CUMULUS_SIT, CUMULUS_SWOT_OPS, CUMULUS_SWOT_UAT, CUMULUS_SWOT_SIT, CUMULUS_SANDBOX]
+        env: [SERVICES_OPS, SERVICES_UAT, SERVICES_SIT, CUMULUS_OPS, CUMULUS_UAT, CUMULUS_SIT, CUMULUS_SWOT_OPS]
 
     steps:
       - name: Configure AWS credentials
