@@ -1,0 +1,31 @@
+name: Test AWS Credentials
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 13 * * *"
+
+jobs:
+  test-aws-credentials:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [SERVICES_OPS, SERVICES_UAT, SERVICES_SIT, CUMULUS_OPS, CUMULUS_UAT, CUMULUS_SIT, CUMULUS_SWOT_OPS, CUMULUS_SWOT_UAT, CUMULUS_SWOT_SIT, CUMULUS_SANDBOX]
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets[format('AWS_ACCESS_KEY_ID_{0}', matrix.env)] }}
+          aws-secret-access-key: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_{0}', matrix.env)] }}
+          aws-region: us-west-2
+
+      - name: Set AWS account ID env var
+        run: echo "AWS_ACCOUNT_ID=${{ secrets[format('AWS_ACCOUNT_ID_{0}', matrix.env)] }}" >> $GITHUB_ENV
+
+      - name: Test AWS CLI version
+        run: aws --version
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
