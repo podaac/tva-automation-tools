@@ -2,7 +2,7 @@ name: Monitor Trek NASA Endpoint
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # run every 30 minutes
+    - cron: "0 * * * *"   # runs every hour on the hour
   workflow_dispatch:          # allow manual trigger
 
 jobs:
