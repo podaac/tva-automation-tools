@@ -30,6 +30,7 @@ jobs:
 
   notify-slack:
     needs: check-endpoint
+    if: failure()   # <-- only runs if check-endpoint fails
     runs-on: ubuntu-latest
     steps:
       - name: Send Slack Test Message
