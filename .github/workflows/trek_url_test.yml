@@ -28,7 +28,7 @@ jobs:
             exit 1
           fi
 
- notify-slack:
+  notify-slack:
     needs: check-endpoint
     runs-on: ubuntu-latest
     steps:
