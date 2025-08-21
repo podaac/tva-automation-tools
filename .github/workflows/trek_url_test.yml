@@ -1,0 +1,23 @@
+name: Test Slack Messaging
+
+on:
+  workflow_dispatch:   # lets you trigger it manually
+
+jobs:
+  slack-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Test Message
+        env:
+          SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
+        run: |
+          curl -s -S \
+            -X POST \
+            -H "Content-Type: application/json" \
+            --data-binary @- \
+            "https://slack.com/services/hooks/jenkins-ci?token=${SLACK_API_TOKEN}" <<EOF
+          {
+            "text": ":white_check_mark: Slack test from GitHub Actions!\nRepo: $GITHUB_REPOSITORY\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          }
+EOF
+
