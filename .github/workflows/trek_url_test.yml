@@ -43,6 +43,6 @@ jobs:
             --data-binary @- \
             "https://jpl.slack.com/services/hooks/jenkins-ci?token=${SLACK_API_TOKEN}" <<EOF
             {
-              "text": ":rotating_light: NASA endpoint check failed!\\nURL: https://trek.nasa.gov/moon/arcgis/rest/services/earth/bluemarble2nd/MapServer?f=json\\nStatus: $HTTP_STATUS\\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            "text": ":white_check_mark: Slack test from GitHub Actions!\nRepo: $GITHUB_REPOSITORY\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
             }
             EOF
