@@ -1,23 +1,48 @@
-name: Test Slack Messaging
+name: Monitor Trek NASA Endpoint
 
 on:
-  workflow_dispatch:   # lets you trigger it manually
+  schedule:
+    - cron: "*/30 * * * *"   # run every 30 minutes
+  workflow_dispatch:          # allow manual trigger
 
 jobs:
-  slack-test:
+  check-endpoint:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Slack Test Message
+      - name: Check NASA endpoint
+        id: check
+        run: |
+          URL="https://trek.nasa.gov/moon/arcgis/rest/services/earth/bluemarble2nd/MapServer?f=json"
+          RESPONSE=$(curl -s -w "%{http_code}" -o response.json "$URL")
+
+          echo "HTTP_STATUS=$RESPONSE" >> $GITHUB_ENV
+
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "NASA endpoint returned status $RESPONSE"
+            exit 1
+          fi
+
+          # Validate JSON
+          if ! jq empty response.json > /dev/null 2>&1; then
+            echo "NASA endpoint did not return valid JSON"
+            exit 1
+          fi
+
+  notify-slack:
+    needs: check-endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack alert (legacy Jenkins webhook)
         env:
           SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
+          HTTP_STATUS: ${{ env.HTTP_STATUS }}
         run: |
           curl -s -S \
             -X POST \
             -H "Content-Type: application/json" \
             --data-binary @- \
             "https://jpl.slack.com/services/hooks/jenkins-ci?token=${SLACK_API_TOKEN}" <<EOF
-          {
-            "text": ":white_check_mark: Slack test from GitHub Actions!\nRepo: $GITHUB_REPOSITORY\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-          }
-          EOF
-
+            {
+              "text": ":rotating_light: NASA endpoint check failed!\\nURL: https://trek.nasa.gov/moon/arcgis/rest/services/earth/bluemarble2nd/MapServer?f=json\\nStatus: $HTTP_STATUS\\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            }
+            EOF
