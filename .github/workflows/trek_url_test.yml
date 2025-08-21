@@ -15,9 +15,9 @@ jobs:
             -X POST \
             -H "Content-Type: application/json" \
             --data-binary @- \
-            "https://slack.com/services/hooks/jenkins-ci?token=${SLACK_API_TOKEN}" <<EOF
+            "https://jpl.slack.com/services/hooks/jenkins-ci?token=${SLACK_API_TOKEN}" <<EOF
           {
             "text": ":white_check_mark: Slack test from GitHub Actions!\nRepo: $GITHUB_REPOSITORY\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           }
-EOF
+          EOF
 
