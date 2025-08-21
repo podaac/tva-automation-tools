@@ -42,7 +42,7 @@ jobs:
             --data-binary @- \
             "https://jpl.slack.com/services/hooks/jenkins-ci?token=${SLACK_API_TOKEN}" <<EOF
           {
-            "text": ":white_check_mark: Slack test from GitHub Actions!\nRepo: $GITHUB_REPOSITORY\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            "text": ":white_check_mark: NASA Trek url is down so HITIDE UI could be down!\nRepo: $GITHUB_REPOSITORY\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           }
           EOF
 
