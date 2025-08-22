@@ -29,3 +29,18 @@ jobs:
 
       - name: Verify AWS identity
         run: aws sts get-caller-identity
+
+      - name: Send Slack message on failure
+        if: failure() # only run if any previous step fails
+        env:
+          SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
+        run: |
+          curl -s -S \
+            -X POST \
+            -H "Content-Type: application/json" \
+            --data-binary @- \
+            "https://jpl.slack.com/services/hooks/jenkins-ci?token=${SLACK_API_TOKEN}" <<EOF
+          {
+            "{\"text\":\":rotating_light: AWS credentials test failed for *${{ matrix.env }}* \nRepo: $GITHUB_REPOSITORY\nRun: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID\"}"
+          }
+          EOF
