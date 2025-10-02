@@ -1,5 +1,6 @@
 import boto3
 import json
+import re
 
 # No session/profile needed
 runtime = boto3.client(service_name="bedrock-runtime", region_name="us-west-2")
@@ -16,6 +17,12 @@ response = runtime.invoke_model(
     })
 )
 
+
 result = json.loads(response["body"].read())
-answer = result["choices"][0]["message"]["content"]
-print(answer)
+# Extract assistant content
+raw_answer = result["choices"][0]["message"]["content"]
+
+# Remove any <reasoning>...</reasoning> blocks
+clean_answer = re.sub(r"<reasoning>.*?</reasoning>", "", raw_answer, flags=re.DOTALL).strip()
+
+print(clean_answer)
