@@ -115,6 +115,11 @@ def parse_arguments():
                         required=True,
                         metavar='')
 
+    parser.add_argument('-c', '--concept_id',
+                        help='Collection Concept ID of the Source (OPS). If provided, just sync this one collection from OPS to UAT.',
+                        required=False,
+                        metavar='')
+
     args = parser.parse_args()
     return args
 
@@ -233,25 +238,34 @@ if __name__ == '__main__':
     ops_headers = {'Accept': 'application/json', 'Authorization': _args.ops_token}
     uat_headers = {'Accept': 'application/json', 'Authorization': _args.uat_token}
 
-    get_l2ss_associations('uat', "PODAAC L2 Cloud Subsetter", uat_headers)
+    if _args.concept_id:
+        # If concept_id is provided, just sync this one collection from OPS to UAT
+        print(f"Sync collection with concept_id {_args.concept_id}")
+        try:
+            sync_ops_ummv_to_uat(_args.concept_id, _args.ops_token, _args.uat_token)
+        except Exception as e:  # pylint: disable = broad-exception-caught
+            print(e)
+    else:
+        # Original behavior: get L2SS associations and sync collections with 0 UMM-V
+        get_l2ss_associations('uat', "PODAAC L2 Cloud Subsetter", uat_headers)
 
-    # Get all the ops collection that are in uat l2ss
-    for collection, item in uat_collections.items():
-        get_ops_collection_concept_id('ops', collection, ops_headers)
+        # Get all the ops collection that are in uat l2ss
+        for collection, item in uat_collections.items():
+            get_ops_collection_concept_id('ops', collection, ops_headers)
 
-    for collection, item in uat_collections.items():
-        ummv_count('uat', item.get('concept_id'), collection, uat_collections, uat_headers)
+        for collection, item in uat_collections.items():
+            ummv_count('uat', item.get('concept_id'), collection, uat_collections, uat_headers)
 
-    for collection, item in uat_collections.items():
+        for collection, item in uat_collections.items():
 
-        ops_umm_v = ops_collection_name_id[collection].get('umm_v_count')
-        uat_umm_v = item.get('umm_v_count')
+            ops_umm_v = ops_collection_name_id[collection].get('umm_v_count')
+            uat_umm_v = item.get('umm_v_count')
 
-        if uat_umm_v == 0:
-            ops_concept_id = ops_collection_name_id[collection].get(
-                'concept_id')
-            print(f"Sync collection {collection}")
-            try:
-                sync_ops_ummv_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
-            except Exception as e:  # pylint: disable = broad-exception-caught
-                print(e)
+            if uat_umm_v == 0:
+                ops_concept_id = ops_collection_name_id[collection].get(
+                    'concept_id')
+                print(f"Sync collection {collection}")
+                try:
+                    sync_ops_ummv_to_uat(ops_concept_id, _args.ops_token, _args.uat_token)
+                except Exception as e:  # pylint: disable = broad-exception-caught
+                    print(e)

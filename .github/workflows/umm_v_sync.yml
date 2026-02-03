@@ -1,0 +1,103 @@
+# Copy umm v from ops to uat
+name: Umm V Auto Sync
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+    inputs:
+      source_collection_concept_id:
+        description: 'Collection Concept ID of the Source (OPS)'
+        required: true
+        type: string
+
+jobs:
+  # First job in the workflow installs and verifies the software
+  build:
+    name: Build, Test
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      #########################################################################
+      # Environment Setup
+      #########################################################################
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v4
+        with:
+          poetry-version: 2.1.4
+
+      #########################################################################
+      # Install & Pylint & Flake
+      #########################################################################
+      - name: Poetry Steps
+        run: |
+          poetry install
+#          poetry run pylint umm_v_auto/podaac/*
+#          poetry run flake8 umm_v_auto/podaac/
+
+      #########################################################################
+      # Get AWS Lambda Tokens
+      #########################################################################
+      - name: Get Launchpad Tokens
+        id: launchpad_token_generator
+        if: |
+          github.ref == 'refs/heads/main'    ||
+          startsWith(github.ref, 'refs/heads/release')
+        run: |
+          # Configure and get UAT token
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_UAT }}
+          aws configure set region us-west-2
+
+          OUTPUT_FILE_UAT=result_uat.json
+          PAYLOAD=$(echo '{"client_id": "UmmVAutoSyncGithubAction", "minimum_alive_secs": 3300}' | base64)
+
+          aws lambda invoke \
+            --function-name uat-launchpad_token_dispenser \
+            --payload "$PAYLOAD" \
+            $OUTPUT_FILE_UAT > /dev/null 2>&1
+
+          if jq -e 'has("errorMessage")' "$OUTPUT_FILE_UAT" > /dev/null; then
+            echo "Error detected in UAT Lambda response:"
+            cat "$OUTPUT_FILE_UAT"
+            exit 1
+          fi
+
+          UAT_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_UAT")
+          echo "::add-mask::$UAT_RESULT"
+          echo "uat_result=$UAT_RESULT" >> $GITHUB_OUTPUT
+
+          # Configure and get OPS token
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}
+
+          OUTPUT_FILE_OPS=result_ops.json
+
+          aws lambda invoke \
+            --function-name ops-launchpad_token_dispenser \
+            --payload "$PAYLOAD" \
+            $OUTPUT_FILE_OPS > /dev/null 2>&1
+
+          if jq -e 'has("errorMessage")' "$OUTPUT_FILE_OPS" > /dev/null; then
+            echo "Error detected in OPS Lambda response:"
+            cat "$OUTPUT_FILE_OPS"
+            exit 1
+          fi
+
+          OPS_RESULT=$(jq -r '.sm_token' < "$OUTPUT_FILE_OPS")
+          echo "::add-mask::$OPS_RESULT"
+          echo "ops_result=$OPS_RESULT" >> $GITHUB_OUTPUT
+
+      #########################################################################
+      # UMM V Sync
+      #########################################################################
+      - name: UMM V Sync One Collection from OPS to UAT
+        working-directory: umm_v_auto
+        env:
+          UAT_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.uat_result }}
+          OPS_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.ops_result }}
+        run: |
+          poetry run python umm_v_auto_sync.py -ut $UAT_TOKEN_TEMP -ot $OPS_TOKEN_TEMP -c ${{ inputs.source_collection_concept_id }}
+
