@@ -1,5 +1,5 @@
 # Copy umm v from ops to uat
-name: Umm V Auto Sync
+name: Umm V Sync One Collection (OPS -> UAT)
 # Controls when the workflow will run
 on:
   workflow_dispatch:
@@ -93,7 +93,7 @@ jobs:
       #########################################################################
       # UMM V Sync
       #########################################################################
-      - name: UMM V Sync One Collection from OPS to UAT
+      - name: UMM V Sync One Collection (OPS -> UAT)
         working-directory: umm_v_auto
         env:
           UAT_TOKEN_TEMP: ${{ steps.launchpad_token_generator.outputs.uat_result }}
