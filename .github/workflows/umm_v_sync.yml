@@ -1,11 +1,11 @@
 # Copy umm v from ops to uat
-name: Umm V Sync One Collection (OPS -> UAT)
+name: Umm V Sync One Collection
 # Controls when the workflow will run
 on:
   workflow_dispatch:
     inputs:
       source_collection_concept_id:
-        description: 'Collection Concept ID of the Source (OPS)'
+        description: 'Source OPS Collection Concept ID'
         required: true
         type: string
 
