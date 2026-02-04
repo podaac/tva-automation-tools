@@ -3,7 +3,7 @@ name: HiTIDE Repos Update
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '10 10 * * *'  # Set the cron schedule for 1 am PST
+    - cron: '20 10 * * *'  # Set the cron schedule for 1 am PST
   workflow_dispatch:
 
 jobs:
@@ -19,11 +19,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v3.0.0
+        uses: abatilo/actions-poetry@v4
         with:
-          poetry-version: 1.8.3
+          poetry-version: 2.3.2
 
       #########################################################################
       # Install & Run Pylint & Flake

@@ -23,7 +23,7 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v4
         with:
-          poetry-version: 2.1.4
+          poetry-version: 2.3.2
 
       #########################################################################
       # Install & Pylint & Flake

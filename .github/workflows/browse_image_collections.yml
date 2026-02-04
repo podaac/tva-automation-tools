@@ -1,19 +1,18 @@
-# Copy umm v from ops to uat
-name: Memory Profiler
+
+name: Browse Image Collections Update
 # Controls when the workflow will run
 on:
   schedule:
-    # Run at midnight (00:00) every Sunday
-    - cron: "0 0 * * 0"
+    - cron: '0 9 * * *'  # Set the cron schedule for 2 am PST
   workflow_dispatch:
 
 jobs:
-  # First job in the workflow installs and verifies the software
   build:
-    name: Build, Test
+    name: Refresh Browse Image Collections Google Sheet
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
+
       #########################################################################
       # Environment Setup
       #########################################################################
@@ -21,39 +20,38 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v4
+        with:
+          poetry-version: 2.3.2
 
       #########################################################################
-      # Install backfill tool
+      # Install & Run Pylint & Flake
       #########################################################################
-      - name: Install backfill tool
+      - name: Poetry Steps
         run: |
-          pip install git+https://github.com/podaac/hitide-backfill-tool.git@feature/parallel_memory_profiler
-          pip install gspread oauth2client
-
+          poetry install
+    #      poetry run pylint ./*
+    #      poetry run flake8 .
 
       #########################################################################
-      # Setup AWS profile
+      # Setup AWS profiles
       #########################################################################
-      - name: Set AWS profile environment variable
-        run: |
-          echo "AWS_PROFILE=service-ops" >> $GITHUB_ENV
-          echo "AWS_REGION=us-west-2" >> $GITHUB_ENV
-
       - name: Configure custom AWS profile
         run: |
           mkdir -p ~/.aws
-          echo "[service-ops]" >> ~/.aws/credentials
+          echo "[podaac-services-ops]" >> ~/.aws/credentials
           echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_SERVICES_OPS }}" >> ~/.aws/credentials
           echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_SERVICES_OPS }}" >> ~/.aws/credentials
-          echo "[cumulus-ops]" >> ~/.aws/credentials
+          echo "[podaac-services-uat]" >> ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_SERVICES_UAT }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_SERVICES_UAT }}" >> ~/.aws/credentials
+          echo "[ngap-cumulus-ops]" >> ~/.aws/credentials
           echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}" >> ~/.aws/credentials
-          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}" >> ~/.aws/credentials          
-
-          # Create the config file
-          echo "[service-ops]" >> ~/.aws/config
-          echo "region=us-west-2" >> ~/.aws/config
-          echo "[cumulus-ops]" >> ~/.aws/config
-          echo "region=us-west-2" >> ~/.aws/config
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}" >> ~/.aws/credentials
+          echo "[ngap-cumulus-uat]" >> ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_UAT }}" >> ~/.aws/credentials          
 
       #########################################################################
       # Setup Token for GSpread
@@ -65,19 +63,16 @@ jobs:
           mkdir -p ~/.config/gspread
           echo "$GOOGLE_TOKEN" > ~/.config/gspread/service_account.json
 
-
       #########################################################################
-      # Run memory profiler and Write to google spreadsheet
-      # Profile memory of tig in service ops for the last week
+      # Start the Repo Status Updater
       #########################################################################
-      - name: Running Memory Profiler
-        working-directory: memory_profiler
+      - name: Update Browse Image Collections Google Sheet
+        working-directory: browse_image_collections
         env:
-          SPREADSHEET_ID: ${{ secrets.HITIDE_AWS_SHEET_ID }}
+          CMR_USER: ${{ secrets.CMR_USER }}
+          CMR_PASS: ${{ secrets.CMR_PASS }}
+          GITHUB_TOKEN: ${{ secrets.GH_READ_TOKEN }}
+          AWS_DEFAULT_REGION: us-west-2
+          SPREADSHEET_ID: ${{ secrets.BROWSE_IMAGE_COLLECTIONS_SHEET_ID }}
         run: |
-          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-services-ops-hitide-backfill-lambda --aws_profile service-ops --start_time 168
-          python spreadsheet_write.py "TIG Service OPS Lambdas"
-
-          backfill_memory_profiler --aws_lambda_log svc-tig-podaac-ops-cumulus-lambda --aws_profile cumulus-ops --start_time 168
-          python spreadsheet_write.py "TIG Cumulus OPS Lambdas"
-  
+          poetry run python browse_image_collections.py
