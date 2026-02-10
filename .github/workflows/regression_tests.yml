@@ -72,7 +72,7 @@ jobs:
       #########################################################################
       # Run TIG in container
       #########################################################################
-      - name: Setup and Run TIG 0.13.0 in Docker
+      - name: Setup and Run TIG 0.14.0 in Docker
         uses: docker://python:3.10-slim       # Shoud match the lambda docker image version in the tig repo
         with:
           platform: linux/arm64
@@ -81,12 +81,12 @@ jobs:
             -c "
             arch
             # Install TIG
-            pip install podaac-tig==0.13.0
+            pip install podaac-tig==0.14.0
             
             # Change to workspace directory
             cd regression_tests
 
-            python run_tig_regression.py --workdir workdir -od tig_0.13.0
+            python run_tig_regression.py --workdir workdir -od tig_0.14.0
             pwd
             ls -alR
             du -h -d 3 workdir
@@ -95,8 +95,8 @@ jobs:
       #########################################################################
       # Run TIG in container
       #########################################################################
-      - name: Setup and Run TIG 0.13.2rc1 in Docker
-        uses: docker://python:3.10-slim       # Shoud match the lambda docker image version in the tig repo
+      - name: Setup and Run TIG 0.15.0rc1 in Docker
+        uses: docker://python:3.12-slim       # Shoud match the lambda docker image version in the tig repo
         with:
           platform: linux/arm64
           entrypoint: /bin/bash
@@ -104,12 +104,12 @@ jobs:
             -c "
             arch
             # Install TIG
-            pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-tig==0.13.2rc1
+            pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-tig==0.15.0rc1
 
             # Change to workspace directory
             cd regression_tests
 
-            python run_tig_regression.py --workdir workdir -od tig_0.13.2rc1
+            python run_tig_regression.py --workdir workdir -od tig_0.15.0rc1
             pwd
             ls -alR
             du -h -d 3 workdir
