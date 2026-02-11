@@ -336,11 +336,14 @@ def main(args=None):
             insert_value_into_row(row, "TIG Status (0.15.0rc1)", header_row, granule_data.get('tig_status', {}).get('tig_0.15.0rc1', '-'))
 
         # Forge columns
+        insert_value_into_row(row, "Forge Status (0.11.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.11.0', '-'))
         insert_value_into_row(row, "Forge Status (0.12.0)", header_row, granule_data.get('forge_status', {}).get('forge_0.12.0', '-'))
         insert_value_into_row(row, "Forge Status (0.13.0-rc.1)", header_row, granule_data.get('forge_status', {}).get('forge_0.13.0-rc.1', '-'))
 
         # Forge-py columns
         insert_value_into_row(row, "Forge-py Status (0.4.0)", header_row, granule_data.get('forge_py_status', {}).get('forge-py_0.4.0', '-'))
+        insert_value_into_row(row, "Forge-py Status (0.6.0)", header_row, granule_data.get('forge_py_status', {}).get('forge-py_0.6.0', '-'))
+        insert_value_into_row(row, "Forge-py Status (0.7.0rc1)", header_row, granule_data.get('forge_py_status', {}).get('forge-py_0.7.0rc1', '-'))
 
         # Get errors
         errors = granule_data.get('errors', '')

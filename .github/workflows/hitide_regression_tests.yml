@@ -139,6 +139,52 @@ jobs:
             "
 
       #########################################################################
+      # Run forge-py in container
+      #########################################################################
+      - name: Setup and Run forge-py 0.6.0 in Docker
+        uses: docker://python:3.11-slim       # Should match the lambda docker image version in the forge-py repo
+        with:
+          platform: linux/arm64
+          entrypoint: /bin/bash
+          args: |-
+            -c "
+            arch
+            # Install forge-py
+            pip install podaac-forge-py==0.6.0
+            
+            # Change to workspace directory
+            cd regression_tests
+
+            python run_forge_py_regression.py --workdir workdir -od 'forge-py_0.6.0'
+            pwd
+            ls -alR
+            du -h -d 3 workdir
+            "
+
+      #########################################################################
+      # Run forge-py in container
+      #########################################################################
+      - name: Setup and Run forge-py 0.7.0rc1 in Docker
+        uses: docker://python:3.12-slim       # Should match the lambda docker image version in the forge-py repo
+        with:
+          platform: linux/arm64
+          entrypoint: /bin/bash
+          args: |-
+            -c "
+            arch
+            # Install forge-py
+            pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-forge-py==0.7.0rc1
+
+            # Change to workspace directory
+            cd regression_tests
+
+            python run_forge_py_regression.py --workdir workdir -od 'forge-py_0.7.0rc1'
+            pwd
+            ls -alR
+            du -h -d 3 workdir
+            "
+
+      #########################################################################
       # Run forge in container
       #########################################################################
       - name: Setup and Run forge 0.13.0-rc.1 in Docker
@@ -182,6 +228,32 @@ jobs:
             curl -sL https://github.com/podaac/forge/releases/download/0.12.0/footprint_0.12.0.jar -o footprint.jar
 
             python3 run_forge_regression.py --workdir workdir -od forge_0.12.0
+            pwd
+            ls -alR
+            du -h -d 3 workdir
+            "
+
+      #########################################################################
+      # Run forge (Cumulus OPS Version) in container
+      #########################################################################
+      - name: Setup and Run forge 0.11.0 in Docker
+        uses: docker://mcr.microsoft.com/openjdk/jdk:11-ubuntu
+        with:
+          platform: linux/arm64
+          entrypoint: /bin/bash
+          args: |-
+            -c "
+            arch
+            # Install Python 3
+            apt-get update && apt-get install -y python3 curl && apt-get clean
+
+            # Change to workspace directory
+            cd regression_tests
+
+            # Download Footprint jar
+            curl -sL https://github.com/podaac/forge/releases/download/0.11.0/footprint_0.11.0.jar -o footprint.jar
+
+            python3 run_forge_regression.py --workdir workdir -od forge_0.11.0
             pwd
             ls -alR
             du -h -d 3 workdir
