@@ -81,7 +81,7 @@ jobs:
             -c "
             arch
             # Install TIG
-            pip install podaac-tig==0.14.0
+            pip install podaac-thumbnail-generator==0.14.0
             
             # Change to workspace directory
             cd regression_tests
@@ -104,7 +104,7 @@ jobs:
             -c "
             arch
             # Install TIG
-            pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-tig==0.15.0rc1
+            pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple podaac-thumbnail-generator==0.15.0rc1
 
             # Change to workspace directory
             cd regression_tests
@@ -141,7 +141,7 @@ jobs:
       #########################################################################
       # Run forge in container
       #########################################################################
-      - name: Setup and Run forge 0.12.1-rc.1 in Docker
+      - name: Setup and Run forge 0.13.0-rc.1 in Docker
         uses: docker://mcr.microsoft.com/openjdk/jdk:11-ubuntu
         with:
           platform: linux/arm64
@@ -156,15 +156,15 @@ jobs:
             cd regression_tests
 
             # Download Footprint jar
-            curl -sL https://github.com/podaac/forge/releases/download/0.12.1-rc.1/footprint_0.12.1-rc.1.jar -o footprint.jar
+            curl -sL https://github.com/podaac/forge/releases/download/0.13.0-rc.1/footprint_0.13.0-rc.1.jar -o footprint.jar
 
-            python3 run_forge_regression.py --workdir workdir -od forge_0.12.1-rc.1
+            python3 run_forge_regression.py --workdir workdir -od forge_0.13.0-rc.1
             "
 
       #########################################################################
       # Run forge (Cumulus OPS Version) in container
       #########################################################################
-      - name: Setup and Run forge 0.11.0 in Docker
+      - name: Setup and Run forge 0.12.0 in Docker
         uses: docker://mcr.microsoft.com/openjdk/jdk:11-ubuntu
         with:
           platform: linux/arm64
@@ -179,9 +179,9 @@ jobs:
             cd regression_tests
 
             # Download Footprint jar
-            curl -sL https://github.com/podaac/forge/releases/download/0.11.0/footprint_0.11.0.jar -o footprint.jar
+            curl -sL https://github.com/podaac/forge/releases/download/0.12.0/footprint_0.12.0.jar -o footprint.jar
 
-            python3 run_forge_regression.py --workdir workdir -od forge_0.11.0
+            python3 run_forge_regression.py --workdir workdir -od forge_0.12.0
             pwd
             ls -alR
             du -h -d 3 workdir
