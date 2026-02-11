@@ -1,5 +1,5 @@
 
-name: Run Regression Tests
+name: Run HiTIDE Regression Tests
 # Controls when the workflow will run
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Run Regression Tests
+    name: Run HiTIDE Regression Tests
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     defaults:
