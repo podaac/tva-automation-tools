@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import csv
 import requests
 import traceback
 import logging
@@ -27,9 +28,17 @@ workbook = gc.open_by_key(spreadsheet_id)
 
 error_list = []
 
+def read_csv_file(filename):
+    data = []
+    with open(filename, 'r') as file:
+        csv_reader = csv.reader(file)
+        for row in csv_reader:
+            data.extend([row])
+    return data
+        
 class BrowseImageCollections:
 
-    def __init__(self, logger: logging.Logger, env: str):
+    def __init__(self, logger: logging.Logger, env: str, data_path: str):
         """Initialize HitideCollections.
         
         Args:
@@ -38,6 +47,7 @@ class BrowseImageCollections:
         """
         self.logger: logging.Logger = logger
         self.env: str = env
+        self.data_path: str = data_path
 
         self.collections = {}
 
@@ -69,7 +79,7 @@ class BrowseImageCollections:
 
     def add_collections(self, umm_name, collections_query):
 
-        collections = [(a.get('id'), a.get('short_name'), a.get('data_center'), a.get("associations").get("variables") if a.get("associations") else None)
+        collections = [(a.get('id'), a.get('short_name'), a.get('data_center'), a.get("associations").get("variables") if a.get("associations") else None, a.get("watch_status"))
                         for a in collections_query]
         collections = sorted(collections, key=lambda tup: tup[1])
 
@@ -90,6 +100,8 @@ class BrowseImageCollections:
             if collection[3] is not None and len(collection[3]) > 0:
                 self.collections[id]['umm_v_count'] = len(collection[3])
 
+            if collection[4] == "Coming Soon":
+                self.collections[id]['coming_soon'] = "X"
 
     def update_associations(self, umm_name, umm_type):
 
@@ -128,6 +140,7 @@ class BrowseImageCollections:
 
         header_row = ['Collection Name']
         header_row.append('Collection Concept ID')
+        header_row.append('Coming Soon')
         header_row.append('Worldview')
         header_row.append('Imagenator L2')
         header_row.append('Imagenator L3')
@@ -150,6 +163,7 @@ class BrowseImageCollections:
 
             row = [short_name]
             row.append(id)
+            row.append(collection.get('coming_soon'))
             row.append(collection.get('worldview'))
             row.append(collection.get('imagenator_l2'))
             row.append(collection.get('imagenator_l3'))
@@ -173,15 +187,16 @@ class BrowseImageCollections:
 
         set_column_width(worksheet, 'A', 9*max_length)
         set_column_width(worksheet, 'B', 9*len(records[0][1]))
-        set_column_width(worksheet, 'C', 8*len(records[0][2]) + 6)
-        set_column_width(worksheet, 'D', 8*len(records[0][3]))
+        set_column_width(worksheet, 'C', 9*len(records[0][2]))
+        set_column_width(worksheet, 'D', 8*len(records[0][3]) + 6)
         set_column_width(worksheet, 'E', 8*len(records[0][4]))
-        set_column_width(worksheet, 'F', 11*len(records[0][5]))
-        set_column_width(worksheet, 'G', 8*len(records[0][6]))
-        set_column_width(worksheet, 'H', 11*len(records[0][7]))
-        set_column_width(worksheet, 'I', 9*len(records[0][8]))
+        set_column_width(worksheet, 'F', 8*len(records[0][5]))
+        set_column_width(worksheet, 'G', 11*len(records[0][6]))
+        set_column_width(worksheet, 'H', 8*len(records[0][7]))
+        set_column_width(worksheet, 'I', 11*len(records[0][8]))
         set_column_width(worksheet, 'J', 9*len(records[0][9]))
         set_column_width(worksheet, 'K', 9*len(records[0][10]))
+        set_column_width(worksheet, 'L', 9*len(records[0][11]))
 
 
     def umm_update_one_collection(self, item):
@@ -234,6 +249,38 @@ class BrowseImageCollections:
             error_list.append([f"{short_name} ({self.env.upper()})", str(e), e.__traceback__.tb_lineno])
 
 
+    def add_watches(self):
+
+        watch_collections = read_csv_file(f"{self.data_path}/watch.csv")
+
+        if self.env == "ops":
+            mode = cmr.queries.CMR_OPS
+        else:
+            mode = cmr.queries.CMR_UAT
+
+        for row in watch_collections:
+            short_name = row[0]
+
+            try:
+                url = cmr.queries.CollectionQuery(
+                    mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
+
+                collections_query = self.session.get(url, headers=self.headers, params={
+                                                'page_size': 1}).json()['feed']['entry']
+
+                if len(row) > 1:
+                    collections_query[0]['watch_status'] = row[1]
+
+                if collections_query:
+                    self.add_collections("", collections_query)
+                else:
+                    error_list.append([f"{short_name} ({self.env.upper()})", f"Not found via Watch List", "NA"])
+            except Exception as ex:
+                self.logger.error(ex)
+                self.logger.error(short_name)
+                pass
+
+
     def bearer_token(self):
         tokens = []
         headers: dict = {'Accept': 'application/json'}
@@ -272,6 +319,7 @@ class BrowseImageCollections:
 
     def run(self):
 
+        self.add_watches()
         self.update_associations("IMAGENATOR-L2", "service")
         self.update_associations("IMAGENATOR-L3", "service")
         self.update_associations("HyBIG", "service")
@@ -298,6 +346,11 @@ def parse_args():
     parser.add_argument("--log-level",
                         default="DEBUG")
 
+    parser.add_argument('-d', '--data',
+                        help='path to data folder',
+                        required=True,
+                        metavar='')
+
     args = parser.parse_args()
     return args
 
@@ -308,10 +361,10 @@ if __name__ == '__main__':
 
     logger = logger_from_args(_args)
 
-    browse_image_collections_ops = BrowseImageCollections(logger, "ops")
+    browse_image_collections_ops = BrowseImageCollections(logger, "ops", _args.data)
     browse_image_collections_ops.run()
 
-    browse_image_collections_uat = BrowseImageCollections(logger, "uat")
+    browse_image_collections_uat = BrowseImageCollections(logger, "uat", _args.data)
     browse_image_collections_uat.run()
 
     status_ws = workbook.worksheet("Status")

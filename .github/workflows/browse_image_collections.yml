@@ -75,4 +75,4 @@ jobs:
           AWS_DEFAULT_REGION: us-west-2
           SPREADSHEET_ID: ${{ secrets.BROWSE_IMAGE_COLLECTIONS_SHEET_ID }}
         run: |
-          poetry run python browse_image_collections.py
+          poetry run python browse_image_collections.py -d data
