@@ -16,9 +16,10 @@ Set the required authentication environment variables before running the script:
 - `OPS_LAUNCHPAD_TOKEN` for `ops`
 - `UAT_LAUNCHPAD_TOKEN` for `uat`
 
-The script uses the Launchpad token for both CMR lookups and the ingest update.
+The script uses Launchpad for both CMR lookups and the ingest update.
+No EDL token is required.
 
-If you prefer to keep using a single Launchpad token, `LAUNCHPAD_TOKEN` still works as a fallback for both environments.
+If you prefer to keep using a single Launchpad token, `LAUNCHPAD_TOKEN` works as a fallback for both environments.
 
 ## Basic Usage
 
