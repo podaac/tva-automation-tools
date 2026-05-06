@@ -128,7 +128,6 @@ def update_variable(cmr_base: str, collection_concept_id: str, native_id: str, u
         "Accept": "application/json",
     }
     resp = requests.put(url, data=json.dumps(umm, allow_nan=False), headers=headers)
-    print(resp.json())
     resp.raise_for_status()
     return resp.json()
 
