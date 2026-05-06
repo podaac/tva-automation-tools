@@ -15,10 +15,8 @@ Set the required authentication environment variables before running the script:
 - `LAUNCHPAD_TOKEN`
 - `OPS_LAUNCHPAD_TOKEN` for `ops`
 - `UAT_LAUNCHPAD_TOKEN` for `uat`
-- `OPS_EDL_TOKEN` for `ops`
-- `UAT_EDL_TOKEN` for `uat`
 
-The script looks up the collection and variable in CMR, then updates the matching variable record.
+The script uses the Launchpad token for both CMR lookups and the ingest update.
 
 If you prefer to keep using a single Launchpad token, `LAUNCHPAD_TOKEN` still works as a fallback for both environments.
 
@@ -186,3 +184,18 @@ When adding from a JSON file, duplicate URLs in the file are skipped, and URLs t
 1. Create a JSON file for the new related URL entry if you need custom metadata.
 2. Run the script with `--related-url-file` to add it.
 3. Run the script with `--delete-url` if you need to remove a bad entry.
+
+## GitHub Actions
+
+There is a manual workflow at `.github/workflows/umm_v_update_related_url.yml` for adding or deleting a single URL.
+
+It accepts these dispatch inputs:
+
+- `collection_name`
+- `provider`
+- `variable_name`
+- `env`
+- `action`
+- `url`
+
+Set `action` to `add` or `delete`. The workflow fetches the correct Launchpad token for the selected environment and runs the script with `--new-url` or `--delete-url` accordingly.

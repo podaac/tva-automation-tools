@@ -1,4 +1,4 @@
-"""Script to add a new URL to the RelatedURLs field of a UMM-V variable."""
+"""Script to add, update, or delete a RelatedURLs entry for a UMM-V variable."""
 
 import argparse
 import json
@@ -14,30 +14,10 @@ CMR_URLS = {
 }
 
 
-EDL_TOKEN_ENV_VARS = {
-    "ops": "OPS_EDL_TOKEN",
-    "uat": "UAT_EDL_TOKEN",
-}
-
-
 LAUNCHPAD_TOKEN_ENV_VARS = {
     "ops": "OPS_LAUNCHPAD_TOKEN",
     "uat": "UAT_LAUNCHPAD_TOKEN",
 }
-
-
-def get_edl_token(env: str) -> str:
-    token_env_var = EDL_TOKEN_ENV_VARS.get(env)
-    if not token_env_var:
-        print(f"ERROR: Unsupported environment '{env}'.", file=sys.stderr)
-        sys.exit(1)
-
-    edl_token = os.environ.get(token_env_var)
-    if edl_token:
-        return edl_token
-
-    print(f"ERROR: {token_env_var} environment variable is not set.", file=sys.stderr)
-    sys.exit(1)
 
 
 def get_launchpad_token(env: str) -> str:
@@ -54,17 +34,14 @@ def get_launchpad_token(env: str) -> str:
     if fallback_token:
         return fallback_token
 
-    print(
-        f"ERROR: {token_env_var} environment variable is not set and LAUNCHPAD_TOKEN fallback is not set.",
-        file=sys.stderr,
-    )
+    print(f"ERROR: {token_env_var} environment variable is not set and LAUNCHPAD_TOKEN fallback is not set.", file=sys.stderr)
     sys.exit(1)
 
 
-def get_collection_metadata(cmr_base: str, collection_name: str, provider: str, edl_token: str) -> dict:
+def get_collection_metadata(cmr_base: str, collection_name: str, provider: str, launchpad_token: str) -> dict:
     url = f"{cmr_base}/search/collections.umm_json"
-    headers = {"Authorization": f"Bearer {edl_token}"}
-    params = {"ShortName": collection_name, "provider": provider, "page_size": 1}
+    headers = {"Authorization": launchpad_token}
+    params = {"ShortName": collection_name, "provider": provider, "page_size": 2000}
     resp = requests.get(url, headers=headers, params=params)
     resp.raise_for_status()
     items = resp.json().get("items", [])
@@ -79,9 +56,9 @@ def get_collection_concept_id(collection_record: dict) -> str:
     return collection_record["meta"]["concept-id"]
 
 
-def get_variable_candidates(cmr_base: str, variable_name: str, collection_concept_id: str, edl_token: str) -> list[dict]:
+def get_variable_candidates(cmr_base: str, variable_name: str, collection_concept_id: str, launchpad_token: str) -> list[dict]:
     url = f"{cmr_base}/search/variables.json"
-    headers = {"Authorization": f"Bearer {edl_token}"}
+    headers = {"Authorization": launchpad_token}
     params = {"name": variable_name, "page_size": 2000}
     resp = requests.get(url, headers=headers, params=params)
     resp.raise_for_status()
@@ -93,9 +70,9 @@ def get_variable_candidates(cmr_base: str, variable_name: str, collection_concep
     ]
 
 
-def get_variable_record(cmr_base: str, variable_concept_id: str, edl_token: str) -> dict:
+def get_variable_record(cmr_base: str, variable_concept_id: str, launchpad_token: str) -> dict:
     url = f"{cmr_base}/search/variables.umm_json"
-    headers = {"Authorization": f"Bearer {edl_token}"}
+    headers = {"Authorization": launchpad_token}
     params = {"concept-id": variable_concept_id}
     resp = requests.get(url, headers=headers, params=params)
     resp.raise_for_status()
@@ -217,19 +194,18 @@ def parse_args():
 def main():
     args = parse_args()
 
-    edl_token = get_edl_token(args.env)
     launchpad_token = get_launchpad_token(args.env)
 
     cmr_base = CMR_URLS[args.env]
     provider = args.provider.upper()
 
     print(f"Looking up collection '{args.collection_name}' for provider '{provider}' in {args.env} ({cmr_base})...")
-    collection_record = get_collection_metadata(cmr_base, args.collection_name, provider, edl_token)
+    collection_record = get_collection_metadata(cmr_base, args.collection_name, provider, launchpad_token)
     collection_concept_id = get_collection_concept_id(collection_record)
     print(f"Found collection concept ID: {collection_concept_id}")
 
     print(f"Searching for variable keyword '{args.variable_name}'...")
-    variable_candidates = get_variable_candidates(cmr_base, args.variable_name, collection_concept_id, edl_token)
+    variable_candidates = get_variable_candidates(cmr_base, args.variable_name, collection_concept_id, launchpad_token)
     if not variable_candidates:
         raise ValueError(
             f"No variable found for keyword '{args.variable_name}' linked to collection '{collection_concept_id}' "
@@ -246,7 +222,7 @@ def main():
     variable_concept_id = variable_candidates[0]["concept_id"]
     print(f"Found linked variable concept ID: {variable_concept_id}")
 
-    variable_record = get_variable_record(cmr_base, variable_concept_id, edl_token)
+    variable_record = get_variable_record(cmr_base, variable_concept_id, launchpad_token)
     meta = variable_record["meta"]
     umm = variable_record["umm"]
     native_id = meta["native-id"]
