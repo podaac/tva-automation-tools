@@ -13,10 +13,14 @@ It supports three actions:
 Set the required authentication environment variables before running the script:
 
 - `LAUNCHPAD_TOKEN`
+- `OPS_LAUNCHPAD_TOKEN` for `ops`
+- `UAT_LAUNCHPAD_TOKEN` for `uat`
 - `OPS_EDL_TOKEN` for `ops`
 - `UAT_EDL_TOKEN` for `uat`
 
 The script looks up the collection and variable in CMR, then updates the matching variable record.
+
+If you prefer to keep using a single Launchpad token, `LAUNCHPAD_TOKEN` still works as a fallback for both environments.
 
 ## Basic Usage
 
@@ -33,6 +37,11 @@ Required flags:
 - `-c`, `--collection-name`: collection short name
 - `-v`, `--variable-name`: variable name
 - `-e`, `--env`: target environment, one of `ops` or `uat`
+
+The `-e` flag controls which CMR venue is queried and which Launchpad token is used:
+
+- `ops` uses `OPS_LAUNCHPAD_TOKEN` if it is set, otherwise `LAUNCHPAD_TOKEN`
+- `uat` uses `UAT_LAUNCHPAD_TOKEN` if it is set, otherwise `LAUNCHPAD_TOKEN`
 
 Action flags:
 

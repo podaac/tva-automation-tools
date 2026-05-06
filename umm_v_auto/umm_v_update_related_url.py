@@ -20,6 +20,12 @@ EDL_TOKEN_ENV_VARS = {
 }
 
 
+LAUNCHPAD_TOKEN_ENV_VARS = {
+    "ops": "OPS_LAUNCHPAD_TOKEN",
+    "uat": "UAT_LAUNCHPAD_TOKEN",
+}
+
+
 def get_edl_token(env: str) -> str:
     token_env_var = EDL_TOKEN_ENV_VARS.get(env)
     if not token_env_var:
@@ -31,6 +37,27 @@ def get_edl_token(env: str) -> str:
         return edl_token
 
     print(f"ERROR: {token_env_var} environment variable is not set.", file=sys.stderr)
+    sys.exit(1)
+
+
+def get_launchpad_token(env: str) -> str:
+    token_env_var = LAUNCHPAD_TOKEN_ENV_VARS.get(env)
+    if not token_env_var:
+        print(f"ERROR: Unsupported environment '{env}'.", file=sys.stderr)
+        sys.exit(1)
+
+    launchpad_token = os.environ.get(token_env_var)
+    if launchpad_token:
+        return launchpad_token
+
+    fallback_token = os.environ.get("LAUNCHPAD_TOKEN")
+    if fallback_token:
+        return fallback_token
+
+    print(
+        f"ERROR: {token_env_var} environment variable is not set and LAUNCHPAD_TOKEN fallback is not set.",
+        file=sys.stderr,
+    )
     sys.exit(1)
 
 
@@ -191,11 +218,7 @@ def main():
     args = parse_args()
 
     edl_token = get_edl_token(args.env)
-
-    launchpad_token = os.environ.get("LAUNCHPAD_TOKEN")
-    if not launchpad_token:
-        print("ERROR: LAUNCHPAD_TOKEN environment variable is not set.", file=sys.stderr)
-        sys.exit(1)
+    launchpad_token = get_launchpad_token(args.env)
 
     cmr_base = CMR_URLS[args.env]
     provider = args.provider.upper()
