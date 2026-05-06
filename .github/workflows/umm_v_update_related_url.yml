@@ -60,7 +60,7 @@ jobs:
       - name: Get Launchpad Tokens
         id: launchpad_token_generator
         run: |
-          PAYLOAD=$(echo '{"client_id": "UmmVRelatedUrlGithubAction", "minimum_alive_secs": 3300}' | base64)
+          PAYLOAD=$(echo '{"client_id": "UmmVRelatedUrlGithubAction", "minimum_alive_secs": 300}' | base64)
 
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_UAT }}
