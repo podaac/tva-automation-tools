@@ -1,0 +1,122 @@
+# Update or delete a UMM-V variable RelatedURLs entry
+name: UMM-V Update Related URL
+
+on:
+  workflow_dispatch:
+    inputs:
+      collection_name:
+        description: "Collection short name"
+        required: true
+        type: string
+      provider:
+        description: "CMR provider"
+        required: true
+        default: "POCLOUD"
+        type: string
+      variable_name:
+        description: "UMM-V variable name"
+        required: true
+        type: string
+      env:
+        description: "Target CMR environment"
+        required: true
+        default: "uat"
+        type: choice
+        options:
+          - uat
+          - ops
+      action:
+        description: "Related URL action"
+        required: true
+        default: "add"
+        type: choice
+        options:
+          - add
+          - delete
+      url:
+        description: "URL to add or delete from RelatedURLs"
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: Build, Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v4
+        with:
+          poetry-version: 2.3.2
+
+      - name: Poetry Steps
+        run: poetry install
+
+      - name: Get Launchpad Tokens
+        id: launchpad_token_generator
+        run: |
+          PAYLOAD=$(echo '{"client_id": "UmmVRelatedUrlGithubAction", "minimum_alive_secs": 3300}' | base64)
+
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_UAT }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_UAT }}
+          aws configure set region us-west-2
+
+          OUTPUT_FILE_UAT=result_uat.json
+          aws lambda invoke \
+            --function-name uat-launchpad_token_dispenser \
+            --payload "$PAYLOAD" \
+            "$OUTPUT_FILE_UAT" > /dev/null 2>&1
+
+          if jq -e 'has("errorMessage")' "$OUTPUT_FILE_UAT" > /dev/null; then
+            echo "Error detected in UAT Launchpad Lambda response:"
+            cat "$OUTPUT_FILE_UAT"
+            exit 1
+          fi
+
+          UAT_TOKEN=$(jq -r '.sm_token' < "$OUTPUT_FILE_UAT")
+          echo "::add-mask::$UAT_TOKEN"
+          echo "uat_launchpad_token=$UAT_TOKEN" >> "$GITHUB_OUTPUT"
+
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_CUMULUS_OPS }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_CUMULUS_OPS }}
+
+          OUTPUT_FILE_OPS=result_ops.json
+          aws lambda invoke \
+            --function-name ops-launchpad_token_dispenser \
+            --payload "$PAYLOAD" \
+            "$OUTPUT_FILE_OPS" > /dev/null 2>&1
+
+          if jq -e 'has("errorMessage")' "$OUTPUT_FILE_OPS" > /dev/null; then
+            echo "Error detected in OPS Launchpad Lambda response:"
+            cat "$OUTPUT_FILE_OPS"
+            exit 1
+          fi
+
+          OPS_TOKEN=$(jq -r '.sm_token' < "$OUTPUT_FILE_OPS")
+          echo "::add-mask::$OPS_TOKEN"
+          echo "ops_launchpad_token=$OPS_TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Update or Delete UMM-V Related URL
+        working-directory: umm_v_auto
+        env:
+          OPS_LAUNCHPAD_TOKEN: ${{ steps.launchpad_token_generator.outputs.ops_launchpad_token }}
+          UAT_LAUNCHPAD_TOKEN: ${{ steps.launchpad_token_generator.outputs.uat_launchpad_token }}
+          LAUNCHPAD_TOKEN: ${{ steps.launchpad_token_generator.outputs.uat_launchpad_token }}
+        run: |
+          if [ "${{ inputs.action }}" = "delete" ]; then
+            ACTION_FLAG="-d"
+          else
+            ACTION_FLAG="-u"
+          fi
+
+          poetry run python umm_v_update_related_url.py \
+            -c "${{ inputs.collection_name }}" \
+            -p "${{ inputs.provider }}" \
+            -v "${{ inputs.variable_name }}" \
+            -e "${{ inputs.env }}" \
+            "$ACTION_FLAG" "${{ inputs.url }}"
