@@ -89,7 +89,8 @@ def build_new_related_url(new_url: str) -> dict:
         "Type": "Color Map",
         "Subtype":"Harmony GDAL",
         "Format":"Text File",
-        "MimeType":"text/plain"
+        "MimeType":"text/plain",
+        "Description": "Colormap that can be used for this variable in GDAL-compatible text format."
     }
 
 
