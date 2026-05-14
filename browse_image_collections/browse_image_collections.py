@@ -79,7 +79,7 @@ class BrowseImageCollections:
 
     def add_collections(self, umm_name, collections_query):
 
-        collections = [(a.get('id'), a.get('short_name'), a.get('data_center'), a.get("associations").get("variables") if a.get("associations") else None, a.get("watch_status"))
+        collections = [(a.get('id'), a.get('short_name'), a.get('data_center'), a.get("associations").get("variables") if a.get("associations") else None)
                         for a in collections_query]
         collections = sorted(collections, key=lambda tup: tup[1])
 
@@ -99,9 +99,6 @@ class BrowseImageCollections:
 
             if collection[3] is not None and len(collection[3]) > 0:
                 self.collections[id]['umm_v_count'] = len(collection[3])
-
-            if collection[4] == "Coming Soon":
-                self.collections[id]['coming_soon'] = "X"
 
     def update_associations(self, umm_name, umm_type):
 
@@ -249,17 +246,18 @@ class BrowseImageCollections:
             error_list.append([f"{short_name} ({self.env.upper()})", str(e), e.__traceback__.tb_lineno])
 
 
-    def add_watches(self):
+    def add_additions(self):
 
-        watch_collections = read_csv_file(f"{self.data_path}/watch.csv")
+        additions = read_csv_file(f"{self.data_path}/additions.csv")
 
         if self.env == "ops":
             mode = cmr.queries.CMR_OPS
         else:
             mode = cmr.queries.CMR_UAT
 
-        for row in watch_collections:
+        for row in additions:
             short_name = row[0]
+            column_overrides = [col.strip() for col in row[1:] if col.strip()]
 
             try:
                 url = cmr.queries.CollectionQuery(
@@ -268,13 +266,15 @@ class BrowseImageCollections:
                 collections_query = self.session.get(url, headers=self.headers, params={
                                                 'page_size': 1}).json()['feed']['entry']
 
-                if len(row) > 1:
-                    collections_query[0]['watch_status'] = row[1]
-
                 if collections_query:
                     self.add_collections("", collections_query)
+
+                    concept_id = collections_query[0].get('id')
+                    for col_name in column_overrides:
+                        key = col_name.lower().replace(" ", "_")
+                        self.collections[concept_id][key] = "X"
                 else:
-                    error_list.append([f"{short_name} ({self.env.upper()})", f"Not found via Watch List", "NA"])
+                    error_list.append([f"{short_name} ({self.env.upper()})", f"Not found via Additions List", "NA"])
             except Exception as ex:
                 self.logger.error(ex)
                 self.logger.error(short_name)
@@ -319,7 +319,7 @@ class BrowseImageCollections:
 
     def run(self):
 
-        self.add_watches()
+        self.add_additions()
         self.update_associations("IMAGENATOR-L2", "service")
         self.update_associations("IMAGENATOR-L3", "service")
         self.update_associations("HyBIG", "service")
