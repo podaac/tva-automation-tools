@@ -77,7 +77,7 @@ class BrowseImageCollections:
             self.s3 = None
 
 
-    def add_collections(self, umm_name, collections_query):
+    def add_collections(self, umm_name, collections_query, column_overrides=None):
 
         collections = [(a.get('id'), a.get('short_name'), a.get('data_center'), a.get("associations").get("variables") if a.get("associations") else None)
                         for a in collections_query]
@@ -99,6 +99,11 @@ class BrowseImageCollections:
 
             if collection[3] is not None and len(collection[3]) > 0:
                 self.collections[id]['umm_v_count'] = len(collection[3])
+
+            if column_overrides:
+                for col_name in column_overrides:
+                    key = col_name.lower().replace(" ", "_")
+                    self.collections[id][key] = "X"
 
     def update_associations(self, umm_name, umm_type):
 
@@ -257,22 +262,18 @@ class BrowseImageCollections:
 
         for row in additions:
             short_name = row[0]
-            column_overrides = [col.strip() for col in row[1:] if col.strip()]
+            provider = row[1].strip() if len(row) > 1 else 'POCLOUD'
+            column_overrides = [col.strip() for col in row[2:] if col.strip()]
 
             try:
                 url = cmr.queries.CollectionQuery(
-                    mode=mode).provider('POCLOUD').short_name(short_name)._build_url()
+                    mode=mode).provider(provider).short_name(short_name)._build_url()
 
                 collections_query = self.session.get(url, headers=self.headers, params={
                                                 'page_size': 1}).json()['feed']['entry']
 
                 if collections_query:
-                    self.add_collections("", collections_query)
-
-                    concept_id = collections_query[0].get('id')
-                    for col_name in column_overrides:
-                        key = col_name.lower().replace(" ", "_")
-                        self.collections[concept_id][key] = "X"
+                    self.add_collections("", collections_query, column_overrides)
                 else:
                     error_list.append([f"{short_name} ({self.env.upper()})", f"Not found via Additions List", "NA"])
             except Exception as ex:
