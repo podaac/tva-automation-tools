@@ -79,7 +79,7 @@ class BrowseImageCollections:
 
     def add_collections(self, umm_name, collections_query, column_overrides=None):
 
-        collections = [(a.get('id'), a.get('short_name'), a.get('data_center'), a.get("associations").get("variables") if a.get("associations") else None)
+        collections = [(a.get('id'), a.get('short_name'), a.get('data_center'), a.get('version_id'), a.get("associations").get("variables") if a.get("associations") else None)
                         for a in collections_query]
         collections = sorted(collections, key=lambda tup: tup[1])
 
@@ -97,8 +97,11 @@ class BrowseImageCollections:
 
             self.collections[id]['provider'] = collection[2]
 
-            if collection[3] is not None and len(collection[3]) > 0:
-                self.collections[id]['umm_v_count'] = len(collection[3])
+            if collection[3]:
+                self.collections[id]['version'] = collection[3]
+
+            if collection[4] is not None and len(collection[4]) > 0:
+                self.collections[id]['umm_v_count'] = len(collection[4])
 
             if column_overrides:
                 for col_name in column_overrides:
@@ -142,6 +145,7 @@ class BrowseImageCollections:
 
         header_row = ['Collection Name']
         header_row.append('Collection Concept ID')
+        header_row.append('Version')
         header_row.append('Coming Soon')
         header_row.append('Worldview')
         header_row.append('Imagenator L2')
@@ -165,6 +169,7 @@ class BrowseImageCollections:
 
             row = [short_name]
             row.append(id)
+            row.append(collection.get('version'))
             row.append(collection.get('coming_soon'))
             row.append(collection.get('worldview'))
             row.append(collection.get('imagenator_l2'))
@@ -190,15 +195,16 @@ class BrowseImageCollections:
         set_column_width(worksheet, 'A', 9*max_length)
         set_column_width(worksheet, 'B', 9*len(records[0][1]))
         set_column_width(worksheet, 'C', 9*len(records[0][2]))
-        set_column_width(worksheet, 'D', 8*len(records[0][3]) + 6)
-        set_column_width(worksheet, 'E', 8*len(records[0][4]))
+        set_column_width(worksheet, 'D', 9*len(records[0][3]))
+        set_column_width(worksheet, 'E', 8*len(records[0][4]) + 6)
         set_column_width(worksheet, 'F', 8*len(records[0][5]))
-        set_column_width(worksheet, 'G', 11*len(records[0][6]))
-        set_column_width(worksheet, 'H', 8*len(records[0][7]))
-        set_column_width(worksheet, 'I', 11*len(records[0][8]))
-        set_column_width(worksheet, 'J', 9*len(records[0][9]))
+        set_column_width(worksheet, 'G', 8*len(records[0][6]))
+        set_column_width(worksheet, 'H', 11*len(records[0][7]))
+        set_column_width(worksheet, 'I', 8*len(records[0][8]))
+        set_column_width(worksheet, 'J', 11*len(records[0][9]))
         set_column_width(worksheet, 'K', 9*len(records[0][10]))
         set_column_width(worksheet, 'L', 9*len(records[0][11]))
+        set_column_width(worksheet, 'M', 9*len(records[0][12]))
 
 
     def umm_update_one_collection(self, item):
