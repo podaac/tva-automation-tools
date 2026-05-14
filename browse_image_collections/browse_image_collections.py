@@ -270,7 +270,7 @@ class BrowseImageCollections:
                     mode=mode).provider(provider).short_name(short_name)._build_url()
 
                 collections_query = self.session.get(url, headers=self.headers, params={
-                                                'page_size': 1}).json()['feed']['entry']
+                                                'page_size': 10}).json()['feed']['entry']
 
                 if collections_query:
                     self.add_collections("", collections_query, column_overrides)
