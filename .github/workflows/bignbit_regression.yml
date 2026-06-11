@@ -1,5 +1,5 @@
 
-name: Browse Image Collections Update
+name: Run Bignbit Regression
 # Controls when the workflow will run
 on:
   schedule:
@@ -69,7 +69,7 @@ jobs:
       #########################################################################
       # Start the Repo Status Updater
       #########################################################################
-      - name: Update Browse Image Collections Google Sheet
+      - name: Update Bignbit Regression Google Sheet
         working-directory: bignbit_regression
         env:
           CMR_USER: ${{ secrets.CMR_USER }}
