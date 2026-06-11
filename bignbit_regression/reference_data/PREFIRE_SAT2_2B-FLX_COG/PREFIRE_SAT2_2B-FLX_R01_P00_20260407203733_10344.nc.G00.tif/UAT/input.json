@@ -1,0 +1,26 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "LARC_CLOUD"
+        },
+        "collection": {
+            "name": "PREFIRE_SAT2_2B-FLX_COG"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {}
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif",
+                "provider": "LARC_CLOUD",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1281492552-LARC_CLOUD.umm_json",
+                "cmrConceptId": "G1281492552-LARC_CLOUD"
+            }
+        ]
+    }
+}

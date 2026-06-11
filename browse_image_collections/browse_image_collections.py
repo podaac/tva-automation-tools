@@ -257,6 +257,7 @@ class BrowseImageCollections:
             error_list.append([f"{short_name} ({self.env.upper()})", str(e), e.__traceback__.tb_lineno])
 
 
+#TODO: We may need to add the version to the additions list so it returns the correct collection
     def add_additions(self):
 
         additions = read_csv_file(f"{self.data_path}/additions.csv")

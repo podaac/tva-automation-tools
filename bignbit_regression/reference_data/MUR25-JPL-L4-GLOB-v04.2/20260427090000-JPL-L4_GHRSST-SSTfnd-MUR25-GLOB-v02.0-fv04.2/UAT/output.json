@@ -1,0 +1,139 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "POCLOUD"
+        },
+        "collection": {
+            "name": "MUR25-JPL-L4-GLOB-v04.2"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {},
+        "workflow_tasks": {
+            "0": {
+                "name": "podaac-sit-svc-bignbit-get_dataset_configuration",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_dataset_configuration"
+            },
+            "1": {
+                "name": "podaac-sit-svc-bignbit-get_granule_umm_json",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_granule_umm_json"
+            },
+            "2": {
+                "name": "podaac-sit-svc-bignbit-get_collection_concept_id",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_collection_concept_id"
+            },
+            "3": {
+                "name": "podaac-sit-svc-bignbit-handle_big_result",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-handle_big_result"
+            }
+        }
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "20260427090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2",
+                "provider": "POCLOUD",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1281549019-POCLOUD.umm_json",
+                "cmrConceptId": "G1281549019-POCLOUD"
+            }
+        ],
+        "pobit": [
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR25-JPL-L4-GLOB-v04.2",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_analysed_sst_LL/20260427090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-11T01_07_48.713Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "201701611c7b4204911763de854fa73c",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "aaad28f3-ff12-4523-ac31-89279dfbb7e1",
+                        "SequenceNumber": "18902715932292591616",
+                        "ResponseMetadata": {
+                            "RequestId": "1812b70a-1807-5b8f-a58b-d5ae14afb348",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "1812b70a-1807-5b8f-a58b-d5ae14afb348",
+                                "date": "Thu, 11 Jun 2026 01:07:52 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR25-JPL-L4-GLOB-v04.2",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_sea_ice_fraction_LL/20260427090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-11T01_07_49.093Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "8245109503aafe20bc1c514f95dda136",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "a8446e20-94d6-4133-934f-f2f447c9dfcd",
+                        "SequenceNumber": "18902715932276207616",
+                        "ResponseMetadata": {
+                            "RequestId": "9f1666f2-2108-5f74-9ab3-04562da0bd3e",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "9f1666f2-2108-5f74-9ab3-04562da0bd3e",
+                                "date": "Thu, 11 Jun 2026 01:07:52 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR25-JPL-L4-GLOB-v04.2",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_sst_anomaly_LL/20260427090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-11T01_07_49.555Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "b450aa1e2164c019f43d452ca580f820",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "e05db22e-7095-4d3c-9a10-675ba3e8e142",
+                        "SequenceNumber": "18902715932276463872",
+                        "ResponseMetadata": {
+                            "RequestId": "b0fada18-debe-50e7-bd37-b8bcd2168c48",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "b0fada18-debe-50e7-bd37-b8bcd2168c48",
+                                "date": "Thu, 11 Jun 2026 01:07:52 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "task_config": {
+        "bignbit_audit_bucket": "podaac-sit-svc-internal",
+        "bignbit_audit_path": "bignbit-cnm-output",
+        "cmr_environment": "{$.meta.cmr.cmrEnvironment}",
+        "cmr_provider": "{$.meta.cmr.provider}",
+        "collection": "{$.meta.collection.name}",
+        "cumulus_message": {
+            "input": "{$.payload}"
+        }
+    },
+    "exception": "None"
+}

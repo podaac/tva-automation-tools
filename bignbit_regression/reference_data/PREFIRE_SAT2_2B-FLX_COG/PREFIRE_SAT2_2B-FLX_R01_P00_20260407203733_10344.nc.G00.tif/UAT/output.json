@@ -1,0 +1,347 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "LARC_CLOUD"
+        },
+        "collection": {
+            "name": "PREFIRE_SAT2_2B-FLX_COG"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {},
+        "workflow_tasks": {
+            "0": {
+                "name": "podaac-sit-svc-bignbit-get_dataset_configuration",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_dataset_configuration"
+            },
+            "1": {
+                "name": "podaac-sit-svc-bignbit-get_granule_umm_json",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_granule_umm_json"
+            },
+            "2": {
+                "name": "podaac-sit-svc-bignbit-get_collection_concept_id",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_collection_concept_id"
+            },
+            "3": {
+                "name": "podaac-sit-svc-bignbit-handle_big_result",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-handle_big_result"
+            }
+        }
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif",
+                "provider": "LARC_CLOUD",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1281492552-LARC_CLOUD.umm_json",
+                "cmrConceptId": "G1281492552-LARC_CLOUD"
+            }
+        ],
+        "pobit": [
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_N/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_34.294Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "ce074d19083d06e4b44b0eb86f6b5bc6",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "633c19ec-475b-469d-ac5b-151cb296d8a8",
+                        "SequenceNumber": "18902716192476911616",
+                        "ResponseMetadata": {
+                            "RequestId": "ff89977a-0d56-53de-b202-f5de1df60c6d",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "ff89977a-0d56-53de-b202-f5de1df60c6d",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_34.689Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "fd2cb17bdba8f4024aae96fc93daa455",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "82d28634-2d53-4173-b9dc-12029d6e7d04",
+                        "SequenceNumber": "18902716192177135872",
+                        "ResponseMetadata": {
+                            "RequestId": "73d1aa1f-9628-5004-b6e7-c8bb86b72fb4",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "73d1aa1f-9628-5004-b6e7-c8bb86b72fb4",
+                                "date": "Thu, 11 Jun 2026 01:24:47 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_35.073Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "e07fc0f7476d4f07aa43c0d9da3af1e1",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "4fabd9c6-adc2-4441-a547-50464c1a82b2",
+                        "SequenceNumber": "18902716192394223616",
+                        "ResponseMetadata": {
+                            "RequestId": "80c91cde-a355-53a0-ab8f-7e7ab3f5cb29",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "80c91cde-a355-53a0-ab8f-7e7ab3f5cb29",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_35.443Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "80571602fbca5945c7328d3c19bfbde7",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "fe36801c-72b3-4957-8125-3adce6eed57c",
+                        "SequenceNumber": "18902716192312047616",
+                        "ResponseMetadata": {
+                            "RequestId": "136ebdb1-e025-504d-a67b-df15f085224b",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "136ebdb1-e025-504d-a67b-df15f085224b",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_35.838Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "f9e5ba98470e5e9c64e4a6a7b7336c44",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "1988ec9c-9f01-4307-b51e-c8efe3ddcaec",
+                        "SequenceNumber": "18902716192293103616",
+                        "ResponseMetadata": {
+                            "RequestId": "f960edaa-831e-5341-a4fd-8f0e93beac66",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f960edaa-831e-5341-a4fd-8f0e93beac66",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_36.299Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "679d795d4a1aac34c3b1069be19a7f8f",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "d4d90098-e562-4ebc-80e8-9dd371216456",
+                        "SequenceNumber": "18902716192453103872",
+                        "ResponseMetadata": {
+                            "RequestId": "22d164f8-80d8-5ad2-b283-065c9078fd83",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "22d164f8-80d8-5ad2-b283-065c9078fd83",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_36.703Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "7a3bce2c1ed9adfd4e7c22937b70d9cd",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "02cf31ed-9262-468d-be59-7833beed0aa3",
+                        "SequenceNumber": "18902716192341231616",
+                        "ResponseMetadata": {
+                            "RequestId": "76001fa4-d104-5581-9a9c-7d00c1a46f10",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "76001fa4-d104-5581-9a9c-7d00c1a46f10",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_37.083Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "d3591a942aaa8fe2c8429cc8360b0fd6",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "fd50bbbc-45ef-4ad6-ad6c-07db90a2c443",
+                        "SequenceNumber": "18902716192338927616",
+                        "ResponseMetadata": {
+                            "RequestId": "6b061bbf-ec77-5226-9a6c-791bfcd70649",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "6b061bbf-ec77-5226-9a6c-791bfcd70649",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_37.479Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "129ec693276c39127def72330f945bf4",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "b08a3c26-ca84-48ce-93fa-d45bceb33826",
+                        "SequenceNumber": "18902716192361967616",
+                        "ResponseMetadata": {
+                            "RequestId": "f3d66c10-8830-5d73-b6de-0eb498906a5a",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f3d66c10-8830-5d73-b6de-0eb498906a5a",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_LL/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_37.877Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "527d923631bbd3e9f96a03ead38db6ad",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "6ec94fd5-f46c-4686-97e2-5850efb88af0",
+                        "SequenceNumber": "18902716192409583616",
+                        "ResponseMetadata": {
+                            "RequestId": "ed983b80-76cb-5871-a2c2-5924666ba9a4",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "ed983b80-76cb-5871-a2c2-5924666ba9a4",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "LARC_CLOUD",
+                "collection_name": "PREFIRE_SAT2_2B-FLX_COG",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/PREFIRE_SAT2_2B-FLX_COG_flx_S/PREFIRE_SAT2_2B-FLX_R01_P00_20260407203733_10344.nc.G00.tif.2026-06-11T01_24_38.266Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "6dce085f6ac3ad2713c91e7a6ff9e142",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "91f73b91-a2e3-4b34-9145-a83398871226",
+                        "SequenceNumber": "18902716192378607616",
+                        "ResponseMetadata": {
+                            "RequestId": "a4950dd5-671a-5114-9d93-6f7177baacfb",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "a4950dd5-671a-5114-9d93-6f7177baacfb",
+                                "date": "Thu, 11 Jun 2026 01:24:48 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "task_config": {
+        "bignbit_audit_bucket": "podaac-sit-svc-internal",
+        "bignbit_audit_path": "bignbit-cnm-output",
+        "cmr_environment": "{$.meta.cmr.cmrEnvironment}",
+        "cmr_provider": "{$.meta.cmr.provider}",
+        "collection": "{$.meta.collection.name}",
+        "cumulus_message": {
+            "input": "{$.payload}"
+        }
+    },
+    "exception": "None"
+}

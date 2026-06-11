@@ -1,5 +1,6 @@
 import filecmp
 import os
+import shutil
 import cmr
 import pytz
 from dataclasses import dataclass
@@ -11,6 +12,7 @@ import json
 import logging
 import sys
 from run_step_function import run_step_function
+from compare_reference import load_cnm_files, compare
 
 import boto3
 from retrying import retry
@@ -97,19 +99,20 @@ def get_state_machine_arn(aws_profile: str) -> str:
     raise ValueError(f"State machine '{name}' not found for profile '{aws_profile}'")
 
 
-def get_granule(granule_ur, short_name, edl_token):
-    mode = cmr.queries.CMR_OPS
+def get_granule(short_name, provider, granule_ur, edl_token, cmr_env):
+    mode = cmr.queries.CMR_UAT if cmr_env == 'UAT' else cmr.queries.CMR_OPS
     granule_url = cmr.queries.GranuleQuery(
-                    mode=mode).short_name(short_name).granule_ur(granule_ur).format('umm_json')._build_url()
+                    mode=mode).short_name(short_name).provider(provider).granule_ur(granule_ur).format('umm_json')._build_url()
 
     print(granule_url)
     headers = {"Authorization": f"Bearer {edl_token}"}
 
     granule = requests.get(granule_url, headers=headers).json()['items']
 
-    if len(granule) != 1:
-        print(f"No granule found with UR {granule_ur}")
-        raise Exception(f"No granule found with UR {granule_ur}")
+    if len(granule) == 0:
+        raise Exception(f"No granule found with UR {granule_ur} (short_name={short_name}, provider={provider})")
+    if len(granule) > 1:
+        raise Exception(f"Found {len(granule)} granules with UR {granule_ur} (short_name={short_name}, provider={provider}), expected 1")
 
     return granule[0]
 
@@ -181,6 +184,42 @@ def get_regression_sheet_table(env: str):
     collection_table = collections_ws.get_all_values()
 
     return collection_table
+
+
+def download_result_cnm_files(workdir: str, output_data: dict, aws_profile: str, logger) -> list[str]:
+    session = boto3.Session(profile_name=aws_profile) if aws_profile else boto3.Session()
+    s3 = session.client('s3')
+
+    pobit = output_data.get('payload', {}).get('pobit', [])
+
+    cnm_dir = os.path.join(workdir, 'cnm')
+    os.makedirs(cnm_dir, exist_ok=True)
+
+    downloaded_files = []
+
+    for item in pobit:
+        cnm_bucket = item.get('cnm_bucket', '')
+        cnm_key = item.get('cnm_key', '')
+        if not cnm_bucket or not cnm_key:
+            continue
+
+        cnm_filename = os.path.basename(cnm_key)
+        cnm_local_path = os.path.join(cnm_dir, cnm_filename)
+
+        try:
+            logger.info(f"Downloading CNM: s3://{cnm_bucket}/{cnm_key}")
+            s3.download_file(cnm_bucket, cnm_key, cnm_local_path)
+
+            cnm_data = json.loads(Path(cnm_local_path).read_text())
+            Path(cnm_local_path).write_text(json.dumps(cnm_data, indent=4))
+
+            downloaded_files.append(cnm_local_path)
+        except Exception as e:
+            logger.error(f"Failed to download CNM s3://{cnm_bucket}/{cnm_key}: {e}")
+
+    logger.info(f"Downloaded {len(downloaded_files)} CNM files to: {cnm_dir}")
+
+    return downloaded_files
 
 
 def download_result_files(workdir: str, output_data: dict, collection_name: str, granule_ur: str, aws_profile: str) -> list[DownloadedFile]:
@@ -282,31 +321,31 @@ def compare_with_reference(dl_file, reference_dir: str = 'reference_data') -> bo
     return match
 
 
-def run_one_regression(workdir_root: str, short_name: str, granule_ur: str, edl_token: str, env: str, aws_profile: str) -> dict:
+def run_one_regression(workdir_root: str, short_name: str, provider: str, granule_ur: str, edl_token: str, cmr_env: str, aws_profile: str, logger) -> dict:
 
-    print(f"Running regression for {short_name} with granule UR: {granule_ur}")
+    logger.info(f"Running regression for {short_name} with granule UR: {granule_ur}")
 
-    result = {'status': None, 'compare': []}
+    result = {'stepfunction_status': None, 'compare': ''}
 
     try:
-        granule = get_granule(granule_ur, short_name, edl_token)
-    #    print(granule)
+        granule = get_granule(short_name, provider, granule_ur, edl_token, cmr_env)
 
-        # Create the new granule test working dir
-        workdir = f'{workdir_root}/{short_name}/{granule_ur}/{env}'
-        if not os.path.exists(workdir):
-            os.makedirs(workdir)
+        # Clear and recreate the working dir
+        workdir = f'{workdir_root}/{short_name}/{granule_ur}/{cmr_env}'
+        if os.path.exists(workdir):
+            shutil.rmtree(workdir)
+        os.makedirs(workdir)
 
-        cnm = generate_cnm(granule, cmr_environment=env)
-        print(json.dumps(cnm, indent=4))
+        if 'sit' in aws_profile:
+            stack = "podaac-sit-svc"
 
-        # Write CNM to file
-        with open(f'{workdir}/input.json', 'w') as f:
-            json.dump(cnm, indent=4, fp=f)
+        cnm = generate_cnm(granule, cmr_environment=cmr_env, stack=stack)
+    #    logger.debug(json.dumps(cnm, indent=4))
+
+        Path(f'{workdir}/input.json').write_text(json.dumps(cnm, indent=4))
 
         state_machine_arn = get_state_machine_arn(aws_profile)
 
-        # Run the run_step_function
         response = run_step_function(state_machine_arn=state_machine_arn,
                         input_file=f'{workdir}/input.json',
                         region="us-west-2",
@@ -315,7 +354,7 @@ def run_one_regression(workdir_root: str, short_name: str, granule_ur: str, edl_
                         aws_profile=aws_profile)
 
         status = response['status']
-        result['status'] = 'PASS' if status == 'SUCCEEDED' else 'FAIL'
+        result['stepfunction_status'] = 'PASS' if status == 'SUCCEEDED' else 'FAIL'
 
         if status != 'SUCCEEDED':
             error_info = {
@@ -323,62 +362,66 @@ def run_one_regression(workdir_root: str, short_name: str, granule_ur: str, edl_
                 'error': response.get('error'),
                 'cause': response.get('cause'),
             }
-            with open(f'{workdir}/output.json', 'w') as f:
-                json.dump(error_info, f, indent=4)
-            print(f"Step function did not succeed (status={status}); skipping download and comparison.")
+            Path(f'{workdir}/error.json').write_text(json.dumps(error_info, indent=4))
+
+            cause = response.get('cause', '')
+            try:
+                error_msg = json.loads(cause).get('errorMessage', cause)
+            except (json.JSONDecodeError, AttributeError):
+                error_msg = cause
+            result['compare'] = f"ERROR: {error_msg}"
+
+            logger.warning(f"Step function did not succeed (status={status}); skipping download and comparison.")
             return result
 
         output = response.get('output')
-    #    print(output)
 
         # Save the output to a file
-        output_to_save = json.loads(output) if isinstance(output, str) else output
-        with open(f'{workdir}/output.json', 'w') as f:
-            json.dump(output_to_save, f, indent=4)
+        output_data = json.loads(output) if isinstance(output, str) else output
+        Path(f'{workdir}/output.json').write_text(json.dumps(output_data, indent=4))
 
-        # Parse output and download all result files from S3
-        downloaded_files = download_result_files(workdir=workdir, output_data=output_to_save, collection_name=short_name, granule_ur=granule_ur, aws_profile=aws_profile)
+        # Download CNM files from S3
+        download_result_cnm_files(workdir=workdir, output_data=output_data, aws_profile=aws_profile, logger=logger)
 
-        print(downloaded_files)
-        print("*****=====")
-        var_results = {}
-        for dl_file in downloaded_files:
-            print(dl_file)
-            match = compare_with_reference(dl_file)
-            if dl_file.variable not in var_results:
-                var_results[dl_file.variable] = True
-            if not match:
-                var_results[dl_file.variable] = False
+        # Load current and reference CNM data and compare
+        current_cnm_dir = os.path.join(workdir, 'cnm')
+        reference_cnm_dir = os.path.join('reference_data', short_name, granule_ur, cmr_env, 'cnm')
 
-        for var, match in var_results.items():
-            result['compare'].append(f"{var}: {'MATCH' if match else 'MISMATCH'}")
+        current = load_cnm_files(short_name, granule_ur, cmr_env, current_cnm_dir)
+        reference = load_cnm_files(short_name, granule_ur, cmr_env, reference_cnm_dir)
+        result['compare'] = compare(reference, current)
+        logger.info(result['compare'])
 
         return result
 
     except Exception as e:
-        print(f"Error running regression for {short_name} ({granule_ur}): {e}")
-        result['status'] = 'FAIL'
+        logger.error(f"Error running regression for {short_name} ({granule_ur}): {e}")
+        result['stepfunction_status'] = 'FAIL'
         error_info = {
             'status': 'ERROR',
             'error': type(e).__name__,
             'cause': str(e),
         }
         try:
-            with open(f'{workdir}/output.json', 'w') as f:
-                json.dump(error_info, f, indent=4)
+            Path(f'{workdir}/error.json').write_text(json.dumps(error_info, indent=4))
         except Exception:
             pass
         return result
 
 
-def run_regressions(edl_token: str, env: str, aws_profile: str):
+def run_regressions(cmr_env: str, logger, aws_profile: str):
+
+    logger.info(f"Started regression tests ({aws_profile}) ({cmr_env}): "                         # pylint: disable=W1203
+                f"{datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z')}")
+
+    edl_token = bearer_token(cmr_env.lower(), logger)
 
     # Create workdir subdirectory if it doesn't exist
     workdir_root = f"workdir"
     if not os.path.exists(workdir_root):
         os.makedirs(workdir_root)
 
-    worksheet = workbook.worksheet(env.upper())
+    worksheet = workbook.worksheet(f"CMR {cmr_env}")
     collection_table = worksheet.get_all_values()
 
     for row_idx, row in enumerate(collection_table[1:], start=2):
@@ -386,17 +429,18 @@ def run_regressions(edl_token: str, env: str, aws_profile: str):
 
         if skip != 'X':
             short_name = row[0]
-            granule_ur = row[2]
+            provider = row[2]
+            granule_ur = row[3]
 
-            result = run_one_regression(workdir_root, short_name, granule_ur, edl_token, env, aws_profile)
+            result = run_one_regression(workdir_root, short_name, provider, granule_ur, edl_token, cmr_env, aws_profile, logger)
 
-            print(f"Regression for {short_name} completed with status: {result['status']}")
+            logger.info(f"Regression for {short_name} completed with status: {result['stepfunction_status']}")
 
-            row_data = [result['status']] + result['compare'][:3]
-            update_sheet(worksheet, [row_data], f'D{row_idx}')
+            row_data = [result['stepfunction_status'], result['compare']]
+            update_sheet(worksheet, [row_data], f'E{row_idx}')
 
-            if result['status'] != 'PASS':
-                print(f"Regression for {short_name} failed")
+            if result['stepfunction_status'] != 'PASS':
+                logger.warning(f"Regression for {short_name} failed")
 
             print()
 
@@ -405,15 +449,8 @@ def main(args=None):
 
     logger = create_logger()
 
-    env = "OPS"
-    aws_profile = 'podaac-services-sit'
-
-    logger.info(f"Started regression tests ({env}): "                         # pylint: disable=W1203
-                f"{datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z')}")
-
-    edl_token = bearer_token(env.lower(), logger)
-
-    run_regressions(edl_token, env.lower(), aws_profile)
+    run_regressions("UAT", logger, 'podaac-services-sit')
+#    run_regressions("OPS", logger, 'podaac-services-sit')
 
 
 if __name__ == "__main__":
