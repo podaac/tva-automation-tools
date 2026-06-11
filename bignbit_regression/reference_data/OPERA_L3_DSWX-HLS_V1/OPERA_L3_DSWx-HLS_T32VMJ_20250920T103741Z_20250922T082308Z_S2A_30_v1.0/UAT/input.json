@@ -1,0 +1,36 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "POCLOUD"
+        },
+        "collection": {
+            "name": "OPERA_L3_DSWX-HLS_V1"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {}
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0",
+                "provider": "opera",
+                "dataType": "OPERA_L3_DSWX-HLS_V1",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1276618252-POCLOUD.umm_json",
+                "cmrConceptId": "G1276618252-POCLOUD",
+                "files": [
+                    {
+                        "bucket": "podaac-sit-svc-private",
+                        "fileName": "OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0_BROWSE.tif",
+                        "type": "data",
+                        "key": "OPERA_L3_DSWX-HLS_V1/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0_BROWSE.tif",
+                        "source": "OPERA_L3_DSWX-HLS_V1/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0_BROWSE.tif"
+                    }
+                ]
+            }
+        ]
+    }
+}

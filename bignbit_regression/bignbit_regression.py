@@ -178,6 +178,59 @@ def generate_cnm(granule, cmr_environment="UAT", client_id="POCLOUD", stack="pod
     return cnm
 
 
+def generate_cnm_opera(granule, cmr_environment="UAT", client_id="POCLOUD", stack="podaac-uat-cumulus"):
+    meta = granule.get('meta', {})
+    umm = granule.get('umm', {})
+
+    concept_id = meta.get('concept-id', '')
+    provider_id = meta.get('provider-id', '')
+    granule_id = umm.get('GranuleUR', '')
+    collection_ref = umm.get('CollectionReference', {})
+    collection_name = collection_ref.get('ShortName', '')
+
+    cmr_base = "cmr.uat.earthdata.nasa.gov" if cmr_environment == "UAT" else "cmr.earthdata.nasa.gov"
+    cmr_link = f"https://{cmr_base}/search/concepts/{concept_id}.umm_json"
+
+    browse_filename = f"{granule_id}_BROWSE.tif"
+
+    return {
+        "cumulus_meta": {},
+        "meta": {
+            "buckets": {},
+            "cmr": {
+                "clientId": client_id,
+                "cmrEnvironment": cmr_environment,
+                "provider": provider_id
+            },
+            "collection": {
+                "name": collection_name
+            },
+            "stack": stack,
+            "provider": {}
+        },
+        "payload": {
+            "granules": [
+                {
+                    "granuleId": granule_id,
+                    "provider": "opera",
+                    "dataType": collection_name,
+                    "cmrLink": cmr_link,
+                    "cmrConceptId": concept_id,
+                    "files": [
+                        {
+                            "bucket": "podaac-sit-svc-private",
+                            "fileName": browse_filename,
+                            "type": "data",
+                            "key": f"{collection_name}/{browse_filename}",
+                            "source": f"{collection_name}/{granule_id}/{browse_filename}"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+
+
 def get_regression_sheet_table(env: str):
 
     collections_ws = workbook.worksheet(env)
@@ -339,7 +392,10 @@ def run_one_regression(workdir_root: str, short_name: str, provider: str, granul
         if 'sit' in aws_profile:
             stack = "podaac-sit-svc"
 
-        cnm = generate_cnm(granule, cmr_environment=cmr_env, stack=stack)
+        if 'OPERA' in short_name:
+            cnm = generate_cnm_opera(granule, cmr_environment=cmr_env, stack=stack)
+        else:
+            cnm = generate_cnm(granule, cmr_environment=cmr_env, stack=stack)
     #    logger.debug(json.dumps(cnm, indent=4))
 
         Path(f'{workdir}/input.json').write_text(json.dumps(cnm, indent=4))
