@@ -441,7 +441,7 @@ def run_one_regression(workdir_root: str, short_name: str, provider: str, granul
 
         # Load current and reference CNM data and compare
         current_cnm_dir = os.path.join(workdir, 'cnm')
-        reference_cnm_dir = os.path.join('reference_data', short_name, granule_ur, cmr_env, 'cnm')
+        reference_cnm_dir = os.path.join('reference_data', short_name, granule_ur, 'cnm')
 
         current = load_cnm_files(short_name, granule_ur, cmr_env, current_cnm_dir)
         reference = load_cnm_files(short_name, granule_ur, cmr_env, reference_cnm_dir)
@@ -506,7 +506,7 @@ def main(args=None):
     logger = create_logger()
 
     run_regressions("UAT", logger, 'podaac-services-sit')
-#    run_regressions("OPS", logger, 'podaac-services-sit')
+    run_regressions("OPS", logger, 'podaac-services-sit')
 
 
 if __name__ == "__main__":
