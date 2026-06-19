@@ -8,7 +8,7 @@
             "provider": "POCLOUD"
         },
         "collection": {
-            "name": "MODIS_AQUA_L3_SST_MID-IR_8DAY_4KM_NIGHTTIME_V2019.0"
+            "name": "MODIS_TERRA_L3_SST_THERMAL_ANNUAL_4KM_DAYTIME_V2019.0"
         },
         "stack": "podaac-sit-svc",
         "provider": {},
@@ -38,30 +38,30 @@
     "payload": {
         "granules": [
             {
-                "granuleId": "AQUA_MODIS.20260125_20260201.L3m.8D.SST4.sst4.4km",
+                "granuleId": "TERRA_MODIS.20230101_20231231.L3m.YR.SST.sst.4km",
                 "provider": "POCLOUD",
-                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1282006865-POCLOUD.umm_json",
-                "cmrConceptId": "G1282006865-POCLOUD"
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1264447531-POCLOUD.umm_json",
+                "cmrConceptId": "G1264447531-POCLOUD"
             }
         ],
         "pobit": [
             {
                 "cmr_provider": "POCLOUD",
-                "collection_name": "MODIS_AQUA_L3_SST_MID-IR_8DAY_4KM_NIGHTTIME_V2019.0",
+                "collection_name": "MODIS_TERRA_L3_SST_THERMAL_ANNUAL_4KM_DAYTIME_V2019.0",
                 "cnm_bucket": "podaac-sit-svc-internal",
-                "cnm_key": "bignbit-cnm-output/MODIS_AQUA_L3_SST_MID-IR_8DAY_4KM_NIGHTTIME_V2019.0_sst4_LL/AQUA_MODIS.20260125_20260201.L3m.8D.SST4.sst4.4km.2026-06-19T02_52_11.769Z.cnm.json",
+                "cnm_key": "bignbit-cnm-output/MODIS_TERRA_L3_SST_THERMAL_ANNUAL_4KM_DAYTIME_V2019.0_sst_LL/TERRA_MODIS.20230101_20231231.L3m.YR.SST.sst.4km.2026-06-19T03_21_53.954Z.cnm.json",
                 "gibs": {
                     "cnmContent": {
-                        "MD5OfMessageBody": "5ba21d0f3c278be52f3acf02120174c5",
+                        "MD5OfMessageBody": "6b48a680d9e5247ef8300ffdc2badf01",
                         "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
-                        "MessageId": "dcb6729d-61d1-47db-916f-e0c4cafc6d90",
-                        "SequenceNumber": "18902894484453871616",
+                        "MessageId": "82ef5aae-d00e-4779-b882-fb2f6a977672",
+                        "SequenceNumber": "18902894938839791872",
                         "ResponseMetadata": {
-                            "RequestId": "d0f3ecec-bea7-5ee2-b03a-8e420f820c4f",
+                            "RequestId": "6df6f8ef-3fae-5ca4-8030-9a4187ba81a7",
                             "HTTPStatusCode": 200,
                             "HTTPHeaders": {
-                                "x-amzn-requestid": "d0f3ecec-bea7-5ee2-b03a-8e420f820c4f",
-                                "date": "Fri, 19 Jun 2026 02:52:21 GMT",
+                                "x-amzn-requestid": "6df6f8ef-3fae-5ca4-8030-9a4187ba81a7",
+                                "date": "Fri, 19 Jun 2026 03:21:56 GMT",
                                 "content-type": "text/xml",
                                 "content-length": "512",
                                 "connection": "keep-alive"

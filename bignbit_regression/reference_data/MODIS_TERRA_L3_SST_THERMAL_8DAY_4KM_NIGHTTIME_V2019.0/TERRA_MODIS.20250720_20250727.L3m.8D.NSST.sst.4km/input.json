@@ -1,0 +1,26 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "POCLOUD"
+        },
+        "collection": {
+            "name": "MODIS_TERRA_L3_SST_THERMAL_8DAY_4KM_NIGHTTIME_V2019.0"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {}
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "TERRA_MODIS.20250720_20250727.L3m.8D.NSST.sst.4km",
+                "provider": "POCLOUD",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1281999214-POCLOUD.umm_json",
+                "cmrConceptId": "G1281999214-POCLOUD"
+            }
+        ]
+    }
+}

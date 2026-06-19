@@ -49,19 +49,19 @@
                 "cmr_provider": "POCLOUD",
                 "collection_name": "MODIS_TERRA_L3_SST_MID-IR_8DAY_4KM_NIGHTTIME_V2019.0",
                 "cnm_bucket": "podaac-sit-svc-internal",
-                "cnm_key": "bignbit-cnm-output/MODIS_TERRA_L3_SST_MID-IR_8DAY_4KM_NIGHTTIME_V2019.0_sst4_LL/TERRA_MODIS.20260125_20260201.L3m.8D.SST4.sst4.4km.2026-06-19T01_39_27.146Z.cnm.json",
+                "cnm_key": "bignbit-cnm-output/MODIS_TERRA_L3_SST_MID-IR_8DAY_4KM_NIGHTTIME_V2019.0_sst4_LL/TERRA_MODIS.20260125_20260201.L3m.8D.SST4.sst4.4km.2026-06-19T03_11_45.085Z.cnm.json",
                 "gibs": {
                     "cnmContent": {
-                        "MD5OfMessageBody": "061001ed79a55ee2e87f2b88ae94d1df",
+                        "MD5OfMessageBody": "de78ddf285200cebab3c0e8243612f30",
                         "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
-                        "MessageId": "1e5a6544-dc1a-4ef6-b553-3765c1175fd4",
-                        "SequenceNumber": "18902893365239791616",
+                        "MessageId": "188d1f3c-eeb9-4848-b4cb-387cbf2e17b6",
+                        "SequenceNumber": "18902894782993391616",
                         "ResponseMetadata": {
-                            "RequestId": "11c81493-adbc-5d54-abbc-763d0dae7046",
+                            "RequestId": "542b3a76-d440-57c3-8902-58d861f400e9",
                             "HTTPStatusCode": 200,
                             "HTTPHeaders": {
-                                "x-amzn-requestid": "11c81493-adbc-5d54-abbc-763d0dae7046",
-                                "date": "Fri, 19 Jun 2026 01:39:30 GMT",
+                                "x-amzn-requestid": "542b3a76-d440-57c3-8902-58d861f400e9",
+                                "date": "Fri, 19 Jun 2026 03:11:48 GMT",
                                 "content-type": "text/xml",
                                 "content-length": "512",
                                 "connection": "keep-alive"
