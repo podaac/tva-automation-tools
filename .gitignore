@@ -16,3 +16,5 @@ passphrase
 
 # Log files
 log.txt
+
+**/reference_data/**/files/

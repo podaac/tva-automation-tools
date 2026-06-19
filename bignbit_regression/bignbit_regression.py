@@ -99,7 +99,7 @@ def get_state_machine_arn(aws_profile: str) -> str:
     raise ValueError(f"State machine '{name}' not found for profile '{aws_profile}'")
 
 
-def get_granule(short_name, provider, granule_ur, edl_token, cmr_env):
+def get_granule_cmr(short_name, provider, granule_ur, edl_token, cmr_env):
     mode = cmr.queries.CMR_UAT if cmr_env == 'UAT' else cmr.queries.CMR_OPS
     granule_url = cmr.queries.GranuleQuery(
                     mode=mode).short_name(short_name).provider(provider).granule_ur(granule_ur).format('umm_json')._build_url()
@@ -107,32 +107,31 @@ def get_granule(short_name, provider, granule_ur, edl_token, cmr_env):
     print(granule_url)
     headers = {"Authorization": f"Bearer {edl_token}"}
 
-    granule = requests.get(granule_url, headers=headers).json()['items']
+    granule_cmr = requests.get(granule_url, headers=headers).json()['items']
 
-    if len(granule) == 0:
+    if len(granule_cmr) == 0:
         raise Exception(f"No granule found with UR {granule_ur} (short_name={short_name}, provider={provider})")
-    if len(granule) > 1:
-        raise Exception(f"Found {len(granule)} granules with UR {granule_ur} (short_name={short_name}, provider={provider}), expected 1")
+    if len(granule_cmr) > 1:
+        raise Exception(f"Found {len(granule_cmr)} granules with UR {granule_ur} (short_name={short_name}, provider={provider}), expected 1")
 
-    return granule[0]
+    return granule_cmr[0]
 
 
-def generate_cnm(granule, cmr_environment="UAT", client_id="POCLOUD", stack="podaac-ops-cumulus"):
+def generate_cnm(granule_cmr, cmr_environment="UAT", client_id="POCLOUD", stack="podaac-ops-cumulus"):
     """
     Generate a CNM (Cloud Notification Message) object from a CMR granule.
-    
+
     Args:
-        granule (dict): The granule metadata from CMR in UMM-JSON format
+        granule_cmr (dict): The granule metadata from CMR in UMM-JSON format
         cmr_environment (str): The CMR environment (e.g., "UAT", "OPS")
         client_id (str): The client ID for CMR
         stack (str): The Cumulus stack name
-        
+
     Returns:
         dict: A CNM object with the structure matching input3.json
     """
-    # Extract metadata from granule
-    meta = granule.get('meta', {})
-    umm = granule.get('umm', {})
+    meta = granule_cmr.get('meta', {})
+    umm = granule_cmr.get('umm', {})
     
     concept_id = meta.get('concept-id', '')
     provider_id = meta.get('provider-id', '')
@@ -178,9 +177,9 @@ def generate_cnm(granule, cmr_environment="UAT", client_id="POCLOUD", stack="pod
     return cnm
 
 
-def generate_cnm_opera(granule, cmr_environment="UAT", client_id="POCLOUD", stack="podaac-uat-cumulus"):
-    meta = granule.get('meta', {})
-    umm = granule.get('umm', {})
+def generate_cnm_opera(granule_cmr, cmr_environment="UAT", client_id="POCLOUD", stack="podaac-uat-cumulus"):
+    meta = granule_cmr.get('meta', {})
+    umm = granule_cmr.get('umm', {})
 
     concept_id = meta.get('concept-id', '')
     provider_id = meta.get('provider-id', '')
@@ -273,6 +272,41 @@ def download_result_cnm_files(workdir: str, output_data: dict, aws_profile: str,
     logger.info(f"Downloaded {len(downloaded_files)} CNM files to: {cnm_dir}")
 
     return downloaded_files
+
+
+def download_browse_files(workdir: str, cnm_files: list[str], aws_profile: str, logger) -> list[str]:
+    session = boto3.Session(profile_name=aws_profile) if aws_profile else boto3.Session()
+    s3 = session.client('s3')
+
+    files_dir = os.path.join(workdir, 'files')
+    os.makedirs(files_dir, exist_ok=True)
+
+    downloaded = []
+
+    for cnm_path in cnm_files:
+        cnm_data = json.loads(Path(cnm_path).read_text())
+
+        for pf in cnm_data.get('product', {}).get('files', []):
+            if pf.get('type') != 'browse':
+                continue
+
+            bucket = pf.get('bucket', '')
+            key = pf.get('key', '')
+            if not bucket or not key:
+                continue
+
+            filename = pf.get('fileName', os.path.basename(key))
+            local_path = os.path.join(files_dir, filename)
+
+            try:
+                logger.info(f"Downloading browse: s3://{bucket}/{key}")
+                s3.download_file(bucket, key, local_path)
+                downloaded.append(local_path)
+            except Exception as e:
+                logger.error(f"Failed to download browse s3://{bucket}/{key}: {e}")
+
+    logger.info(f"Downloaded {len(downloaded)} browse files to: {files_dir}")
+    return downloaded
 
 
 def download_result_files(workdir: str, output_data: dict, collection_name: str, granule_ur: str, aws_profile: str) -> list[DownloadedFile]:
@@ -381,7 +415,7 @@ def run_one_regression(workdir_root: str, short_name: str, provider: str, granul
     result = {'stepfunction_status': None, 'compare': ''}
 
     try:
-        granule = get_granule(short_name, provider, granule_ur, edl_token, cmr_env)
+        granule_cmr = get_granule_cmr(short_name, provider, granule_ur, edl_token, cmr_env)
 
         # Clear and recreate the working dir
         workdir = f'{workdir_root}/{short_name}/{granule_ur}/{cmr_env}'
@@ -393,9 +427,9 @@ def run_one_regression(workdir_root: str, short_name: str, provider: str, granul
             stack = "podaac-sit-svc"
 
         if 'OPERA' in short_name:
-            cnm = generate_cnm_opera(granule, cmr_environment=cmr_env, stack=stack)
+            cnm = generate_cnm_opera(granule_cmr, cmr_environment=cmr_env, stack=stack)
         else:
-            cnm = generate_cnm(granule, cmr_environment=cmr_env, stack=stack)
+            cnm = generate_cnm(granule_cmr, cmr_environment=cmr_env, stack=stack)
     #    logger.debug(json.dumps(cnm, indent=4))
 
         Path(f'{workdir}/input.json').write_text(json.dumps(cnm, indent=4))
@@ -437,7 +471,10 @@ def run_one_regression(workdir_root: str, short_name: str, provider: str, granul
         Path(f'{workdir}/output.json').write_text(json.dumps(output_data, indent=4))
 
         # Download CNM files from S3
-        download_result_cnm_files(workdir=workdir, output_data=output_data, aws_profile=aws_profile, logger=logger)
+        downloaded_cnm_filenames = download_result_cnm_files(workdir=workdir, output_data=output_data, aws_profile=aws_profile, logger=logger)
+
+        # Download browse image files from the CNMs
+        download_browse_files(workdir=workdir, cnm_files=downloaded_cnm_filenames, aws_profile=aws_profile, logger=logger)
 
         # Load current and reference CNM data and compare
         current_cnm_dir = os.path.join(workdir, 'cnm')
