@@ -27,9 +27,13 @@ def main():
 
     copied = 0
     for short_name in short_names:
-        src = Path('workdir') / short_name
-        dst = Path('reference_data') / short_name
+        short_name_path = Path(short_name)
+        if short_name_path.is_absolute() or ".." in short_name_path.parts or short_name_path.name != short_name:
+            print(f"SKIP: invalid short_name {short_name!r}")
+            continue
 
+        src = Path("workdir") / short_name
+        dst = Path("reference_data") / short_name
         if not src.exists():
             print(f"SKIP: {src} does not exist")
             continue

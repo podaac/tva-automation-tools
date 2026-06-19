@@ -75,13 +75,15 @@ def compare(reference: CnmResults, current: CnmResults) -> str:
     ref_keys = [img.key for img in reference.browse_images]
     cur_keys = [img.key for img in current.browse_images]
 
-    # Check for duplicates
-    ref_dupes = [k for k in set(ref_keys) if ref_keys.count(k) > 1]
-    cur_dupes = [k for k in set(cur_keys) if cur_keys.count(k) > 1]
-    for k in ref_dupes:
-        issues.append(f"Duplicate in reference: {k}")
-    for k in cur_dupes:
-        issues.append(f"Duplicate in current: {k}")
+    # Check for duplicates (avoid O(n^2) list.count())
+    from collections import Counter
+
+    for k, n in Counter(ref_keys).items():
+        if n > 1:
+            issues.append(f"Duplicate in reference: {k}")
+    for k, n in Counter(cur_keys).items():
+        if n > 1:
+            issues.append(f"Duplicate in current: {k}")
 
     ref_set = set(ref_keys)
     cur_set = set(cur_keys)

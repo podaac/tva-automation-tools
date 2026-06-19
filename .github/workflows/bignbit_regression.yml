@@ -3,7 +3,7 @@ name: Run Bignbit Regression
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '0 9 * * *'  # Set the cron schedule for 2 am PST
+    - cron: '0 9 * * *'  # 09:00 UTC (1am PST / 2am PDT)
   workflow_dispatch:
 
 jobs:
