@@ -527,9 +527,12 @@ def run_regressions(cmr_env: str, logger, aws_profile: str):
 
             result = run_one_regression(workdir_root, short_name, provider, granule_ur, edl_token, cmr_env, aws_profile, logger)
 
-            logger.info(f"Regression for {short_name} completed with status: {result['stepfunction_status']}")
+            now = datetime.now(pytz.timezone('US/Pacific'))
+            dt_string = now.strftime("%m/%d/%Y %I:%M:%S %p")
 
-            row_data = [result['stepfunction_status'], result['compare']]
+            logger.info(f"Regression for {short_name} completed with status: {result['stepfunction_status']} at {dt_string}")
+
+            row_data = [result['stepfunction_status'], result['compare'], dt_string]
             update_sheet(worksheet, [row_data], f'E{row_idx}')
 
             if result['stepfunction_status'] != 'PASS':
