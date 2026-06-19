@@ -1,6 +1,7 @@
 import json
 import os
 from dataclasses import dataclass, field
+from collections import Counter
 
 
 @dataclass
@@ -74,9 +75,6 @@ def compare(reference: CnmResults, current: CnmResults) -> str:
 
     ref_keys = [img.key for img in reference.browse_images]
     cur_keys = [img.key for img in current.browse_images]
-
-    # Check for duplicates (avoid O(n^2) list.count())
-    from collections import Counter
 
     for k, n in Counter(ref_keys).items():
         if n > 1:
