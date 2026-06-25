@@ -38,10 +38,10 @@
     "payload": {
         "granules": [
             {
-                "granuleId": "20260427090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2",
+                "granuleId": "20260317090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2",
                 "provider": "POCLOUD",
-                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1281549019-POCLOUD.umm_json",
-                "cmrConceptId": "G1281549019-POCLOUD"
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1281443706-POCLOUD.umm_json",
+                "cmrConceptId": "G1281443706-POCLOUD"
             }
         ],
         "pobit": [
@@ -49,19 +49,19 @@
                 "cmr_provider": "POCLOUD",
                 "collection_name": "MUR25-JPL-L4-GLOB-v04.2",
                 "cnm_bucket": "podaac-sit-svc-internal",
-                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_analysed_sst_LL/20260427090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-11T01_07_48.713Z.cnm.json",
+                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_analysed_sst_LL/20260317090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-25T22_04_49.199Z.cnm.json",
                 "gibs": {
                     "cnmContent": {
-                        "MD5OfMessageBody": "201701611c7b4204911763de854fa73c",
+                        "MD5OfMessageBody": "a484aa617e2995a323e8143798f70d69",
                         "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
-                        "MessageId": "aaad28f3-ff12-4523-ac31-89279dfbb7e1",
-                        "SequenceNumber": "18902715932292591616",
+                        "MessageId": "173788d0-ea69-4f5d-b5d1-3b493f1644d8",
+                        "SequenceNumber": "18903044899034095616",
                         "ResponseMetadata": {
-                            "RequestId": "1812b70a-1807-5b8f-a58b-d5ae14afb348",
+                            "RequestId": "0476d37b-739d-521f-ae6b-b1ccdbd776b1",
                             "HTTPStatusCode": 200,
                             "HTTPHeaders": {
-                                "x-amzn-requestid": "1812b70a-1807-5b8f-a58b-d5ae14afb348",
-                                "date": "Thu, 11 Jun 2026 01:07:52 GMT",
+                                "x-amzn-requestid": "0476d37b-739d-521f-ae6b-b1ccdbd776b1",
+                                "date": "Thu, 25 Jun 2026 22:04:58 GMT",
                                 "content-type": "text/xml",
                                 "content-length": "512",
                                 "connection": "keep-alive"
@@ -75,19 +75,19 @@
                 "cmr_provider": "POCLOUD",
                 "collection_name": "MUR25-JPL-L4-GLOB-v04.2",
                 "cnm_bucket": "podaac-sit-svc-internal",
-                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_sea_ice_fraction_LL/20260427090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-11T01_07_49.093Z.cnm.json",
+                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_sea_ice_fraction_LL/20260317090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-25T22_04_49.566Z.cnm.json",
                 "gibs": {
                     "cnmContent": {
-                        "MD5OfMessageBody": "8245109503aafe20bc1c514f95dda136",
+                        "MD5OfMessageBody": "1050d5c350a414a66d3da804cea98ece",
                         "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
-                        "MessageId": "a8446e20-94d6-4133-934f-f2f447c9dfcd",
-                        "SequenceNumber": "18902715932276207616",
+                        "MessageId": "9752ae4c-4466-4388-8706-9158f0a1dc18",
+                        "SequenceNumber": "18903044897508079872",
                         "ResponseMetadata": {
-                            "RequestId": "9f1666f2-2108-5f74-9ab3-04562da0bd3e",
+                            "RequestId": "61082964-0c30-57c2-8b70-4bd3a4744cad",
                             "HTTPStatusCode": 200,
                             "HTTPHeaders": {
-                                "x-amzn-requestid": "9f1666f2-2108-5f74-9ab3-04562da0bd3e",
-                                "date": "Thu, 11 Jun 2026 01:07:52 GMT",
+                                "x-amzn-requestid": "61082964-0c30-57c2-8b70-4bd3a4744cad",
+                                "date": "Thu, 25 Jun 2026 22:04:52 GMT",
                                 "content-type": "text/xml",
                                 "content-length": "512",
                                 "connection": "keep-alive"
@@ -101,19 +101,19 @@
                 "cmr_provider": "POCLOUD",
                 "collection_name": "MUR25-JPL-L4-GLOB-v04.2",
                 "cnm_bucket": "podaac-sit-svc-internal",
-                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_sst_anomaly_LL/20260427090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-11T01_07_49.555Z.cnm.json",
+                "cnm_key": "bignbit-cnm-output/MUR25-JPL-L4-GLOB-v04.2_sst_anomaly_LL/20260317090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2.2026-06-25T22_04_49.973Z.cnm.json",
                 "gibs": {
                     "cnmContent": {
-                        "MD5OfMessageBody": "b450aa1e2164c019f43d452ca580f820",
+                        "MD5OfMessageBody": "e46404b765b11113ac51ac6abf8d9865",
                         "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
-                        "MessageId": "e05db22e-7095-4d3c-9a10-675ba3e8e142",
-                        "SequenceNumber": "18902715932276463872",
+                        "MessageId": "a8559348-4993-4795-a19d-20be91bddec7",
+                        "SequenceNumber": "18903044897524207616",
                         "ResponseMetadata": {
-                            "RequestId": "b0fada18-debe-50e7-bd37-b8bcd2168c48",
+                            "RequestId": "69e10f77-34be-5dd9-90a2-6dc09cfb516a",
                             "HTTPStatusCode": 200,
                             "HTTPHeaders": {
-                                "x-amzn-requestid": "b0fada18-debe-50e7-bd37-b8bcd2168c48",
-                                "date": "Thu, 11 Jun 2026 01:07:52 GMT",
+                                "x-amzn-requestid": "69e10f77-34be-5dd9-90a2-6dc09cfb516a",
+                                "date": "Thu, 25 Jun 2026 22:04:53 GMT",
                                 "content-type": "text/xml",
                                 "content-length": "512",
                                 "connection": "keep-alive"

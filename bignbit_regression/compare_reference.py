@@ -1,7 +1,15 @@
 import json
 import os
+import re
 from dataclasses import dataclass, field
 from collections import Counter
+
+TILE_PATTERN = re.compile(r'\.(r\d+c\d+)\.')
+
+
+def _extract_tile_id(filename: str) -> str:
+    m = TILE_PATTERN.search(filename)
+    return m.group(1) if m else ''
 
 
 @dataclass
@@ -9,13 +17,12 @@ class BrowseImageResult:
     fileName: str
     checksum: str
     checksumType: str
-    variable: str
-    output_crs: str
-    dataday: str
+    collection: str
+    tile_id: str = ''
 
     @property
     def key(self) -> str:
-        return f"{self.variable}|{self.output_crs}|{self.dataday}|{self.fileName}"
+        return f"{self.collection}|{self.tile_id}"
 
 
 @dataclass
@@ -43,15 +50,17 @@ def load_cnm_files(short_name: str, granule_ur: str, cmr_env: str, cnm_dir: str)
         with open(filepath, 'r') as f:
             cnm_data = json.load(f)
 
+        collection = cnm_data.get('collection', '')
+
         for pf in cnm_data.get('product', {}).get('files', []):
             if pf.get('type') == 'browse':
+                filename = pf.get('fileName', '')
                 results.browse_images.append(BrowseImageResult(
-                    fileName=pf.get('fileName', ''),
+                    fileName=filename,
                     checksum=pf.get('checksum', ''),
                     checksumType=pf.get('checksumType', ''),
-                    variable=pf.get('variable', ''),
-                    output_crs=pf.get('output_crs', ''),
-                    dataday=pf.get('dataday', ''),
+                    collection=collection,
+                    tile_id=_extract_tile_id(filename),
                 ))
 
     return results
@@ -94,17 +103,17 @@ def compare(reference: CnmResults, current: CnmResults) -> str:
 
     for key in only_in_reference:
         img = ref_map[key]
-        issues.append(f"Missing from current: {img.fileName} [{img.variable}]")
+        issues.append(f"Missing from current: {img.collection} [{img.fileName}]")
 
     for key in only_in_current:
         img = cur_map[key]
-        issues.append(f"Extra in current: {img.fileName} [{img.variable}]")
+        issues.append(f"Extra in current: {img.collection} [{img.fileName}]")
 
     for key in ref_set & cur_set:
         if ref_map[key].checksumType != cur_map[key].checksumType:
-            issues.append(f"ChecksumType mismatch: {ref_map[key].fileName} [{ref_map[key].variable}]")
+            issues.append(f"ChecksumType mismatch: {ref_map[key].collection} [{ref_map[key].fileName}]")
         if ref_map[key].checksum != cur_map[key].checksum:
-            issues.append(f"Checksum mismatch: {ref_map[key].fileName} [{ref_map[key].variable}]")
+            issues.append(f"Checksum mismatch: {ref_map[key].collection} [{ref_map[key].fileName}]")
 
     if not issues:
         return "MATCH"
