@@ -5,11 +5,17 @@ from dataclasses import dataclass, field
 from collections import Counter
 
 TILE_PATTERN = re.compile(r'\.(r\d+c\d+)\.')
+SUBTILE_PATTERN = re.compile(r'_(\d{6})_')
 
 
 def _extract_tile_id(filename: str) -> str:
     m = TILE_PATTERN.search(filename)
-    return m.group(1) if m else ''
+    if m:
+        return m.group(1)
+    m = SUBTILE_PATTERN.search(filename)
+    if m:
+        return m.group(1)
+    return ''
 
 
 @dataclass
@@ -22,7 +28,9 @@ class BrowseImageResult:
 
     @property
     def key(self) -> str:
-        return f"{self.collection}|{self.tile_id}"
+        if self.tile_id:
+            return f"{self.collection}|{self.tile_id}"
+        return self.collection
 
 
 @dataclass
