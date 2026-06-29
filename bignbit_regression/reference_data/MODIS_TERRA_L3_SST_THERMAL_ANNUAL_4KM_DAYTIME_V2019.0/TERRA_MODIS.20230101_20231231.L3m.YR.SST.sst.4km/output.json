@@ -1,0 +1,87 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "POCLOUD"
+        },
+        "collection": {
+            "name": "MODIS_TERRA_L3_SST_THERMAL_ANNUAL_4KM_DAYTIME_V2019.0"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {},
+        "workflow_tasks": {
+            "0": {
+                "name": "podaac-sit-svc-bignbit-get_dataset_configuration",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_dataset_configuration"
+            },
+            "1": {
+                "name": "podaac-sit-svc-bignbit-get_granule_umm_json",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_granule_umm_json"
+            },
+            "2": {
+                "name": "podaac-sit-svc-bignbit-get_collection_concept_id",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_collection_concept_id"
+            },
+            "3": {
+                "name": "podaac-sit-svc-bignbit-handle_big_result",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-handle_big_result"
+            }
+        }
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "TERRA_MODIS.20230101_20231231.L3m.YR.SST.sst.4km",
+                "provider": "POCLOUD",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1264447531-POCLOUD.umm_json",
+                "cmrConceptId": "G1264447531-POCLOUD"
+            }
+        ],
+        "pobit": [
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MODIS_TERRA_L3_SST_THERMAL_ANNUAL_4KM_DAYTIME_V2019.0",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MODIS_TERRA_L3_SST_THERMAL_ANNUAL_4KM_DAYTIME_V2019.0_sst_LL/TERRA_MODIS.20230101_20231231.L3m.YR.SST.sst.4km.2026-06-19T03_21_53.954Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "6b48a680d9e5247ef8300ffdc2badf01",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "82ef5aae-d00e-4779-b882-fb2f6a977672",
+                        "SequenceNumber": "18902894938839791872",
+                        "ResponseMetadata": {
+                            "RequestId": "6df6f8ef-3fae-5ca4-8030-9a4187ba81a7",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "6df6f8ef-3fae-5ca4-8030-9a4187ba81a7",
+                                "date": "Fri, 19 Jun 2026 03:21:56 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "task_config": {
+        "bignbit_audit_bucket": "podaac-sit-svc-internal",
+        "bignbit_audit_path": "bignbit-cnm-output",
+        "cmr_environment": "{$.meta.cmr.cmrEnvironment}",
+        "cmr_provider": "{$.meta.cmr.provider}",
+        "collection": "{$.meta.collection.name}",
+        "cumulus_message": {
+            "input": "{$.payload}"
+        }
+    },
+    "exception": "None"
+}

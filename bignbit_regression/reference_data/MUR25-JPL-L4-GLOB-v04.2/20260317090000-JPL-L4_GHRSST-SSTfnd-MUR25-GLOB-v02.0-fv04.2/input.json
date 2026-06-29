@@ -1,0 +1,26 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "POCLOUD"
+        },
+        "collection": {
+            "name": "MUR25-JPL-L4-GLOB-v04.2"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {}
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "20260317090000-JPL-L4_GHRSST-SSTfnd-MUR25-GLOB-v02.0-fv04.2",
+                "provider": "POCLOUD",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1281443706-POCLOUD.umm_json",
+                "cmrConceptId": "G1281443706-POCLOUD"
+            }
+        ]
+    }
+}

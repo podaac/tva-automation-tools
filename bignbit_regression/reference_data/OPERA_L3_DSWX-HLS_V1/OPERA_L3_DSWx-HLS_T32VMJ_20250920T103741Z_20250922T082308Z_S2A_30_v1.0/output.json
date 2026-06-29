@@ -1,0 +1,232 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "POCLOUD"
+        },
+        "collection": {
+            "name": "OPERA_L3_DSWX-HLS_V1"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {},
+        "workflow_tasks": {
+            "0": {
+                "name": "podaac-sit-svc-bignbit-get_dataset_configuration",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_dataset_configuration"
+            },
+            "1": {
+                "name": "podaac-sit-svc-bignbit-get_granule_umm_json",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_granule_umm_json"
+            },
+            "2": {
+                "name": "podaac-sit-svc-bignbit-identify_image_file",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-identify_image_file"
+            },
+            "3": {
+                "name": "podaac-sit-svc-bignbit-apply_opera_hls_treatment",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-apply_opera_hls_treatment"
+            },
+            "4": {
+                "name": "podaac-sit-svc-bignbit-handle_big_result",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-handle_big_result"
+            }
+        }
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0",
+                "provider": "opera",
+                "dataType": "OPERA_L3_DSWX-HLS_V1",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1276618252-POCLOUD.umm_json",
+                "cmrConceptId": "G1276618252-POCLOUD",
+                "files": [
+                    {
+                        "bucket": "podaac-sit-svc-private",
+                        "fileName": "OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0_BROWSE.tif",
+                        "type": "data",
+                        "key": "OPERA_L3_DSWX-HLS_V1/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0_BROWSE.tif",
+                        "source": "OPERA_L3_DSWX-HLS_V1/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0_BROWSE.tif"
+                    }
+                ]
+            }
+        ],
+        "pobit": [
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "OPERA_L3_DSWX-HLS_V1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/OPERA_L3_DSWX-HLS_V1_none/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0.2026-06-11T03_20_27.621Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "78ca24033377614f31e0f86a2d174b57",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "4048f969-0055-45b3-9b8d-618e523eeca6",
+                        "SequenceNumber": "18902717971890159616",
+                        "ResponseMetadata": {
+                            "RequestId": "f2d03463-002c-585f-9570-56c72beb0a50",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f2d03463-002c-585f-9570-56c72beb0a50",
+                                "date": "Thu, 11 Jun 2026 03:20:39 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "OPERA_L3_DSWX-HLS_V1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/OPERA_L3_DSWX-HLS_V1_none/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0.2026-06-11T03_20_27.998Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "b21bbce277d9382d559e92997c73c9f0",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "491031f3-9a09-499a-9963-b31cb068de9a",
+                        "SequenceNumber": "18902717971971567616",
+                        "ResponseMetadata": {
+                            "RequestId": "88f7693a-424d-5d13-b8dc-0b9e6985025c",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "88f7693a-424d-5d13-b8dc-0b9e6985025c",
+                                "date": "Thu, 11 Jun 2026 03:20:40 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "OPERA_L3_DSWX-HLS_V1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/OPERA_L3_DSWX-HLS_V1_none/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0.2026-06-11T03_20_28.407Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "cc8bae847cd91dc98075d771b166fc7f",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "ddca9298-6bd3-47cc-bac5-116e07b10fb4",
+                        "SequenceNumber": "18902717971844591616",
+                        "ResponseMetadata": {
+                            "RequestId": "c4d59a53-66c7-5e54-bafc-f8f74d00e6c5",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "c4d59a53-66c7-5e54-bafc-f8f74d00e6c5",
+                                "date": "Thu, 11 Jun 2026 03:20:39 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "OPERA_L3_DSWX-HLS_V1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/OPERA_L3_DSWX-HLS_V1_none/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0.2026-06-11T03_20_28.782Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "2c56a4bab75fe863d8958fab60262eea",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "2dd1d3be-4f4f-40d9-adb3-d93b13ba9ee6",
+                        "SequenceNumber": "18902717971865071616",
+                        "ResponseMetadata": {
+                            "RequestId": "b824446f-6b29-56d6-b44c-26cb40eebf27",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "b824446f-6b29-56d6-b44c-26cb40eebf27",
+                                "date": "Thu, 11 Jun 2026 03:20:39 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "OPERA_L3_DSWX-HLS_V1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/OPERA_L3_DSWX-HLS_V1_none/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0.2026-06-11T03_20_29.166Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "304b89f4096836ff39da9a17a2fba0b8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "23603d2e-8989-47d8-b276-00ca44bcd122",
+                        "SequenceNumber": "18902717971834863616",
+                        "ResponseMetadata": {
+                            "RequestId": "1522f646-f99f-539f-a3c4-94e2d2586454",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "1522f646-f99f-539f-a3c4-94e2d2586454",
+                                "date": "Thu, 11 Jun 2026 03:20:39 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "OPERA_L3_DSWX-HLS_V1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/OPERA_L3_DSWX-HLS_V1_none/OPERA_L3_DSWx-HLS_T32VMJ_20250920T103741Z_20250922T082308Z_S2A_30_v1.0.2026-06-11T03_20_29.570Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "1e7e1accf35a61ab35a18afca64cc5fa",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "911be6ca-8cff-401d-b0eb-2d7773678666",
+                        "SequenceNumber": "18902717971898351616",
+                        "ResponseMetadata": {
+                            "RequestId": "d92d8dd7-e564-5dd2-9958-ef73cea3a89b",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "d92d8dd7-e564-5dd2-9958-ef73cea3a89b",
+                                "date": "Thu, 11 Jun 2026 03:20:39 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "task_config": {
+        "bignbit_audit_bucket": "podaac-sit-svc-internal",
+        "bignbit_audit_path": "bignbit-cnm-output",
+        "cmr_environment": "{$.meta.cmr.cmrEnvironment}",
+        "cmr_provider": "{$.meta.cmr.provider}",
+        "collection": "{$.meta.collection.name}",
+        "cumulus_message": {
+            "input": "{$.payload}"
+        }
+    },
+    "exception": "None"
+}

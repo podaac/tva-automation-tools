@@ -1,0 +1,2973 @@
+{
+    "cumulus_meta": {},
+    "meta": {
+        "buckets": {},
+        "cmr": {
+            "clientId": "POCLOUD",
+            "cmrEnvironment": "UAT",
+            "provider": "POCLOUD"
+        },
+        "collection": {
+            "name": "MUR-JPL-L4-GLOB-v4.1"
+        },
+        "stack": "podaac-sit-svc",
+        "provider": {},
+        "workflow_tasks": {
+            "0": {
+                "name": "podaac-sit-svc-bignbit-get_dataset_configuration",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_dataset_configuration"
+            },
+            "1": {
+                "name": "podaac-sit-svc-bignbit-get_granule_umm_json",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_granule_umm_json"
+            },
+            "2": {
+                "name": "podaac-sit-svc-bignbit-get_collection_concept_id",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-get_collection_concept_id"
+            },
+            "3": {
+                "name": "podaac-sit-svc-bignbit-handle_big_result",
+                "version": "$LATEST",
+                "arn": "arn:aws:lambda:us-west-2:206226843404:function:podaac-sit-svc-bignbit-handle_big_result"
+            }
+        }
+    },
+    "payload": {
+        "granules": [
+            {
+                "granuleId": "20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1",
+                "provider": "POCLOUD",
+                "cmrLink": "https://cmr.uat.earthdata.nasa.gov/search/concepts/G1281443657-POCLOUD.umm_json",
+                "cmrConceptId": "G1281443657-POCLOUD"
+            }
+        ],
+        "pobit": [
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_23.277Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "3c44d83978dd96fba3e8a8600bb2326c",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "e0f30e9d-3310-4553-9f15-6ef93ee4342f",
+                        "SequenceNumber": "18902710670377711616",
+                        "ResponseMetadata": {
+                            "RequestId": "da6f7af9-11c8-5a6c-b874-185aad96c9a7",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "da6f7af9-11c8-5a6c-b874-185aad96c9a7",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_23.683Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "bc918b5a61bdaf2e0023e86dfe948db8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "3791cf55-6215-4f9f-8c4a-3ea677cd43f2",
+                        "SequenceNumber": "18902710670364655616",
+                        "ResponseMetadata": {
+                            "RequestId": "11dbcca2-e9b9-570d-823b-ae0155e7d8c0",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "11dbcca2-e9b9-570d-823b-ae0155e7d8c0",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_24.069Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "14945fd49dd8bbbb603f5221ae69ae92",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "5b08b7ab-c795-4697-9c58-ea08ba0a26a8",
+                        "SequenceNumber": "18902710670417135616",
+                        "ResponseMetadata": {
+                            "RequestId": "fcfed194-353c-5d8d-b7e9-b33789621b7f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "fcfed194-353c-5d8d-b7e9-b33789621b7f",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_24.501Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "78ebfb9697abda0e6388a01bbdae27a8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "f758f900-4643-46d8-82f1-7d0578e1d003",
+                        "SequenceNumber": "18902710670388463616",
+                        "ResponseMetadata": {
+                            "RequestId": "6f98856f-0c9e-591d-a563-e7ccb0c06f56",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "6f98856f-0c9e-591d-a563-e7ccb0c06f56",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_24.970Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "779042e2cd8afb67f94ff55941bd275d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "1b514363-dfa3-4c0a-8c77-ccc93f09a5d7",
+                        "SequenceNumber": "18902710670394607616",
+                        "ResponseMetadata": {
+                            "RequestId": "69bb0f33-66d0-578f-be16-6d90da8e3961",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "69bb0f33-66d0-578f-be16-6d90da8e3961",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_25.356Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "d467e6b605c66fd3a378e68285274edb",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "2a72892b-0aab-438c-bf43-23408286df07",
+                        "SequenceNumber": "18902710670450671616",
+                        "ResponseMetadata": {
+                            "RequestId": "2e0a932e-0cbb-5dd7-8876-f18db0e5031d",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "2e0a932e-0cbb-5dd7-8876-f18db0e5031d",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_25.753Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "3caca631982810fa1253116af0ca8f12",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "23e025c3-8e08-437e-bcfa-421d9b73c542",
+                        "SequenceNumber": "18902710670552303872",
+                        "ResponseMetadata": {
+                            "RequestId": "355fb9eb-1701-58a6-a39a-db48ab5f8d70",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "355fb9eb-1701-58a6-a39a-db48ab5f8d70",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_26.161Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "9b1060f1e697e373f501b642454fc9b8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "367a68fc-e950-4fd8-8d0c-024cf07d5ab7",
+                        "SequenceNumber": "18902710670598895616",
+                        "ResponseMetadata": {
+                            "RequestId": "d815baac-1a4a-5f63-960c-d80fa61594d6",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "d815baac-1a4a-5f63-960c-d80fa61594d6",
+                                "date": "Wed, 10 Jun 2026 19:25:19 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_26.578Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "a0728fb6321e3fa9917e0d8add8f6017",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "50102b4c-22f3-4ca7-92fa-eea673436e19",
+                        "SequenceNumber": "18902710670561775616",
+                        "ResponseMetadata": {
+                            "RequestId": "88e351aa-3b83-5e86-b54f-330987ddbac1",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "88e351aa-3b83-5e86-b54f-330987ddbac1",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_26.972Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "0a9a2cb643f9d3a88799a385cc29a37d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "2d7ffafe-f8fe-488a-a0a2-9f11df3a303e",
+                        "SequenceNumber": "18902710670463471616",
+                        "ResponseMetadata": {
+                            "RequestId": "a7a9b0af-eeb5-5ac7-97e2-d20c52ebe48f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "a7a9b0af-eeb5-5ac7-97e2-d20c52ebe48f",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_27.373Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "d003506210ca4412982e696a0801fb9b",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "57f13c93-298c-4869-bee3-694d73ee4c31",
+                        "SequenceNumber": "18902710670561263616",
+                        "ResponseMetadata": {
+                            "RequestId": "2a2c0796-25cf-5e73-af4c-65359991b482",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "2a2c0796-25cf-5e73-af4c-65359991b482",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_27.767Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "aa5bcba1898d9354cfd4b8756848a005",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "86d164e4-494d-4a92-9146-9194de617dd0",
+                        "SequenceNumber": "18902710670462191616",
+                        "ResponseMetadata": {
+                            "RequestId": "4b2fe284-8835-59be-ab0a-8027346b92c8",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4b2fe284-8835-59be-ab0a-8027346b92c8",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_28.165Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "aceea61351688f9b5468bcd1c1876282",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "5bc01ac8-3beb-41e8-ba1b-9772b7f05a01",
+                        "SequenceNumber": "18902710670614255616",
+                        "ResponseMetadata": {
+                            "RequestId": "2465ab62-2c34-5604-b57d-c9c1906bdeef",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "2465ab62-2c34-5604-b57d-c9c1906bdeef",
+                                "date": "Wed, 10 Jun 2026 19:25:19 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_28.549Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "22e7d51b5e8626100cffc37eb783a792",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "b0ce3c49-24d4-4e0e-8d0a-4f4f4e8b99a1",
+                        "SequenceNumber": "18902710670550511616",
+                        "ResponseMetadata": {
+                            "RequestId": "edae09ba-d266-5f70-a38a-6b196e380f18",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "edae09ba-d266-5f70-a38a-6b196e380f18",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_28.935Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "29695af02d8309deb05753184462ab4f",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "26c63880-d72b-43b4-a865-befddbc122b1",
+                        "SequenceNumber": "18902710670497519616",
+                        "ResponseMetadata": {
+                            "RequestId": "f5f645f3-2246-54c3-b4f2-27509e18950f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f5f645f3-2246-54c3-b4f2-27509e18950f",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_29.323Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "7a047a0637b63f66ec195d484895e0d6",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "82810bd7-e2fe-4154-8129-07d1be9ed124",
+                        "SequenceNumber": "18902710670530287616",
+                        "ResponseMetadata": {
+                            "RequestId": "06a7ef4a-4ea1-532d-9948-8de9f2ff8b78",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "06a7ef4a-4ea1-532d-9948-8de9f2ff8b78",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_29.734Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "9b0bb9c8c9fa145fcfedabb0cc9ac7f5",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "2e869ba1-0259-4a83-8236-0e514265992f",
+                        "SequenceNumber": "18902710670274799872",
+                        "ResponseMetadata": {
+                            "RequestId": "b49b0afb-7de2-5955-a3ac-6858c1bf0d99",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "b49b0afb-7de2-5955-a3ac-6858c1bf0d99",
+                                "date": "Wed, 10 Jun 2026 19:25:17 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_30.135Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "eec9c7c5de358ab32cfbec5e168f0d52",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "fa24688b-66e0-4e64-b60b-f47ae6afff6c",
+                        "SequenceNumber": "18902710670395632128",
+                        "ResponseMetadata": {
+                            "RequestId": "5d1e07e0-099e-5670-9c08-6543b5c0a1dd",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "5d1e07e0-099e-5670-9c08-6543b5c0a1dd",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_30.541Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "5a20fc83957f15f6c95871cf2b993821",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "aa304af7-29d6-4b68-beed-923b4d81bef6",
+                        "SequenceNumber": "18902710670618351616",
+                        "ResponseMetadata": {
+                            "RequestId": "9b0bc029-aa5d-547c-98f6-a28a160228e6",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "9b0bc029-aa5d-547c-98f6-a28a160228e6",
+                                "date": "Wed, 10 Jun 2026 19:25:19 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_30.949Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "62bd2a0e5f011ee00a6cbfdcccdf9e98",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "37a461ae-28ff-4389-9493-f10f78244cd3",
+                        "SequenceNumber": "18902710670522607616",
+                        "ResponseMetadata": {
+                            "RequestId": "aa0e6734-2ea1-53c9-982c-059792ff9e99",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "aa0e6734-2ea1-53c9-982c-059792ff9e99",
+                                "date": "Wed, 10 Jun 2026 19:25:18 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_31.401Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "8ec6f450d4237b3d7a81c61d754335f0",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "5f4b1f79-7e90-4df9-b9a9-4e8eb3395332",
+                        "SequenceNumber": "18902710670936303616",
+                        "ResponseMetadata": {
+                            "RequestId": "bcf2ab6c-7f9b-51e5-9748-c9cfc3fb7c95",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "bcf2ab6c-7f9b-51e5-9748-c9cfc3fb7c95",
+                                "date": "Wed, 10 Jun 2026 19:25:20 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_31.876Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "63679ff88911be8fed31d5d71335c46a",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "40b85f4c-8c2a-4759-bebd-6204e12d45dd",
+                        "SequenceNumber": "18902710671077359872",
+                        "ResponseMetadata": {
+                            "RequestId": "4306a5e4-ab9b-5ef9-a010-c74717fbdb8f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4306a5e4-ab9b-5ef9-a010-c74717fbdb8f",
+                                "date": "Wed, 10 Jun 2026 19:25:20 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_32.283Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "5eab2114162b5eb85c3f13f139141d31",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "3261045c-9257-4efd-97b6-79883f51327c",
+                        "SequenceNumber": "18902710671143151872",
+                        "ResponseMetadata": {
+                            "RequestId": "8594ead2-811b-5e65-a68f-88713d7af733",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "8594ead2-811b-5e65-a68f-88713d7af733",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_32.734Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "ff4e981c301fe858dfbf84dff6a8557e",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "c6b3b02a-1565-4650-853e-775808fbb378",
+                        "SequenceNumber": "18902710671147760128",
+                        "ResponseMetadata": {
+                            "RequestId": "4963dd3a-3ede-58af-8bfc-bf9982bfbade",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4963dd3a-3ede-58af-8bfc-bf9982bfbade",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_33.142Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "7f205dab9f32a90c9a968e9aa9fb038a",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "f0654a8a-e0b4-48b6-a713-edcfa31c6546",
+                        "SequenceNumber": "18902710671141360128",
+                        "ResponseMetadata": {
+                            "RequestId": "a44bae7e-5330-5492-85b4-ccddef51f542",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "a44bae7e-5330-5492-85b4-ccddef51f542",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_33.531Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "c1f30221ee7548d320ff861dcffb55e5",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "ccd3d6cb-76df-4288-a6dc-d075212339af",
+                        "SequenceNumber": "18902710671139055872",
+                        "ResponseMetadata": {
+                            "RequestId": "b17643fc-7fbc-539f-bb00-215fc3dd4b6e",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "b17643fc-7fbc-539f-bb00-215fc3dd4b6e",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_33.908Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "08caf60ef8e1abf93b4eae2701a765c7",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "b6ff14d9-750c-4014-844d-b526251a498d",
+                        "SequenceNumber": "18902710671120879616",
+                        "ResponseMetadata": {
+                            "RequestId": "12a9480e-ee56-5bd6-9eac-2aad5237f9a2",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "12a9480e-ee56-5bd6-9eac-2aad5237f9a2",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_34.288Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "a1e4832ebf535c4ec4512dd09325183b",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "098991f4-3a55-4374-9b60-7ae11de05612",
+                        "SequenceNumber": "18902710671181807616",
+                        "ResponseMetadata": {
+                            "RequestId": "f65f2bdf-59d1-5368-bf60-497ce5b05fa3",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f65f2bdf-59d1-5368-bf60-497ce5b05fa3",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_34.660Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "4c94c9c0c3eb7912032212900ed37243",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "2a8b3347-122d-43b0-b099-bdcf387c9df6",
+                        "SequenceNumber": "18902710671190511872",
+                        "ResponseMetadata": {
+                            "RequestId": "55568814-49bf-5e59-b11c-eab7f5defd69",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "55568814-49bf-5e59-b11c-eab7f5defd69",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_35.068Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "7f31c3c0d283c64396a05151ee095d92",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "2fe1b365-20bf-4cd8-a247-f7ef9ce8432c",
+                        "SequenceNumber": "18902710671184367872",
+                        "ResponseMetadata": {
+                            "RequestId": "e7079c03-2233-5371-bdfb-fea09e52079f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "e7079c03-2233-5371-bdfb-fea09e52079f",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_35.468Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "9bec2aebeee545e9583e5b132febf150",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "fcaec4c8-b05c-43f8-842e-e7c3b0ba1fd6",
+                        "SequenceNumber": "18902710671244271616",
+                        "ResponseMetadata": {
+                            "RequestId": "92aab8da-387f-58d2-8094-da79841eafa2",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "92aab8da-387f-58d2-8094-da79841eafa2",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_35.855Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "0aa01a3401a2c8a209862e346a6250d0",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "c0d450bd-0238-463b-bdcd-3b04d061a4ed",
+                        "SequenceNumber": "18902710671279087616",
+                        "ResponseMetadata": {
+                            "RequestId": "f40c5e19-8c06-5866-b06a-3cba30677b60",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f40c5e19-8c06-5866-b06a-3cba30677b60",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_36.250Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "42490e2be38657bca204d8e0041bc2a8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "eccbb477-948a-4183-8108-3d784f69e508",
+                        "SequenceNumber": "18902710671267055616",
+                        "ResponseMetadata": {
+                            "RequestId": "66825cfa-f9f3-5772-b92d-3e594592d522",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "66825cfa-f9f3-5772-b92d-3e594592d522",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_36.643Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "642432a08735fd5de45c91e3ac6d627d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "c0db847b-ade6-4d44-a2c6-5b3a028947a8",
+                        "SequenceNumber": "18902710671312879616",
+                        "ResponseMetadata": {
+                            "RequestId": "f08cd30f-43f6-50f5-bb8d-b1acff97b99e",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f08cd30f-43f6-50f5-bb8d-b1acff97b99e",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_37.027Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "1ef668085f5746a8274b24749b093993",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "abd183e4-fb3d-4d22-92cd-87ec42beed4b",
+                        "SequenceNumber": "18902710671314671616",
+                        "ResponseMetadata": {
+                            "RequestId": "385f0f67-577e-5262-802d-6dc4eb1faa2f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "385f0f67-577e-5262-802d-6dc4eb1faa2f",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_37.419Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "1fe57ab87d23f6e7a8d842e185416a7f",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "1fe9d3dc-b93f-443f-8c87-1a8793a042e0",
+                        "SequenceNumber": "18902710671296751616",
+                        "ResponseMetadata": {
+                            "RequestId": "4371f646-01db-536f-b2a6-94e5bdbabcdd",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4371f646-01db-536f-b2a6-94e5bdbabcdd",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_37.805Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "7fc06e2b0d836639776e1790ced9627d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "5743dee6-690b-4ef1-b60b-88924e375791",
+                        "SequenceNumber": "18902710671304687616",
+                        "ResponseMetadata": {
+                            "RequestId": "28c478e4-080d-5e5d-8a03-1a47b46c54f6",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "28c478e4-080d-5e5d-8a03-1a47b46c54f6",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_38.265Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "b4c04239dc8b9ef28ccffa90374ec130",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "c84af99b-e870-4f1a-8bc2-a618cf912a1a",
+                        "SequenceNumber": "18902710671340527616",
+                        "ResponseMetadata": {
+                            "RequestId": "c5e0aa91-98d1-535e-b16a-c83224b0442f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "c5e0aa91-98d1-535e-b16a-c83224b0442f",
+                                "date": "Wed, 10 Jun 2026 19:25:21 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_38.668Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "b959ae34a0c6f20f830cc9efae23af95",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "7cdf8534-9f9c-4c9b-99ac-13a57080b53f",
+                        "SequenceNumber": "18902710671366639616",
+                        "ResponseMetadata": {
+                            "RequestId": "b974843a-67ed-5c9d-8ff4-e699db8f6d25",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "b974843a-67ed-5c9d-8ff4-e699db8f6d25",
+                                "date": "Wed, 10 Jun 2026 19:25:22 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_39.073Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "f3346cf2f79b67ea1b5387f7790b2bbc",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "0e9a05a2-3d36-4901-8b21-4f292fc9c8fa",
+                        "SequenceNumber": "18902710671363055872",
+                        "ResponseMetadata": {
+                            "RequestId": "c9699e76-b50d-5aaa-a583-fcd5096fd485",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "c9699e76-b50d-5aaa-a583-fcd5096fd485",
+                                "date": "Wed, 10 Jun 2026 19:25:22 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_39.481Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "b318817d7982d7ab87a074956248d28d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "c7e2007f-e86c-4f36-8538-0e849b6df215",
+                        "SequenceNumber": "18902710671591151616",
+                        "ResponseMetadata": {
+                            "RequestId": "10325b67-0344-5a14-a48e-39c4bf267770",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "10325b67-0344-5a14-a48e-39c4bf267770",
+                                "date": "Wed, 10 Jun 2026 19:25:22 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_analysed_sst_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_39.863Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "f702bc79940ffdb5eeff00f885deb7c3",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "fc032a8c-3a47-4c5c-b0f9-05681f36af74",
+                        "SequenceNumber": "18902710671789039616",
+                        "ResponseMetadata": {
+                            "RequestId": "ea33be0f-f16b-5ec7-958a-dcac4d08c58d",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "ea33be0f-f16b-5ec7-958a-dcac4d08c58d",
+                                "date": "Wed, 10 Jun 2026 19:25:23 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_40.250Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "2fc0271e9ceaff989b0891759ae49f05",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "08338baa-2761-45ba-b7bb-287df3266a8a",
+                        "SequenceNumber": "18902710671855087616",
+                        "ResponseMetadata": {
+                            "RequestId": "cde7ec98-6c0b-5ec4-bf98-8e3bd068f2d5",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "cde7ec98-6c0b-5ec4-bf98-8e3bd068f2d5",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_40.621Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "96dfabdcb2d646f2b127095627f5b366",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "f3049911-83f9-41c7-80bd-009a44992c51",
+                        "SequenceNumber": "18902710671852527616",
+                        "ResponseMetadata": {
+                            "RequestId": "b765a704-f713-57c9-a86d-c5a74b7090c7",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "b765a704-f713-57c9-a86d-c5a74b7090c7",
+                                "date": "Wed, 10 Jun 2026 19:25:23 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_41.024Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "4ba8bdf6373c36b164dba8bbba02f85b",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "8dafa81d-9b39-44a9-bae7-45d04e9876bb",
+                        "SequenceNumber": "18902710671856111616",
+                        "ResponseMetadata": {
+                            "RequestId": "69ca7097-e793-5d98-a180-12345bf062bd",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "69ca7097-e793-5d98-a180-12345bf062bd",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_41.425Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "03e34f93d786021a532b089d9551ab61",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "55bead42-755c-44ab-a673-c9d6151747cf",
+                        "SequenceNumber": "18902710671859951872",
+                        "ResponseMetadata": {
+                            "RequestId": "d30ac279-9193-55e0-af31-a0da2df78cb7",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "d30ac279-9193-55e0-af31-a0da2df78cb7",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_41.803Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "6487d2e5f53387d12dc6d9c05e8cb43f",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "d9aa0ee9-bbf5-4f57-9acd-deb2e41b31ce",
+                        "SequenceNumber": "18902710671863279616",
+                        "ResponseMetadata": {
+                            "RequestId": "596ae3fe-81a4-52bd-8ec4-815d3dc05709",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "596ae3fe-81a4-52bd-8ec4-815d3dc05709",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_42.187Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "f29cefb302331061d67849698e7e189d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "fbc5d73a-d17b-481c-a32d-fd8c747d12c8",
+                        "SequenceNumber": "18902710671898863616",
+                        "ResponseMetadata": {
+                            "RequestId": "32adf237-4dd1-539a-b3af-9094f1b5c574",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "32adf237-4dd1-539a-b3af-9094f1b5c574",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_42.598Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "bed47d44ceb8f2bc6f6466640cd61801",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "576f2353-bec5-4744-ab30-a17dadaeaf12",
+                        "SequenceNumber": "18902710671900143616",
+                        "ResponseMetadata": {
+                            "RequestId": "8654b186-165a-558a-a4b2-d325aa3ec0c4",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "8654b186-165a-558a-a4b2-d325aa3ec0c4",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_42.999Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "b0d5311ded8e2d4eb9bebd429e528e45",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "4924b8d8-54ee-4d74-bb8a-da0060c0293b",
+                        "SequenceNumber": "18902710671901679616",
+                        "ResponseMetadata": {
+                            "RequestId": "611e772e-c3b3-5e29-921a-158d7fd704c2",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "611e772e-c3b3-5e29-921a-158d7fd704c2",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_43.400Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "1246cd5cefb3f462408eb06df431c836",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "3647016f-73dc-4831-bccb-c29b21c42dca",
+                        "SequenceNumber": "18902710671974127872",
+                        "ResponseMetadata": {
+                            "RequestId": "4182306e-d6fc-5fea-a50f-52cd6a981b99",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4182306e-d6fc-5fea-a50f-52cd6a981b99",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_43.805Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "2fccf5f737a8948e512d9e416800fa73",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "61973d56-a30f-4432-ba50-e2b68c0bd1a7",
+                        "SequenceNumber": "18902710672051439616",
+                        "ResponseMetadata": {
+                            "RequestId": "64b5fcb1-7371-57fe-bc60-9e12cf1506a8",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "64b5fcb1-7371-57fe-bc60-9e12cf1506a8",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_44.195Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "8cd985921d3fe05268c6edf3787146a8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "2c9c624c-6acd-4b73-9b44-d8d26ea9a917",
+                        "SequenceNumber": "18902710672013039872",
+                        "ResponseMetadata": {
+                            "RequestId": "0c5911c5-9586-594c-bcf2-736629e2b9e2",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "0c5911c5-9586-594c-bcf2-736629e2b9e2",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_44.609Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "32561c9b4b7b94db428f29775d5735aa",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "52f4dbba-372c-4aff-ad2a-c789690fb046",
+                        "SequenceNumber": "18902710672020719616",
+                        "ResponseMetadata": {
+                            "RequestId": "05a784cb-c81a-5a2a-8580-e668747ed478",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "05a784cb-c81a-5a2a-8580-e668747ed478",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_45.077Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "b225abe77a0245de12f86702dce5e48d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "ca1f1760-928e-4160-b82b-b7df2630f10b",
+                        "SequenceNumber": "18902710672109551616",
+                        "ResponseMetadata": {
+                            "RequestId": "65fd9362-ce2e-5d93-8ba8-f1c1724ac7b9",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "65fd9362-ce2e-5d93-8ba8-f1c1724ac7b9",
+                                "date": "Wed, 10 Jun 2026 19:25:25 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_45.465Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "9b533231ee10ef833388b95156669a08",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "2452780d-1e39-49f2-a309-694efa4221aa",
+                        "SequenceNumber": "18902710672077039616",
+                        "ResponseMetadata": {
+                            "RequestId": "efddb42f-7d33-5c3e-a783-d68cc157608e",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "efddb42f-7d33-5c3e-a783-d68cc157608e",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_45.857Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "cf3e0b8e10e174ae0cbb79b2d1fc1787",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "eda7b8f7-b272-4d8c-ad2e-3247c34dadad",
+                        "SequenceNumber": "18902710672072431616",
+                        "ResponseMetadata": {
+                            "RequestId": "f93bfbdf-30c1-5fab-9990-997c8ca525fa",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f93bfbdf-30c1-5fab-9990-997c8ca525fa",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_46.261Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "9f4c613154cc803f4b02b3e429760047",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "345924b4-5c09-4546-b8ac-df718d1e6084",
+                        "SequenceNumber": "18902710672103663616",
+                        "ResponseMetadata": {
+                            "RequestId": "a8a5671d-0071-5733-9f6a-05bebc156ad1",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "a8a5671d-0071-5733-9f6a-05bebc156ad1",
+                                "date": "Wed, 10 Jun 2026 19:25:24 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_46.687Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "6862e444feea4024bb0c253ee75fae10",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "e22a3538-d265-4447-8013-94f5c6312f63",
+                        "SequenceNumber": "18902710672108783616",
+                        "ResponseMetadata": {
+                            "RequestId": "47cfbae0-d262-575e-a9b0-d8436e06d872",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "47cfbae0-d262-575e-a9b0-d8436e06d872",
+                                "date": "Wed, 10 Jun 2026 19:25:25 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_47.069Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "d9a8ce2cb038ce46966c1c174f16f460",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "49ac5979-01a9-4a6b-8481-12e304d24642",
+                        "SequenceNumber": "18902710672123887616",
+                        "ResponseMetadata": {
+                            "RequestId": "ba4db93b-a644-5cf7-ac35-db981a21dd24",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "ba4db93b-a644-5cf7-ac35-db981a21dd24",
+                                "date": "Wed, 10 Jun 2026 19:25:25 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_47.443Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "e248302378b3b11a97119a653566f69a",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "1317d4bd-a44a-4ffa-b304-248d3ba22268",
+                        "SequenceNumber": "18902710672239087616",
+                        "ResponseMetadata": {
+                            "RequestId": "f2f0180c-1905-54b5-acdf-7aafa560c247",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f2f0180c-1905-54b5-acdf-7aafa560c247",
+                                "date": "Wed, 10 Jun 2026 19:25:25 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_47.835Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "badce813928e4bff6f53c4baebb06e87",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "7c72c01d-d78f-4639-a1c5-fbefc2857557",
+                        "SequenceNumber": "18902710672495855616",
+                        "ResponseMetadata": {
+                            "RequestId": "a13cfde1-0f68-52a5-ae0e-9f42b30ecfb4",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "a13cfde1-0f68-52a5-ae0e-9f42b30ecfb4",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_48.268Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "c5b9f2695ce6ae355655246658edf9fb",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "bfd4cc65-006e-4e5b-a3bc-ea19135c84e9",
+                        "SequenceNumber": "18902710672574959872",
+                        "ResponseMetadata": {
+                            "RequestId": "dd34ef84-63db-5e32-9e13-8d27dfbd0278",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "dd34ef84-63db-5e32-9e13-8d27dfbd0278",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_48.661Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "88e7d9752dc892672229d60e9e169424",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "345840bd-2818-468b-a888-80e3c2f05c4d",
+                        "SequenceNumber": "18902710672562415872",
+                        "ResponseMetadata": {
+                            "RequestId": "efaa8ace-2d73-5cfc-a620-e86d9115b08a",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "efaa8ace-2d73-5cfc-a620-e86d9115b08a",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_49.027Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "b73b4b1730d68614edbc0789e11becb8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "301859b0-81be-4187-bd47-7f35ffe0c5a6",
+                        "SequenceNumber": "18902710672582383616",
+                        "ResponseMetadata": {
+                            "RequestId": "1c465d8d-d120-5af2-878f-3f2e6d46005d",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "1c465d8d-d120-5af2-878f-3f2e6d46005d",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_49.428Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "6b043deb3a2fdcc3bce63bdb7156c39f",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "d1e80fa2-bfa8-459d-84d5-24fbc3bfe1df",
+                        "SequenceNumber": "18902710672572143616",
+                        "ResponseMetadata": {
+                            "RequestId": "a45962e7-8c7a-52dd-87a3-0044301ccb91",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "a45962e7-8c7a-52dd-87a3-0044301ccb91",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_49.813Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "70c8869d13759a6bd5f71ff0e0f10443",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "22a31b0d-a227-4ac9-89da-8262183d1271",
+                        "SequenceNumber": "18902710672600303872",
+                        "ResponseMetadata": {
+                            "RequestId": "185083ce-b257-5a35-8ffc-e16d0e31a3c3",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "185083ce-b257-5a35-8ffc-e16d0e31a3c3",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_50.224Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "4d9f89b97f6a0166ff77fd47c710f27d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "5b271e85-d40c-49d0-9032-0e11f4cc5502",
+                        "SequenceNumber": "18902710672620527616",
+                        "ResponseMetadata": {
+                            "RequestId": "bd516458-1cfb-5bcb-b1f6-06fba09d0a2c",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "bd516458-1cfb-5bcb-b1f6-06fba09d0a2c",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_50.617Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "e193c2e6f85804f670a6b8e1413bcc86",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "6ccf2872-3445-4142-9c8b-f054549789ba",
+                        "SequenceNumber": "18902710672614127872",
+                        "ResponseMetadata": {
+                            "RequestId": "4d8e22fe-7ddd-560a-a508-405dc1bb0e23",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4d8e22fe-7ddd-560a-a508-405dc1bb0e23",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sea_ice_fraction_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_51.023Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "72e6c92c61e772e1fd8b368260b396d1",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "4b44d629-fd04-422f-824d-78b25edb6d18",
+                        "SequenceNumber": "18902710672610543616",
+                        "ResponseMetadata": {
+                            "RequestId": "50df00f8-b930-5d7a-86ab-625b05564c34",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "50df00f8-b930-5d7a-86ab-625b05564c34",
+                                "date": "Wed, 10 Jun 2026 19:25:26 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_51.481Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "01c39ff34f43a4953152624ea97c7c86",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "b6f4b135-a109-42c7-8c3f-57e485952270",
+                        "SequenceNumber": "18902710672706543616",
+                        "ResponseMetadata": {
+                            "RequestId": "ab0e0775-5dd3-55c4-9596-65d6e1b4e0cf",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "ab0e0775-5dd3-55c4-9596-65d6e1b4e0cf",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_51.873Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "ec2117927b1294bb79b907593951b2de",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "64216c0c-256f-4e0e-9056-e9cb4a7d037d",
+                        "SequenceNumber": "18902710672767471616",
+                        "ResponseMetadata": {
+                            "RequestId": "18e61d34-9eca-50a0-ab28-7f9722ad588f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "18e61d34-9eca-50a0-ab28-7f9722ad588f",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_52.274Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "458f0baebaaf5155f1f5a4e8da6c424a",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "717c6e69-7fbb-4a88-8577-0154d2af86f4",
+                        "SequenceNumber": "18902710672777967872",
+                        "ResponseMetadata": {
+                            "RequestId": "e3c7b672-d8d8-5aca-b125-d4d164bfd0e6",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "e3c7b672-d8d8-5aca-b125-d4d164bfd0e6",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_52.699Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "bbe9522b0690ae8d0a84fa872c58d6da",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "4b5d4d59-456b-4b29-adca-ae06ef42d786",
+                        "SequenceNumber": "18902710672798959872",
+                        "ResponseMetadata": {
+                            "RequestId": "f6f86de9-66c8-5b59-aabe-0f4adaaf812f",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f6f86de9-66c8-5b59-aabe-0f4adaaf812f",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_53.103Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "65a4019a284ed1484dc047b101c28c54",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "ce3aa28c-0495-4972-b14a-b1be9356b050",
+                        "SequenceNumber": "18902710672816623616",
+                        "ResponseMetadata": {
+                            "RequestId": "63f14a7c-e616-56f9-b3c4-28df5a711b4d",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "63f14a7c-e616-56f9-b3c4-28df5a711b4d",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_53.498Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "1b24c84d08474be2268b472160c9c1e1",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "0be30764-2113-4d99-a9fe-8e51ad9eb2cc",
+                        "SequenceNumber": "18902710672814831616",
+                        "ResponseMetadata": {
+                            "RequestId": "1362f3f5-178e-5cd3-96d4-9156abe9a343",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "1362f3f5-178e-5cd3-96d4-9156abe9a343",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_53.888Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "4f55c0d914be4c678da4750940a4d8d1",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "3bda9746-0776-4abb-a627-4ca0647b9744",
+                        "SequenceNumber": "18902710672876271872",
+                        "ResponseMetadata": {
+                            "RequestId": "71161a31-c1b3-5062-8294-78927dd49db2",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "71161a31-c1b3-5062-8294-78927dd49db2",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_54.284Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "020c78223d6113fd7c25ebefdcc7e663",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "43f31fd1-387d-449a-8f6d-8854b363d919",
+                        "SequenceNumber": "18902710672862959616",
+                        "ResponseMetadata": {
+                            "RequestId": "3e8bc4bf-a06c-5c3c-979f-a61c1c0b099d",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "3e8bc4bf-a06c-5c3c-979f-a61c1c0b099d",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_54.686Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "eb4b29c9773920db486067b390a0c0a8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "14eb689b-ab0e-4b4d-9773-c35a6de1f096",
+                        "SequenceNumber": "18902710672856047872",
+                        "ResponseMetadata": {
+                            "RequestId": "afe2fee7-7896-5be5-ad1f-9c44c4f15776",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "afe2fee7-7896-5be5-ad1f-9c44c4f15776",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_55.100Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "49f82794665289466256d333dcb00f7d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "43288975-f3de-43c5-9951-dc1cfceb1896",
+                        "SequenceNumber": "18902710672847856128",
+                        "ResponseMetadata": {
+                            "RequestId": "b73376e5-bd0c-5090-a6dc-1446016b411e",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "b73376e5-bd0c-5090-a6dc-1446016b411e",
+                                "date": "Wed, 10 Jun 2026 19:25:27 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_55.495Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "46e1b9c60bf629f43a54d58aa4990e3a",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "b3a1b2c2-67d2-46ff-959b-a57dd49565e3",
+                        "SequenceNumber": "18902710672891119872",
+                        "ResponseMetadata": {
+                            "RequestId": "f080167d-21a9-56d0-b833-74de9dc13ae1",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "f080167d-21a9-56d0-b833-74de9dc13ae1",
+                                "date": "Wed, 10 Jun 2026 19:25:28 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_55.895Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "7213634800bfd979b067c7fb2b3fb833",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "4a9a0ac0-c0ad-4804-9117-76c452c8a18b",
+                        "SequenceNumber": "18902710673197807616",
+                        "ResponseMetadata": {
+                            "RequestId": "1aa48c74-032e-5ca5-bf45-eed7bf476253",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "1aa48c74-032e-5ca5-bf45-eed7bf476253",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_56.292Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "c6fa0d8ab4ec8fcd513778c7b95cae8c",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "8849d6a4-2619-4a98-9d60-50f4e47815bd",
+                        "SequenceNumber": "18902710673333999616",
+                        "ResponseMetadata": {
+                            "RequestId": "711633e7-f787-5d3b-bb61-51444bee8eca",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "711633e7-f787-5d3b-bb61-51444bee8eca",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_56.679Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "f2973c0f798515b8b78bb5bbbb314556",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "6e97d441-303a-4576-a2ca-379273963b7f",
+                        "SequenceNumber": "18902710673358319616",
+                        "ResponseMetadata": {
+                            "RequestId": "c0e5fc8f-e586-52ca-b6ff-9e2c59ef1621",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "c0e5fc8f-e586-52ca-b6ff-9e2c59ef1621",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_57.077Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "60229c956ac7804f13b39c0595bf494b",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "12c28cac-8eb2-47ef-ad94-b0111afb5424",
+                        "SequenceNumber": "18902710673344239616",
+                        "ResponseMetadata": {
+                            "RequestId": "7ab498da-1d05-54f9-94de-fa79a16cfc81",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "7ab498da-1d05-54f9-94de-fa79a16cfc81",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_57.482Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "154a66806c7d01a8587d9c87dbbdaa20",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "ac0166d7-b1dc-4df9-9b73-ddcfe3d23c72",
+                        "SequenceNumber": "18902710673337839616",
+                        "ResponseMetadata": {
+                            "RequestId": "a97ee148-dea1-5cb2-9808-83eb62c8723e",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "a97ee148-dea1-5cb2-9808-83eb62c8723e",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_57.863Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "33ff52731191e27f4bbb98d198c22d72",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "d2aa3bcb-bb28-44b8-8040-56874eaf4e96",
+                        "SequenceNumber": "18902710673360111616",
+                        "ResponseMetadata": {
+                            "RequestId": "1b89c079-945c-5552-ada7-a2da283575a4",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "1b89c079-945c-5552-ada7-a2da283575a4",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_58.312Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "86af5109059ae24b31c75f805db50ef9",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "46f0225c-a101-43cb-a0f0-89c5459d7b27",
+                        "SequenceNumber": "18902710673332463616",
+                        "ResponseMetadata": {
+                            "RequestId": "4d51ee5b-5a7b-599e-8de8-8cf8e612050c",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4d51ee5b-5a7b-599e-8de8-8cf8e612050c",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_58.718Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "bf1ab62222e5856a54b0b1fe129af837",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "5247a1f9-25ee-463d-a6e4-37fad88e394e",
+                        "SequenceNumber": "18902710673356271616",
+                        "ResponseMetadata": {
+                            "RequestId": "74434dc0-a163-55eb-9cbc-2f631d0aeb79",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "74434dc0-a163-55eb-9cbc-2f631d0aeb79",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_59.175Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "7c834c1bc7b4dc0be2704410bc84ab80",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "14261844-3d3f-4a7d-94a7-87c4b9e4a70a",
+                        "SequenceNumber": "18902710673339375616",
+                        "ResponseMetadata": {
+                            "RequestId": "97d572f6-064c-53f6-9023-1055ba25829a",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "97d572f6-064c-53f6-9023-1055ba25829a",
+                                "date": "Wed, 10 Jun 2026 19:25:29 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_24_59.596Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "f689794cbb2ea56fba1e7b12d47466e8",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "e82b99cb-b13c-4574-a4ef-2f60764b18cc",
+                        "SequenceNumber": "18902710673429231616",
+                        "ResponseMetadata": {
+                            "RequestId": "3b8e3a5e-2f46-562a-b305-58fd932c360e",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "3b8e3a5e-2f46-562a-b305-58fd932c360e",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_00.007Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "2d8d545bfeda74ac893c0111b6808ae9",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "415359df-544a-4959-85aa-93466aafa1f5",
+                        "SequenceNumber": "18902710673509871616",
+                        "ResponseMetadata": {
+                            "RequestId": "a876490c-4111-5ab5-92ba-2baffd7b8270",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "a876490c-4111-5ab5-92ba-2baffd7b8270",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_00.400Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "da238622c7d383b8a2ab75c207800f58",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "e1222a72-3d24-4339-a26f-f24d474db111",
+                        "SequenceNumber": "18902710673530863872",
+                        "ResponseMetadata": {
+                            "RequestId": "7024ca78-0f7b-5779-8dac-a8dbb31150b5",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "7024ca78-0f7b-5779-8dac-a8dbb31150b5",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_00.806Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "bcdf6ddddeed9388c788351ceb696b0d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "a173c824-54cd-4c13-8d8c-386dd081df5d",
+                        "SequenceNumber": "18902710673564911872",
+                        "ResponseMetadata": {
+                            "RequestId": "50577873-18b4-55c9-b5a1-1ad0a4ded6bd",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "50577873-18b4-55c9-b5a1-1ad0a4ded6bd",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_01.212Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "6e5dc73fef31930f68ec6b143ad39554",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "83c71f98-3c1e-430e-843f-26a03e5f1bb0",
+                        "SequenceNumber": "18902710673554159616",
+                        "ResponseMetadata": {
+                            "RequestId": "e0bd5ec7-703e-535b-8513-3c64cc54aab5",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "e0bd5ec7-703e-535b-8513-3c64cc54aab5",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_01.602Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "3e1904c833d02a4af8e5ddfcf139126b",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "b8c44c00-3f91-4432-aaf5-05670e2ac3b2",
+                        "SequenceNumber": "18902710673566703616",
+                        "ResponseMetadata": {
+                            "RequestId": "4f9c4f5a-ff30-52d6-b9b7-2df9435aa966",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4f9c4f5a-ff30-52d6-b9b7-2df9435aa966",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_02.002Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "9abbbbf79983a1b2f07a1ca028c7551e",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "ef0f1088-3e9d-45e7-ba25-91c12e72e1cb",
+                        "SequenceNumber": "18902710673629679616",
+                        "ResponseMetadata": {
+                            "RequestId": "8c2443f9-c98e-5ab5-b188-215a75e42861",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "8c2443f9-c98e-5ab5-b188-215a75e42861",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_02.399Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "8d7779425287ffeed48287a99c82a127",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "a7c0bee3-5dc2-4efc-b3e5-effa6acd6525",
+                        "SequenceNumber": "18902710673630703872",
+                        "ResponseMetadata": {
+                            "RequestId": "761c91ac-1dab-524c-a906-f30fa1c1cb5c",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "761c91ac-1dab-524c-a906-f30fa1c1cb5c",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_02.779Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "d1881f17e9adc9b3333ee8f6d659f049",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "6d5788b7-a5ae-463d-b617-badaa6b91b37",
+                        "SequenceNumber": "18902710673629423616",
+                        "ResponseMetadata": {
+                            "RequestId": "8d7e8932-9e8f-5e2e-bfd8-eb9122e5ba03",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "8d7e8932-9e8f-5e2e-bfd8-eb9122e5ba03",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_03.223Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "4d2106cfef99fcd01bcd732737b640c2",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "ce7135a8-ba08-4809-bc16-51ca34fe5c64",
+                        "SequenceNumber": "18902710673527535872",
+                        "ResponseMetadata": {
+                            "RequestId": "4d2d238a-608b-502f-a718-4129dce193da",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4d2d238a-608b-502f-a718-4129dce193da",
+                                "date": "Wed, 10 Jun 2026 19:25:30 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_03.661Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "fe62cb97ac8df0eadbd7590012b9ee33",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "5cebeb0d-067d-42a4-802a-6a7a52a23dac",
+                        "SequenceNumber": "18902710673647343616",
+                        "ResponseMetadata": {
+                            "RequestId": "ac2b434b-5d62-593e-baf8-21e8e108cf90",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "ac2b434b-5d62-593e-baf8-21e8e108cf90",
+                                "date": "Wed, 10 Jun 2026 19:25:31 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_04.079Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "1d637cef303b0119923b7e99a091b764",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "d38ce98f-b3c6-430f-a4d7-687bf12c94b8",
+                        "SequenceNumber": "18902710673910767872",
+                        "ResponseMetadata": {
+                            "RequestId": "9c2e8992-d14b-55b3-b126-eb316d272b45",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "9c2e8992-d14b-55b3-b126-eb316d272b45",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_04.477Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "dbf48045908504fd50406dda88acdd99",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "145fa8da-fb5d-43e9-8d06-82d42a754734",
+                        "SequenceNumber": "18902710674060527616",
+                        "ResponseMetadata": {
+                            "RequestId": "5ee59dfd-159e-5d20-9611-ff5ea9f2b4d0",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "5ee59dfd-159e-5d20-9611-ff5ea9f2b4d0",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_04.957Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "9c44864ff0db1b4e1bcc89e85959f9c2",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "8f26ed6e-1e3d-4296-b6a7-60cafdbc4ae7",
+                        "SequenceNumber": "18902710674071279616",
+                        "ResponseMetadata": {
+                            "RequestId": "136dc4c3-d4e5-5c4b-9b9c-a66068895607",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "136dc4c3-d4e5-5c4b-9b9c-a66068895607",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_05.351Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "aadba5678c24c65839714b3eac2f3fb5",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "a7206be9-2f43-4903-95a3-46d3e57b4b54",
+                        "SequenceNumber": "18902710674071791616",
+                        "ResponseMetadata": {
+                            "RequestId": "46cce657-9e55-5d5a-8cf1-84f422394c34",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "46cce657-9e55-5d5a-8cf1-84f422394c34",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_05.739Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "e003308b8a64126508b33c2745a0e902",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "6a208960-b293-4c9f-a8b0-50eaee6b1e2c",
+                        "SequenceNumber": "18902710674089199616",
+                        "ResponseMetadata": {
+                            "RequestId": "3afab82f-460c-5052-8e1b-da8cfa604a41",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "3afab82f-460c-5052-8e1b-da8cfa604a41",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_06.160Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "75f9ed28d2d1a9a6d077fdd6db98ff8d",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "1aa79712-75a1-4639-b905-eedb88e35173",
+                        "SequenceNumber": "18902710674063343616",
+                        "ResponseMetadata": {
+                            "RequestId": "4d83351e-00f3-5f12-a2bc-57bdbc9fc3f4",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "4d83351e-00f3-5f12-a2bc-57bdbc9fc3f4",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_06.544Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "1dc2f6500ec16056016675e2730f8751",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "7b9c0da6-2dbe-46f6-8dbd-1405db156469",
+                        "SequenceNumber": "18902710674077167616",
+                        "ResponseMetadata": {
+                            "RequestId": "14d3ce2c-5271-5a72-94fa-ac8fee1d5521",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "14d3ce2c-5271-5a72-94fa-ac8fee1d5521",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_06.923Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "142524dd25f7a66b7ebe3b4a966f3de4",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "a595a237-e93d-4bd5-b329-9f1f0c5e400f",
+                        "SequenceNumber": "18902710674078447616",
+                        "ResponseMetadata": {
+                            "RequestId": "d8758da1-fbc4-5b55-b46a-ef0247a86002",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "d8758da1-fbc4-5b55-b46a-ef0247a86002",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_07.349Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "6699d98eadf69da3453e0c59b833f138",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "04f3e515-6edf-404d-84e9-f27ff149f450",
+                        "SequenceNumber": "18902710674059503616",
+                        "ResponseMetadata": {
+                            "RequestId": "94c84754-c66e-5430-adb2-25f77a02aef8",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "94c84754-c66e-5430-adb2-25f77a02aef8",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_07.751Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "891bb0d865c817e69b6500699632a065",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "8ab77064-1acc-413d-b8ba-7429250d6299",
+                        "SequenceNumber": "18902710674150639616",
+                        "ResponseMetadata": {
+                            "RequestId": "b85895c8-3fa7-5303-a4c4-f76b83cb160a",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "b85895c8-3fa7-5303-a4c4-f76b83cb160a",
+                                "date": "Wed, 10 Jun 2026 19:25:32 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            },
+            {
+                "cmr_provider": "POCLOUD",
+                "collection_name": "MUR-JPL-L4-GLOB-v4.1",
+                "cnm_bucket": "podaac-sit-svc-internal",
+                "cnm_key": "bignbit-cnm-output/MUR-JPL-L4-GLOB-v4.1_sst_anomaly_LL/20260309090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.2026-06-10T19_25_08.139Z.cnm.json",
+                "gibs": {
+                    "cnmContent": {
+                        "MD5OfMessageBody": "1e7df6118d564f0ad4c148020ed8b837",
+                        "MD5OfMessageAttributes": "f7aec4559a577e6f7a0ba62823347d93",
+                        "MessageId": "269fd39f-3519-4e09-a29b-f8f0b6c0cd62",
+                        "SequenceNumber": "18902710674254831616",
+                        "ResponseMetadata": {
+                            "RequestId": "06b8b144-14e8-51c3-9382-d3e7a88547d1",
+                            "HTTPStatusCode": 200,
+                            "HTTPHeaders": {
+                                "x-amzn-requestid": "06b8b144-14e8-51c3-9382-d3e7a88547d1",
+                                "date": "Wed, 10 Jun 2026 19:25:33 GMT",
+                                "content-type": "text/xml",
+                                "content-length": "512",
+                                "connection": "keep-alive"
+                            },
+                            "RetryAttempts": 0
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "task_config": {
+        "bignbit_audit_bucket": "podaac-sit-svc-internal",
+        "bignbit_audit_path": "bignbit-cnm-output",
+        "cmr_environment": "{$.meta.cmr.cmrEnvironment}",
+        "cmr_provider": "{$.meta.cmr.provider}",
+        "collection": "{$.meta.collection.name}",
+        "cumulus_message": {
+            "input": "{$.payload}"
+        }
+    },
+    "exception": "None"
+}
