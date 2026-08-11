@@ -56,22 +56,34 @@ def update_sheet(worksheet, data, cell):
 
 
 def bearer_token(env: str, logger) -> str:
-    url = f"https://{'uat.' if env == 'uat' else ''}urs.earthdata.nasa.gov/api/users/find_or_create_token"
+    url = (
+        f"https://{'uat.' if env == 'uat' else ''}"
+        "urs.earthdata.nasa.gov/api/users/find_or_create_token"
+    )
+
+    resp = None
 
     try:
-        # Make the request with the Base64-encoded Authorization header
         resp = requests.post(
             url,
-            auth=requests.auth.HTTPBasicAuth(os.environ['CMR_USER'], os.environ['CMR_PASS'])
+            auth=requests.auth.HTTPBasicAuth(
+                os.environ["CMR_USER"],
+                os.environ["CMR_PASS"],
+            ),
         )
 
-        # Check for successful response
-        if resp.status_code == 200:
-            response_content = resp.json()
-            return response_content.get('access_token')
+        resp.raise_for_status()
+
+        response_content = resp.json()
+        return response_content.get("access_token")
 
     except Exception as e:
-        logger.error(f"Error getting the token (status code {resp.status_code}): {e}", exc_info=True)
+        status_code = resp.status_code if resp is not None else "N/A"
+        logger.error(
+            f"Error getting token (status code: {status_code}): {e}",
+            exc_info=True,
+        )
+        raise
 
 
 def create_logger():
