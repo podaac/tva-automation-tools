@@ -35,6 +35,10 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
 
     headers["Content-type"] = "application/json"
 
+    # Only POCLOUD collections are synced; other providers' associations are left alone
+    current_association = [c for c in current_association if c.endswith('-POCLOUD')]
+    new_association = [c for c in new_association if c.endswith('-POCLOUD')]
+
     print("CMR url: ", url_prefix)
     print("Chain service concept id (associations modified on this UMM-S): ", service_concept_id)
     print("Current chain associations (%d): %s" % (len(current_association), sorted(current_association)))
@@ -47,7 +51,6 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
         print("Concept ids to add (%d) to %s on %s: %s" % (len(add), service_concept_id, url_prefix, sorted(add)))
         print("Concept ids to remove (%d) from %s on %s: %s" % (len(remove), service_concept_id, url_prefix, sorted(remove)))
 
-        """
         for assoc_concept_id in add:
             resp = create_assoc.add_association(url_prefix, service_concept_id, assoc_concept_id, headers, timeout=timeout)
             if resp.status_code != 200:
@@ -62,9 +65,19 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
                 print("Failed remove association: concept_id being associated may not be valid: %s", assoc_concept_id)
             else:
                 print("Succesfully removed association: concept_id: ", assoc_concept_id)
-        """
     else:
         print("All association is the same")
+
+
+def in_both_services(l2ss_collections, concise_collections):
+    """
+    POCLOUD collections associated to both l2ss and concise. Returns None if either
+    list is missing (CMR query failed) or empty, so a failed query can never
+    produce an empty target that would remove every chain association.
+    """
+    if not l2ss_collections or not concise_collections:
+        return None
+    return [c for c in set(l2ss_collections).intersection(concise_collections) if c.endswith('-POCLOUD')]
 
 
 if __name__ == '__main__':
@@ -92,8 +105,9 @@ if __name__ == '__main__':
     ops_l2ss_concise_chain_concept_id = cmr.queries.ServiceQuery().provider('POCLOUD').name('PODAAC L2SS-py Concise Chain').get()[0].get('concept_id')
     ops_l2ss_concise_chain_collections = create_assoc.current_association(ops_l2ss_concise_chain_concept_id, "https://cmr.earthdata.nasa.gov", ops_headers)
 
-    uat_in_both_service = list(set(uat_l2ss_collections).intersection(uat_concise_collections))
-    ops_in_both_service = list(set(ops_l2ss_collections).intersection(ops_concise_collections))
+    # Only POCLOUD collections (concept ids look like C123-POCLOUD) get the chain
+    uat_in_both_service = in_both_services(uat_l2ss_collections, uat_concise_collections)
+    ops_in_both_service = in_both_services(ops_l2ss_collections, ops_concise_collections)
 
     for env_name, service_ids, collections in (
             ("UAT", {"l2ss": uat_l2ss_service_concept_id, "concise": uat_concise_service_concept_id, "chain": uat_l2ss_concise_chain_concept_id},
@@ -104,13 +118,14 @@ if __name__ == '__main__':
         for key, value in collections.items():
             print("DEBUG %s %s (%s) associated collections: %s" % (env_name, key, service_ids[key], "None (CMR query failed)" if value is None else "%d" % len(value)))
 
-    print("DEBUG UAT in l2ss but not concise: ", sorted(set(uat_l2ss_collections) - set(uat_concise_collections)))
-    print("DEBUG UAT in concise but not l2ss: ", sorted(set(uat_concise_collections) - set(uat_l2ss_collections)))
-    print("DEBUG OPS in l2ss but not concise: ", sorted(set(ops_l2ss_collections) - set(ops_concise_collections)))
-    print("DEBUG OPS in concise but not l2ss: ", sorted(set(ops_concise_collections) - set(ops_l2ss_collections)))
-
     print("Sync UAT associations ..........")
-    sync_association("https://cmr.uat.earthdata.nasa.gov", uat_l2ss_concise_chain_concept_id, uat_headers, uat_l2ss_concise_chain_collections, uat_in_both_service)
+    if uat_in_both_service is None or uat_l2ss_concise_chain_collections is None:
+        print("Skipping UAT sync: CMR association query failed or returned no collections")
+    else:
+        sync_association("https://cmr.uat.earthdata.nasa.gov", uat_l2ss_concise_chain_concept_id, uat_headers, uat_l2ss_concise_chain_collections, uat_in_both_service)
 
     print("Sync OPS associations ..........")
-    sync_association("https://cmr.earthdata.nasa.gov", ops_l2ss_concise_chain_concept_id, ops_headers, ops_l2ss_concise_chain_collections, ops_in_both_service)
+    if ops_in_both_service is None or ops_l2ss_concise_chain_collections is None:
+        print("Skipping OPS sync: CMR association query failed or returned no collections")
+    else:
+        sync_association("https://cmr.earthdata.nasa.gov", ops_l2ss_concise_chain_concept_id, ops_headers, ops_l2ss_concise_chain_collections, ops_in_both_service)
