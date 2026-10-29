@@ -35,13 +35,19 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
 
     headers["Content-type"] = "application/json"
 
+    print("CMR url: ", url_prefix)
+    print("Chain service concept id (associations modified on this UMM-S): ", service_concept_id)
+    print("Current chain associations (%d): %s" % (len(current_association), sorted(current_association)))
+    print("Target chain associations (%d): %s" % (len(new_association), sorted(new_association)))
+
     if sorted(current_association) != sorted(new_association):
         add = list(set(new_association) - set(current_association))
         remove = list(set(current_association) - set(new_association))
 
-        print("Concept ids to add: ", add)
-        print("Concept ids to remove: ", remove)
+        print("Concept ids to add (%d) to %s on %s: %s" % (len(add), service_concept_id, url_prefix, sorted(add)))
+        print("Concept ids to remove (%d) from %s on %s: %s" % (len(remove), service_concept_id, url_prefix, sorted(remove)))
 
+        """
         for assoc_concept_id in add:
             resp = create_assoc.add_association(url_prefix, service_concept_id, assoc_concept_id, headers, timeout=timeout)
             if resp.status_code != 200:
@@ -56,7 +62,7 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
                 print("Failed remove association: concept_id being associated may not be valid: %s", assoc_concept_id)
             else:
                 print("Succesfully removed association: concept_id: ", assoc_concept_id)
-
+        """
     else:
         print("All association is the same")
 
@@ -88,6 +94,20 @@ if __name__ == '__main__':
 
     uat_in_both_service = list(set(uat_l2ss_collections).intersection(uat_concise_collections))
     ops_in_both_service = list(set(ops_l2ss_collections).intersection(ops_concise_collections))
+
+    for env_name, service_ids, collections in (
+            ("UAT", {"l2ss": uat_l2ss_service_concept_id, "concise": uat_concise_service_concept_id, "chain": uat_l2ss_concise_chain_concept_id},
+             {"l2ss": uat_l2ss_collections, "concise": uat_concise_collections, "chain": uat_l2ss_concise_chain_collections}),
+            ("OPS", {"l2ss": ops_l2ss_service_concept_id, "concise": ops_concise_service_concept_id, "chain": ops_l2ss_concise_chain_concept_id},
+             {"l2ss": ops_l2ss_collections, "concise": ops_concise_collections, "chain": ops_l2ss_concise_chain_collections})):
+        print("DEBUG %s service concept ids: %s" % (env_name, service_ids))
+        for key, value in collections.items():
+            print("DEBUG %s %s (%s) associated collections: %s" % (env_name, key, service_ids[key], "None (CMR query failed)" if value is None else "%d" % len(value)))
+
+    print("DEBUG UAT in l2ss but not concise: ", sorted(set(uat_l2ss_collections) - set(uat_concise_collections)))
+    print("DEBUG UAT in concise but not l2ss: ", sorted(set(uat_concise_collections) - set(uat_l2ss_collections)))
+    print("DEBUG OPS in l2ss but not concise: ", sorted(set(ops_l2ss_collections) - set(ops_concise_collections)))
+    print("DEBUG OPS in concise but not l2ss: ", sorted(set(ops_concise_collections) - set(ops_l2ss_collections)))
 
     print("Sync UAT associations ..........")
     sync_association("https://cmr.uat.earthdata.nasa.gov", uat_l2ss_concise_chain_concept_id, uat_headers, uat_l2ss_concise_chain_collections, uat_in_both_service)
