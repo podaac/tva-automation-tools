@@ -51,7 +51,6 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
         print("Concept ids to add (%d) to %s on %s: %s" % (len(add), service_concept_id, url_prefix, sorted(add)))
         print("Concept ids to remove (%d) from %s on %s: %s" % (len(remove), service_concept_id, url_prefix, sorted(remove)))
 
-        """
         for assoc_concept_id in add:
             resp = create_assoc.add_association(url_prefix, service_concept_id, assoc_concept_id, headers, timeout=timeout)
             if resp.status_code != 200:
@@ -66,7 +65,6 @@ def sync_association(url_prefix, service_concept_id, headers, current_associatio
                 print("Failed remove association: concept_id being associated may not be valid: %s", assoc_concept_id)
             else:
                 print("Succesfully removed association: concept_id: ", assoc_concept_id)
-        """
     else:
         print("All association is the same")
 
