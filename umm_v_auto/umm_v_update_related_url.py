@@ -95,6 +95,7 @@ def build_new_related_url(new_url: str) -> dict:
 
 
 def build_filtering_related_url(new_url: str) -> dict:
+    # No "Description" key: UMM-Var requires it to be non-empty when present.
     return {
         "URL": new_url,
         "URLContentType": "DistributionURL",
@@ -102,7 +103,6 @@ def build_filtering_related_url(new_url: str) -> dict:
         "Subtype": "FILTERING CONFIGURATION",
         "Format": "JSON",
         "MimeType": "application/json",
-        "Description": ""
     }
 
 
@@ -165,7 +165,13 @@ def update_variable(cmr_base: str, collection_concept_id: str, native_id: str, u
         "Accept": "application/json",
     }
     resp = requests.put(url, data=json.dumps(umm, allow_nan=False), headers=headers)
-    resp.raise_for_status()
+    if not resp.ok:
+        # CMR puts the reason for a rejected update in the response body, so include it in the error.
+        try:
+            details = "\n\t".join(str(error) for error in resp.json().get("errors", [])) or resp.text
+        except ValueError:
+            details = resp.text
+        raise RuntimeError(f"CMR ingest returned {resp.status_code} for {url}:\n\t{details}")
     return resp.json()
 
 
@@ -287,6 +293,9 @@ def update_variable_related_urls(
             print(f"URL not found in RelatedURLs for variable '{variable_name}'. No update needed.")
             return False
         updated_umm = {**umm, "RelatedURLs": filtered_urls}
+        if not filtered_urls:
+            # UMM-Var rejects an empty RelatedURLs list, so drop the field instead.
+            del updated_umm["RelatedURLs"]
         print(f"Updating variable by deleting URL: {delete_url}")
     else:
         existing_url_values = {entry.get("URL") for entry in existing_urls}
