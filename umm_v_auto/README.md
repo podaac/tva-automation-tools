@@ -37,6 +37,8 @@ Required flags:
 - `-v`, `--variable-name`: variable name
 - `-e`, `--env`: target environment, one of `ops` or `uat`
 
+`-v` is not required (or allowed) when `--filtering-config` is set; see [Filtering Config Mode](#filtering-config-mode).
+
 The `-e` flag controls which CMR venue is queried and which Launchpad token is used:
 
 - `ops` uses `OPS_LAUNCHPAD_TOKEN` if it is set, otherwise `LAUNCHPAD_TOKEN`
@@ -154,6 +156,51 @@ Notes on delete behavior:
 - all entries with that `URL` are removed
 - if no match is found, the script exits without updating CMR
 
+## Filtering Config Mode
+
+Add `--filtering-config` to attach (or remove) a filtering rules JSON URL for [harmony-filtering-service](https://github.com/nasa/harmony-filtering-service) on every variable it filters. Use it with `-u` or `-d`, and leave out `-v`.
+
+```bash
+python umm_v_auto/umm_v_update_related_url.py \
+  --filtering-config \
+  -c MY_COLLECTION \
+  -e uat \
+  -u https://example.com/MY_COLLECTION_filtering.json
+```
+
+The script downloads the JSON at the URL and updates each unique `target_var` found in `filters.pixel_filter`. For example, this config updates only `analysed_sst`:
+
+```json
+{
+  "filters": {
+    "pixel_filter": [
+      {"target_var": "analysed_sst", "criteria_var": "mask", "operator": "equal-to", "threshold": "2"},
+      {"target_var": "analysed_sst", "criteria_var": "sea_ice_fraction", "operator": "greater-than", "threshold": "0"}
+    ]
+  }
+}
+```
+
+Each variable gets this RelatedURLs entry:
+
+```json
+{
+  "URL": "<the -u URL>",
+  "URLContentType": "DistributionURL",
+  "Type": "SERVICE CONFIGURATION",
+  "Subtype": "FILTERING CONFIGURATION",
+  "Format": "JSON",
+  "MimeType": "application/json",
+  "Description": ""
+}
+```
+
+Notes:
+
+- the config URL must be publicly readable; no token is sent when downloading it
+- delete (`-d`) also downloads the config to find the variables, so delete before removing the file from its host
+- if one variable fails, the rest are still processed and the script exits with an error at the end
+
 ## Uniqueness
 
 RelatedUrls entries need to be unique by `URL`.
@@ -200,3 +247,5 @@ It accepts these dispatch inputs:
 - `url`
 
 Set `action` to `add` or `delete`. The workflow fetches the correct Launchpad token for the selected environment and runs the script with `--new-url` or `--delete-url` accordingly.
+
+There is also a manual workflow at `.github/workflows/umm_v_update_filtering_rules.yml` ("Update Filtering Rules"). It takes the same inputs except `variable_name`, and runs the script with `--filtering-config`, so `url` must point to a filtering config JSON.
