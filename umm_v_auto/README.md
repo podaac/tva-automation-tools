@@ -190,13 +190,13 @@ Each variable gets this RelatedURLs entry:
   "Type": "SERVICE CONFIGURATION",
   "Subtype": "FILTERING CONFIGURATION",
   "Format": "JSON",
-  "MimeType": "application/json",
-  "Description": ""
+  "MimeType": "application/json"
 }
 ```
 
 Notes:
 
+- `Description` is left out because UMM-Var rejects an empty `Description`
 - the config URL must be publicly readable; no token is sent when downloading it
 - delete (`-d`) also downloads the config to find the variables, so delete before removing the file from its host
 - if one variable fails, the rest are still processed and the script exits with an error at the end
